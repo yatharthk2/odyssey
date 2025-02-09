@@ -1,0 +1,155 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 600px;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#97c2fc", "id": "2187a326-a735-44dc-a132-8f16f19b8b1a", "label": "2187a326-a735-44dc-a132-8f16f19b8b1a", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "12257816-9d6b-45c4-bf1e-93a396f4e4f7", "label": "12257816-9d6b-45c4-bf1e-93a396f4e4f7", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "033ecb32-0e2f-430c-92aa-458bbdab6a6a", "label": "033ecb32-0e2f-430c-92aa-458bbdab6a6a", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "9442810d-3e39-4b62-afd2-27669d9a9114", "label": "9442810d-3e39-4b62-afd2-27669d9a9114", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "d22be443-81ed-4745-8975-7c771ac12d87", "label": "d22be443-81ed-4745-8975-7c771ac12d87", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "fed8b1f0-c135-4c07-aebc-19b7478faa6d", "label": "fed8b1f0-c135-4c07-aebc-19b7478faa6d", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "0d6a740f-24a5-4dde-90fc-da17beee0827", "label": "0d6a740f-24a5-4dde-90fc-da17beee0827", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Subject", "label": "Subject", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Object", "label": "Object", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Yatharth kapadia", "label": "Yatharth kapadia", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Twitter", "label": "Twitter", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Email", "label": "Email", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Personal website", "label": "Personal website", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Bachelors in electronics and communication", "label": "Bachelors in electronics and communication", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Master\u0027s in computer science", "label": "Master\u0027s in computer science", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Github", "label": "Github", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Phone number", "label": "Phone number", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Linkedin", "label": "Linkedin", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Yatharth-kapadia-resume_", "label": "Yatharth-kapadia-resume_", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Security assessments", "label": "Security assessments", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Modules", "label": "Modules", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "C:\\users\\yatha\\desktop\\onelaststand\\odyssey\\backend\\chat\\test_docs\\yatharth-kapadia-resume_.pdf", "label": "C:\\users\\yatha\\desktop\\onelaststand\\odyssey\\backend\\chat\\test_docs\\yatharth-kapadia-resume_.pdf", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Workflow platform", "label": "Workflow platform", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "1", "label": "1", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Threads", "label": "Threads", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Real-time apis", "label": "Real-time apis", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Stakeholders", "label": "Stakeholders", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "File_path", "label": "File_path", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Ai models", "label": "Ai models", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Page_label", "label": "Page_label", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Machine learning intern", "label": "Machine learning intern", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "\u01eauidich innovation labs", "label": "\u01eauidich innovation labs", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Predictive algorithm", "label": "Predictive algorithm", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Rule-based criteria", "label": "Rule-based criteria", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Player movement trajectories", "label": "Player movement trajectories", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "95% accuracy rate", "label": "95% accuracy rate", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Software developer intern", "label": "Software developer intern", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Azodha", "label": "Azodha", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Implemented", "label": "Implemented", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Dispatch", "label": "Dispatch", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Aws chalice", "label": "Aws chalice", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Event-triggered messages", "label": "Event-triggered messages", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Sub-3-second notification delivery", "label": "Sub-3-second notification delivery", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Architected", "label": "Architected", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Ringisho app\u0027s nlp framework", "label": "Ringisho app\u0027s nlp framework", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Bert models", "label": "Bert models", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "98% accuracy", "label": "98% accuracy", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "92% positive feedback", "label": "92% positive feedback", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Deployed", "label": "Deployed", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Gcp compute engine with docker", "label": "Gcp compute engine with docker", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Crafted", "label": "Crafted", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Kyc platform", "label": "Kyc platform", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "90% accuracy in client-side identity verification", "label": "90% accuracy in client-side identity verification", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Yatharth-kapadia", "label": "Yatharth-kapadia", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Fastapi for real-time processing", "label": "Fastapi for real-time processing", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Solution on gcp compute engine with docker", "label": "Solution on gcp compute engine with docker", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Ai assistant using llama 3.2 11b model and llamaindex", "label": "Ai assistant using llama 3.2 11b model and llamaindex", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Security and operational efficiency", "label": "Security and operational efficiency", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "1st prize at smart india hackathon by dell", "label": "1st prize at smart india hackathon by dell", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Web-based kyc platform", "label": "Web-based kyc platform", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Celeba", "label": "Celeba", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Forensic applications", "label": "Forensic applications", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Potential", "label": "Potential", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Source", "label": "Source", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Dataset", "label": "Dataset", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Accuracy", "label": "Accuracy", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "97%", "label": "97%", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Impressive", "label": "Impressive", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Features", "label": "Features", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Distorted", "label": "Distorted", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Facial", "label": "Facial", "shape": "dot", "size": 10}]);
+                  edges = new vis.DataSet([{"arrows": "to", "from": "2187a326-a735-44dc-a132-8f16f19b8b1a", "label": "NEXT", "to": "12257816-9d6b-45c4-bf1e-93a396f4e4f7", "width": 1}, {"arrows": "to", "from": "2187a326-a735-44dc-a132-8f16f19b8b1a", "label": "SOURCE", "to": "033ecb32-0e2f-430c-92aa-458bbdab6a6a", "width": 1}, {"arrows": "to", "from": "12257816-9d6b-45c4-bf1e-93a396f4e4f7", "label": "SOURCE", "to": "033ecb32-0e2f-430c-92aa-458bbdab6a6a", "width": 1}, {"arrows": "to", "from": "12257816-9d6b-45c4-bf1e-93a396f4e4f7", "label": "NEXT", "to": "9442810d-3e39-4b62-afd2-27669d9a9114", "width": 1}, {"arrows": "to", "from": "12257816-9d6b-45c4-bf1e-93a396f4e4f7", "label": "PREVIOUS", "to": "2187a326-a735-44dc-a132-8f16f19b8b1a", "width": 1}, {"arrows": "to", "from": "9442810d-3e39-4b62-afd2-27669d9a9114", "label": "PREVIOUS", "to": "12257816-9d6b-45c4-bf1e-93a396f4e4f7", "width": 1}, {"arrows": "to", "from": "9442810d-3e39-4b62-afd2-27669d9a9114", "label": "NEXT", "to": "d22be443-81ed-4745-8975-7c771ac12d87", "width": 1}, {"arrows": "to", "from": "9442810d-3e39-4b62-afd2-27669d9a9114", "label": "SOURCE", "to": "033ecb32-0e2f-430c-92aa-458bbdab6a6a", "width": 1}, {"arrows": "to", "from": "d22be443-81ed-4745-8975-7c771ac12d87", "label": "PREVIOUS", "to": "9442810d-3e39-4b62-afd2-27669d9a9114", "width": 1}, {"arrows": "to", "from": "d22be443-81ed-4745-8975-7c771ac12d87", "label": "SOURCE", "to": "033ecb32-0e2f-430c-92aa-458bbdab6a6a", "width": 1}, {"arrows": "to", "from": "d22be443-81ed-4745-8975-7c771ac12d87", "label": "NEXT", "to": "fed8b1f0-c135-4c07-aebc-19b7478faa6d", "width": 1}, {"arrows": "to", "from": "fed8b1f0-c135-4c07-aebc-19b7478faa6d", "label": "PREVIOUS", "to": "d22be443-81ed-4745-8975-7c771ac12d87", "width": 1}, {"arrows": "to", "from": "fed8b1f0-c135-4c07-aebc-19b7478faa6d", "label": "SOURCE", "to": "033ecb32-0e2f-430c-92aa-458bbdab6a6a", "width": 1}, {"arrows": "to", "from": "fed8b1f0-c135-4c07-aebc-19b7478faa6d", "label": "NEXT", "to": "0d6a740f-24a5-4dde-90fc-da17beee0827", "width": 1}, {"arrows": "to", "from": "0d6a740f-24a5-4dde-90fc-da17beee0827", "label": "PREVIOUS", "to": "fed8b1f0-c135-4c07-aebc-19b7478faa6d", "width": 1}, {"arrows": "to", "from": "0d6a740f-24a5-4dde-90fc-da17beee0827", "label": "SOURCE", "to": "033ecb32-0e2f-430c-92aa-458bbdab6a6a", "width": 1}, {"arrows": "to", "from": "Subject", "label": "Predicate", "to": "Object", "width": 1}, {"arrows": "to", "from": "Yatharth kapadia", "label": "Has", "to": "Twitter", "width": 1}, {"arrows": "to", "from": "Yatharth kapadia", "label": "Has", "to": "Email", "width": 1}, {"arrows": "to", "from": "Yatharth kapadia", "label": "Has", "to": "Personal website", "width": 1}, {"arrows": "to", "from": "Yatharth kapadia", "label": "Studied", "to": "Bachelors in electronics and communication", "width": 1}, {"arrows": "to", "from": "Yatharth kapadia", "label": "Studied", "to": "Master\u0027s in computer science", "width": 1}, {"arrows": "to", "from": "Yatharth kapadia", "label": "Has", "to": "Github", "width": 1}, {"arrows": "to", "from": "Yatharth kapadia", "label": "Has", "to": "Phone number", "width": 1}, {"arrows": "to", "from": "Yatharth kapadia", "label": "Has", "to": "Linkedin", "width": 1}, {"arrows": "to", "from": "Yatharth-kapadia-resume_", "label": "Conducted", "to": "Security assessments", "width": 1}, {"arrows": "to", "from": "Yatharth-kapadia-resume_", "label": "Consolidated", "to": "Modules", "width": 1}, {"arrows": "to", "from": "Yatharth-kapadia-resume_", "label": "Has", "to": "C:\\users\\yatha\\desktop\\onelaststand\\odyssey\\backend\\chat\\test_docs\\yatharth-kapadia-resume_.pdf", "width": 1}, {"arrows": "to", "from": "Yatharth-kapadia-resume_", "label": "Engineered", "to": "Workflow platform", "width": 1}, {"arrows": "to", "from": "Yatharth-kapadia-resume_", "label": "Has", "to": "1", "width": 1}, {"arrows": "to", "from": "Yatharth-kapadia-resume_", "label": "Engineered", "to": "Threads", "width": 1}, {"arrows": "to", "from": "Yatharth-kapadia-resume_", "label": "Deployed", "to": "Real-time apis", "width": 1}, {"arrows": "to", "from": "Yatharth-kapadia-resume_", "label": "Collaborated", "to": "Stakeholders", "width": 1}, {"arrows": "to", "from": "Yatharth-kapadia-resume_", "label": "Has", "to": "File_path", "width": 1}, {"arrows": "to", "from": "Yatharth-kapadia-resume_", "label": "Researched", "to": "Ai models", "width": 1}, {"arrows": "to", "from": "Yatharth-kapadia-resume_", "label": "Has", "to": "Page_label", "width": 1}, {"arrows": "to", "from": "Machine learning intern", "label": "Worked at", "to": "\u01eauidich innovation labs", "width": 1}, {"arrows": "to", "from": "Machine learning intern", "label": "Developed", "to": "Predictive algorithm", "width": 1}, {"arrows": "to", "from": "Predictive algorithm", "label": "Used", "to": "Rule-based criteria", "width": 1}, {"arrows": "to", "from": "Predictive algorithm", "label": "Used", "to": "Player movement trajectories", "width": 1}, {"arrows": "to", "from": "Predictive algorithm", "label": "Achieved", "to": "95% accuracy rate", "width": 1}, {"arrows": "to", "from": "Software developer intern", "label": "Worked at", "to": "Azodha", "width": 1}, {"arrows": "to", "from": "Implemented", "label": "To", "to": "Dispatch", "width": 1}, {"arrows": "to", "from": "Aws chalice", "label": "Dispatch", "to": "Event-triggered messages", "width": 1}, {"arrows": "to", "from": "Event-triggered messages", "label": "Achieve", "to": "Sub-3-second notification delivery", "width": 1}, {"arrows": "to", "from": "Architected", "label": "The", "to": "Ringisho app\u0027s nlp framework", "width": 1}, {"arrows": "to", "from": "Ringisho app\u0027s nlp framework", "label": "Deploy", "to": "Bert models", "width": 1}, {"arrows": "to", "from": "Bert models", "label": "Yield", "to": "98% accuracy", "width": 1}, {"arrows": "to", "from": "Bert models", "label": "Yield", "to": "92% positive feedback", "width": 1}, {"arrows": "to", "from": "Deployed", "label": "The solution", "to": "Gcp compute engine with docker", "width": 1}, {"arrows": "to", "from": "Crafted", "label": "A web-based", "to": "Kyc platform", "width": 1}, {"arrows": "to", "from": "Kyc platform", "label": "Achieve", "to": "90% accuracy in client-side identity verification", "width": 1}, {"arrows": "to", "from": "Yatharth-kapadia", "label": "Optimized", "to": "Fastapi for real-time processing", "width": 1}, {"arrows": "to", "from": "Yatharth-kapadia", "label": "Deployed", "to": "Solution on gcp compute engine with docker", "width": 1}, {"arrows": "to", "from": "Yatharth-kapadia", "label": "Yielded", "to": "92% positive feedback", "width": 1}, {"arrows": "to", "from": "Yatharth-kapadia", "label": "Architected", "to": "Ringisho app\u0027s nlp framework", "width": 1}, {"arrows": "to", "from": "Yatharth-kapadia", "label": "Built", "to": "Ai assistant using llama 3.2 11b model and llamaindex", "width": 1}, {"arrows": "to", "from": "Yatharth-kapadia", "label": "Achieved", "to": "90% accuracy in client-side identity verification", "width": 1}, {"arrows": "to", "from": "Yatharth-kapadia", "label": "Enhanced", "to": "Security and operational efficiency", "width": 1}, {"arrows": "to", "from": "Yatharth-kapadia", "label": "Won", "to": "1st prize at smart india hackathon by dell", "width": 1}, {"arrows": "to", "from": "Yatharth-kapadia", "label": "Crafted", "to": "Web-based kyc platform", "width": 1}, {"arrows": "to", "from": "Yatharth-kapadia", "label": "Deployed", "to": "Bert models", "width": 1}, {"arrows": "to", "from": "Celeba", "label": "Highlights", "to": "Forensic applications", "width": 1}, {"arrows": "to", "from": "Celeba", "label": "Highlights", "to": "Potential", "width": 1}, {"arrows": "to", "from": "Celeba", "label": "Is", "to": "Source", "width": 1}, {"arrows": "to", "from": "Celeba", "label": "Is", "to": "Dataset", "width": 1}, {"arrows": "to", "from": "Accuracy", "label": "Is", "to": "97%", "width": 1}, {"arrows": "to", "from": "Accuracy", "label": "Is", "to": "Impressive", "width": 1}, {"arrows": "to", "from": "Features", "label": "Are", "to": "Distorted", "width": 1}, {"arrows": "to", "from": "Features", "label": "Are", "to": "Facial", "width": 1}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>
