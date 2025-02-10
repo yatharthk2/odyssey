@@ -6,6 +6,8 @@ from llama_index.core.query_engine import TransformQueryEngine
 import logging
 from .prompt import contextualized_query
 import colorama
+import asyncio
+
 logger = logging.getLogger(__name__)
 
 class QueryEngine:
@@ -116,4 +118,23 @@ class QueryEngine:
         # Stream the response
         for chunk in response.response_gen:
             if chunk and chunk.strip():  # Only yield non-empty chunks
+                yield chunk 
+
+    async def process_query_async(self, question: str, query_transformation: str = None, vector_store: str = None):
+        try:
+            self.chat.append({"role": "user", "content": question})
+            query_context = self._build_query_context(question)
+            
+            async for chunk in self._stream_response(query_context, query_transformation, vector_store):
+                yield chunk
+                
+        except Exception as e:
+            yield f"Error: {str(e)}"
+
+    async def _stream_response(self, query_context, transformation, vector_store):
+        query_engine = self._get_query_engine(transformation, vector_store)
+        response = await query_engine.aquery(query_context)
+        
+        async for chunk in response.response_gen:
+            if chunk and chunk.strip():
                 yield chunk 

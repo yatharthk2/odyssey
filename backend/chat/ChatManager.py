@@ -5,6 +5,7 @@ import colorama
 from .chatdata import Chat
 from concurrent.futures import ThreadPoolExecutor
 from typing import Iterator
+from contextlib import contextmanager
 
 from .settings import PropertyGraphSettings
 from .ModelsManager import ModelManager
@@ -56,25 +57,33 @@ class ChatManager:
     def query(self, question: str, query_transformation: str = None , choice_of_vector_store: str = None) -> Iterator[str]:
         return self.query_engine.process_query(question, query_transformation, choice_of_vector_store)
 
+    @contextmanager
+    def managed_resources(self):
+        try:
+            yield self
+        finally:
+            self.cleanup()
 
     def cleanup(self) -> None:
-        """Cleanup resources."""
-        try:
-            if hasattr(self, 'thread_pool'):
-                self.thread_pool.shutdown(wait=True)
-            if hasattr(self, 'chat'):
-                self.chat = None
-            if hasattr(self, 'model_manager'):
-                self.model_manager = None
-            if hasattr(self, 'Chroma_Store_Manager'):
-                self.Chroma_Store_Manager = None
-            if hasattr(self, 'Vector_Store_Manager'):
-                self.Vector_Store_Manager = None
-            if hasattr(self, 'query_engine'):
-                self.query_engine = None
-            logger.info("Successfully cleaned up resources")
-        except Exception as e:
-            logger.error(f"Error during cleanup: {str(e)}", exc_info=True)
+        """Systematic cleanup of resources."""
+        resources = [
+            ('thread_pool', lambda x: x.shutdown(wait=True)),
+            ('chat', lambda x: None),
+            ('model_manager', lambda x: None),
+            ('Chroma_Store_Manager', lambda x: None),
+            ('Vector_Store_Manager', lambda x: None),
+            ('query_engine', lambda x: None)
+        ]
+        
+        for resource_name, cleanup_func in resources:
+            try:
+                if hasattr(self, resource_name):
+                    resource = getattr(self, resource_name)
+                    if resource is not None:
+                        cleanup_func(resource)
+                    setattr(self, resource_name, None)
+            except Exception as e:
+                logger.error(f"Error cleaning up {resource_name}: {str(e)}")
 
 if __name__ == '__main__':
     import sys

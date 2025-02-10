@@ -18,13 +18,19 @@ class VectorStoreManager:
         self.vector_store_manager = vector_store_manager
         self.documents = None
         self.index = None
+        self._document_cache = None  # Add document cache
 
     def load_documents(self) -> bool:
+        if self._document_cache is not None:
+            self.documents = self._document_cache
+            return True
+            
         try:
             if not os.path.exists(self.settings.pdf_directory):
                 raise FileNotFoundError(f"PDF directory not found: {self.settings.pdf_directory}")
             
             self.documents = SimpleDirectoryReader(self.settings.pdf_directory).load_data()
+            self._document_cache = self.documents  # Cache documents
             return True
         except Exception as e:
             logger.error(f"Error loading documents: {str(e)}", exc_info=True)
