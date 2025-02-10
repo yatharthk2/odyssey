@@ -1,17 +1,17 @@
 import React from 'react';
-import Header from './components/Header';
-import Footer from './components/Footer';
+import Link from 'next/link';
 
 const Inpersona = () => {
   return (
-    <div className="min-h-screen flex flex-col">
-      <Header />
-      <main className="flex-grow container mx-auto px-4 py-8">
-        <h1 className="text-4xl font-bold mb-6">Inpersona</h1>
-        {/* Add your Inpersona page content here */}
-        <p className="text-lg">Welcome to the Inpersona page!</p>
+    <div className="min-h-screen bg-white">
+      <nav className="p-4">
+        <Link href="/" className="whitespace-nowrap font-bold bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 bg-clip-text text-transparent">
+          Home
+        </Link>
+      </nav>
+      <main className="flex justify-center items-center h-screen">
+        <h1 className="text-4xl font-bold text-black">Hello World</h1>
       </main>
-      <Footer />
     </div>
   );
 };
