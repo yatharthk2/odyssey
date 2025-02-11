@@ -9,6 +9,7 @@ import TextRotator from './TextRotator';
 interface Message {
   content: string;
   isUser: boolean;
+  complete?: boolean;
 }
 
 export default function InpersonaChat() {
@@ -16,7 +17,9 @@ export default function InpersonaChat() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [useKnowledgeGraph, setUseKnowledgeGraph] = useState(false);
   const [useHydeQuery, setUseHydeQuery] = useState(false);
+  const [isConnecting, setIsConnecting] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const wsRef = useRef<WebSocket | null>(null);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -26,17 +29,95 @@ export default function InpersonaChat() {
     scrollToBottom();
   }, [messages]);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (!message.trim()) return;
+  // Initialize WebSocket connection
+  useEffect(() => {
+    const connectWebSocket = () => {
+      if (wsRef.current?.readyState === WebSocket.OPEN) return;
 
-    const userMessage: Message = { content: message, isUser: true };
-    const aiMessage: Message = { 
-      content: "This is a fixed AI response for demonstration purposes. In a real implementation, this would come from an API call to your LLM service.", 
-      isUser: false 
+      setIsConnecting(true);
+      const ws = new WebSocket('ws://localhost:8000/chat');
+      wsRef.current = ws;
+
+      ws.onopen = () => {
+        console.log('Connected to WebSocket');
+        setIsConnecting(false);
+      };
+
+      ws.onclose = () => {
+        console.log('WebSocket connection closed');
+        wsRef.current = null;
+        // Attempt to reconnect after a delay
+        setTimeout(connectWebSocket, 3000);
+      };
+
+      ws.onerror = (error) => {
+        console.error('WebSocket error:', error);
+        setIsConnecting(false);
+      };
+
+      ws.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+        
+        if (data.error) {
+          // Handle error by adding it as a system message
+          setMessages(prev => [...prev, { content: `Error: ${data.error}`, isUser: false, complete: true }]);
+          return;
+        }
+
+        if (data.type === 'chunk') {
+          setMessages(prev => {
+            const lastMessage = prev[prev.length - 1];
+            if (!lastMessage || lastMessage.isUser || lastMessage.complete) {
+              // Start a new AI message
+              return [...prev, { content: data.content, isUser: false }];
+            } else {
+              // Append to the existing incomplete AI message
+              const newMessages = [...prev];
+              newMessages[newMessages.length - 1] = {
+                ...lastMessage,
+                content: lastMessage.content + data.content
+              };
+              return newMessages;
+            }
+          });
+        } else if (data.type === 'complete') {
+          setMessages(prev => {
+            const newMessages = [...prev];
+            const lastMessage = newMessages[newMessages.length - 1];
+            if (lastMessage && !lastMessage.isUser) {
+              lastMessage.complete = true;
+            }
+            return newMessages;
+          });
+        }
+      };
     };
 
-    setMessages(prev => [...prev, userMessage, aiMessage]);
+    connectWebSocket();
+
+    return () => {
+      if (wsRef.current) {
+        wsRef.current.close();
+      }
+    };
+  }, []);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!message.trim() || !wsRef.current || wsRef.current.readyState !== WebSocket.OPEN) return;
+
+    // Add user message
+    const userMessage: Message = { content: message, isUser: true, complete: true };
+    setMessages(prev => [...prev, userMessage]);
+
+    // Prepare and send the query
+    const query = {
+      question: message,
+      vector_store: useKnowledgeGraph ? "KG" : "vector",
+      query_transformation: useHydeQuery ? "HyDE" : null
+    };
+
+    wsRef.current.send(JSON.stringify(query));
     setMessage('');
   };
 
@@ -50,8 +131,15 @@ export default function InpersonaChat() {
         Home
       </Link>
 
+      {/* Connection Status */}
+      {isConnecting && (
+        <div className="absolute top-4 right-4 text-sm text-gray-600">
+          Connecting...
+        </div>
+      )}
+
       {/* Messages Display Area */}
-      <div className="flex-1 overflow-y-auto px-4 pt-24 pb-40 w-full scrollbar"> {/* Changed pb-32 to pb-40 */}
+      <div className="flex-1 overflow-y-auto px-4 pt-24 pb-40 w-full scrollbar">
         <div className="max-w-3xl mx-auto">
           {messages.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full space-y-6">
@@ -88,7 +176,7 @@ export default function InpersonaChat() {
       </div>
 
       {/* Message Input Form */}
-      <div className="fixed bottom-0 left-0 w-full bg-gradient-to-t from-white to-transparent pt-20 pb-8"> {/* Changed pt-16 to pt-20 */}
+      <div className="fixed bottom-0 left-0 w-full bg-gradient-to-t from-white to-transparent pt-20 pb-8">
         <form onSubmit={handleSubmit} className="max-w-3xl mx-auto px-4 w-full">
           <div className="flex flex-col gap-2">
             {/* Toggle Buttons */}
@@ -138,10 +226,7 @@ export default function InpersonaChat() {
                 }}
               />
               <button 
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleSubmit(e as any);
-                }}
+                type="submit"
                 className="ml-2 p-2 rounded-xl bg-gradient-to-br from-purple-600 to-blue-600 hover:opacity-90 transition-opacity shadow-md"
               >
                 <Send size={24} className="text-white" />
