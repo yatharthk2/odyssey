@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Send, Grape, Search } from 'lucide-react';
 import Link from 'next/link';
 import Tooltip from './Tooltip';
@@ -16,6 +16,15 @@ export default function InpersonaChat() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [useKnowledgeGraph, setUseKnowledgeGraph] = useState(false);
   const [useHydeQuery, setUseHydeQuery] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -42,7 +51,7 @@ export default function InpersonaChat() {
       </Link>
 
       {/* Messages Display Area */}
-      <div className="flex-1 overflow-y-auto px-4 pt-24 pb-32 w-full scrollbar">
+      <div className="flex-1 overflow-y-auto px-4 pt-24 pb-40 w-full scrollbar"> {/* Changed pb-32 to pb-40 */}
         <div className="max-w-3xl mx-auto">
           {messages.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full space-y-6">
@@ -72,13 +81,14 @@ export default function InpersonaChat() {
                   </div>
                 </div>
               ))}
+              <div ref={messagesEndRef} />
             </div>
           )}
         </div>
       </div>
 
       {/* Message Input Form */}
-      <div className="fixed bottom-0 left-0 w-full bg-gradient-to-t from-white to-transparent pt-16 pb-8">
+      <div className="fixed bottom-0 left-0 w-full bg-gradient-to-t from-white to-transparent pt-20 pb-8"> {/* Changed pt-16 to pt-20 */}
         <form onSubmit={handleSubmit} className="max-w-3xl mx-auto px-4 w-full">
           <div className="flex flex-col gap-2">
             {/* Toggle Buttons */}

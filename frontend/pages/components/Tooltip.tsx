@@ -5,13 +5,13 @@ interface TooltipProps {
   children: React.ReactNode;
 }
 
-export default function Tooltip({ text, children }: TooltipProps) {
+const Tooltip: React.FC<TooltipProps> = ({ text, children }) => {
   const router = useRouter();
 
   return (
     <div className="group relative inline-block">
       {children}
-      <div className="pointer-events-auto absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-64 rounded bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 px-3 py-2 text-sm text-white opacity-0 transition-opacity group-hover:opacity-100 shadow-lg">
+      <div className="opacity-0 invisible group-hover:opacity-100 group-hover:visible hover:opacity-100 hover:visible transition-all duration-300 absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-4 py-3 bg-gradient-to-br from-purple-600 to-blue-600 text-white text-sm rounded-xl whitespace-nowrap shadow-lg">
         {text}
         <button 
           className="block mt-2 text-white underline hover:text-blue-200 transition-colors text-xs cursor-pointer w-full text-left"
@@ -19,10 +19,11 @@ export default function Tooltip({ text, children }: TooltipProps) {
         >
           Interact with Knowledge Graph →
         </button>
-        <svg className="absolute left-0 top-full h-2 w-full" x="0px" y="0px" viewBox="0 0 255 255">
-          <polygon className="fill-purple-600" points="0,0 127.5,127.5 255,0"/>
-        </svg>
+        <div className="absolute top-full left-1/2 transform -translate-x-1/2 -mt-2 border-4 border-transparent border-t-blue-600"></div>
+        <div className="absolute h-2 w-full left-0 bottom-[-8px]"></div>
       </div>
     </div>
   );
-}
+};
+
+export default Tooltip;

@@ -16,6 +16,7 @@ contextualized_query = (
             "For questions about emerging technologies or industry trends, leverage your cross-domain knowledge and say, " 
             "'Based on my work across different fields, I see potential connections between [technology A] and [technology B] that could…'. " 
 
-            "Ensure all responses are accurate, avoid fabrications, and focus on insights grounded in your practical experience."
-
+            "Ensure all responses are accurate, avoid fabrications, and focus on insights grounded in your practical experience. "
+            
+            "Additionally, ensure that all answers are concise and to the point."
 )
