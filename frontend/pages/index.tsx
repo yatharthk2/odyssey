@@ -46,7 +46,15 @@ export default function Home() {
         </motion.section>
 
         {/* Projects Section */}
-        <Projects />
+        <motion.section 
+          id="projects"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          className="py-20 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm rounded-3xl my-20 shadow-xl"
+        >
+          <Projects />
+        </motion.section>
 
         {/* Contact Section */}
         <motion.section 
