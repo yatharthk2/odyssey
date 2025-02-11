@@ -1,31 +1,40 @@
 import React from "react";
 import config from "../index.json";
 import Link from "next/link";
+import ThemeToggle from "../../components/ThemeToggle";
 
 const Header = () => {
   const navigation = config.navigation;
+  
   return (
-    <div className="header">
-      <div className="header__menu">
-        <ul className="flex px-8 lg:px-32 gap-x-10 content-center leading-0 h-0">
-          {navigation.map((item) => (
-            <li className="mt-6 cursor-pointer" key={item.title}>
-              {item.url.startsWith('/') ? (
-                <Link href={item.url} legacyBehavior>
-                  <a className="whitespace-nowrap font-bold bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 bg-clip-text text-transparent">
+    <header className="sticky top-0 z-50 backdrop-blur-sm bg-white/30 dark:bg-gray-900/30 border-b border-gray-200/20 dark:border-gray-700/20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-16">
+          <nav className="flex items-center space-x-8">
+            {navigation.map((item) => (
+              <div key={item.title} className="relative group">
+                {item.url.startsWith('/') ? (
+                  <Link href={item.url} legacyBehavior>
+                    <a className="whitespace-nowrap font-medium text-gray-700 dark:text-gray-200 hover:text-purple-600 dark:hover:text-purple-400 transition-colors">
+                      {item.title}
+                    </a>
+                  </Link>
+                ) : (
+                  <a 
+                    href={item.url}
+                    className="whitespace-nowrap font-medium text-gray-700 dark:text-gray-200 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
+                  >
                     {item.title}
                   </a>
-                </Link>
-              ) : (
-                <a href={item.url}>
-                  {item.title}
-                </a>
-              )}
-            </li>
-          ))}
-        </ul>
+                )}
+                <div className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 scale-x-0 group-hover:scale-x-100 transition-transform" />
+              </div>
+            ))}
+          </nav>
+          <ThemeToggle />
+        </div>
       </div>
-    </div>
+    </header>
   );
 };
 
