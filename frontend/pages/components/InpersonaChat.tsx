@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Send, Grape, Search } from 'lucide-react';
 import Link from 'next/link';
 import Tooltip from './Tooltip';
+import TextRotator from './TextRotator';
 
 interface Message {
   content: string;
@@ -16,7 +17,7 @@ export default function InpersonaChat() {
   const [useKnowledgeGraph, setUseKnowledgeGraph] = useState(false);
   const [useHydeQuery, setUseHydeQuery] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!message.trim()) return;
 
@@ -48,7 +49,10 @@ export default function InpersonaChat() {
               <div className="w-20 h-20 flex items-center justify-center rounded-full bg-gradient-to-br from-purple-600 to-blue-600 shadow-lg">
                 <span className="text-3xl font-bold text-white">C</span>
               </div>
-              <p className="text-2xl font-light text-gray-600">How can I help you today?</p>
+              <div className="text-center">
+                <p className="text-2xl font-light text-gray-600 mb-2">How can I help you today?</p>
+                <TextRotator />
+              </div>
             </div>
           ) : (
             <div className="space-y-6">
@@ -116,9 +120,18 @@ export default function InpersonaChat() {
                 className="flex-1 bg-transparent outline-none text-gray-800 placeholder-gray-400 text-lg py-2"
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    e.preventDefault();
+                    handleSubmit(e as any);
+                  }
+                }}
               />
               <button 
-                type="submit"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleSubmit(e as any);
+                }}
                 className="ml-2 p-2 rounded-xl bg-gradient-to-br from-purple-600 to-blue-600 hover:opacity-90 transition-opacity shadow-md"
               >
                 <Send size={24} className="text-white" />

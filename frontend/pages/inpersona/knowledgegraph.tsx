@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 import Link from 'next/link';
+import { ArrowLeft } from 'lucide-react';
 
 export default function KnowledgeGraph() {
   const iframeRef = useRef<HTMLIFrameElement>(null);
@@ -16,25 +17,41 @@ export default function KnowledgeGraph() {
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <nav className="p-4 flex justify-between items-center border-b">
-        <Link 
-          href="/" 
-          className="whitespace-nowrap font-bold bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 bg-clip-text text-transparent"
-        >
-          Home
-        </Link>
-        <h1 className="text-xl font-bold text-gray-800">Knowledge Graph Playground</h1>
-        <div className="w-20"></div>
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-gray-50 to-blue-50">
+      {/* Enhanced Navigation */}
+      <nav className="backdrop-blur-sm bg-white/30 border-b border-gray-200/20 sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            <Link 
+              href="/inpersona" 
+              className="flex items-center space-x-2 bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 bg-clip-text text-transparent font-bold hover:opacity-80 transition-opacity"
+            >
+              <ArrowLeft className="w-5 h-5 stroke-purple-600" />
+              <span>Back to Chat</span>
+            </Link>
+            <h1 className="text-xl font-bold bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 bg-clip-text text-transparent">
+              Knowledge Graph Explorer
+            </h1>
+            <div className="w-24"></div> {/* Spacer for centering */}
+          </div>
+        </div>
       </nav>
 
-      <div className="flex-1 w-full">
-        <iframe
-          ref={iframeRef}
-          src="/kg.html"
-          className="w-full h-full min-h-[calc(100vh-64px)]"
-          style={{ border: 'none' }}
-        />
+      {/* Graph Container with Shadow and Border */}
+      <div className="flex-1 w-full p-4">
+        <div className="w-full h-full rounded-xl overflow-hidden shadow-lg border border-gray-200/20 bg-white/50 backdrop-blur-sm">
+          <iframe
+            ref={iframeRef}
+            src="/kg.html"
+            className="w-full h-[calc(100vh-6rem)]"
+            style={{ border: 'none' }}
+          />
+        </div>
+      </div>
+
+      {/* Footer Info */}
+      <div className="text-center py-4 text-sm text-gray-500">
+        <p>Interactive Knowledge Graph Visualization</p>
       </div>
     </div>
   );
