@@ -3,17 +3,23 @@ import config from "../index.json";
 import Link from "next/link";
 import ThemeToggle from "../../components/ThemeToggle";
 import { motion } from "framer-motion"; // Add this import
+import { useRouter } from 'next/router';
 
 const Header = () => {
+  const router = useRouter();
   const navigation = config.navigation;
   
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
     if (href.startsWith('#')) {
-      e.preventDefault();
       const element = document.querySelector(href);
       if (element) {
         element.scrollIntoView({ behavior: 'smooth' });
       }
+    } else if (href === '/inpersona') {
+      router.push('/loading');
+    } else {
+      router.push(href);
     }
   };
 

@@ -24,8 +24,8 @@
   "about": {
     "title": "About me",
     "image": "/Newyork_Dumbo_300x300.jpg",
-    "primary": "This is where you can describe about yourself. The more you describe about yourself, the more chances you have!",
-    "secondary": "Extra Information about you! like hobbies and your goals."
+    "primary": "Software Engineer with expertise in LLM fine-tuning, cloud computing, web development and Multithreaded Backend Services. Passionate about building efficient, scalable AI solutions.",
+    "secondary": "I love playing guitar and trekking in the high Himalayas!😊"
   },
   "projects": {
     "title": "Projects",

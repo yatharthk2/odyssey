@@ -149,8 +149,8 @@ export default function InpersonaChat() {
         <div className="max-w-3xl mx-auto">
           {messages.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full space-y-6">
-              <div className="w-20 h-20 flex items-center justify-center rounded-full bg-gradient-to-br from-purple-600 to-blue-600 shadow-lg">
-                <span className="text-3xl font-bold text-white">C</span>
+              <div className="w-32 h-32 flex items-center justify-center rounded-full bg-gradient-to-br from-purple-600 to-blue-600 shadow-lg animate-float">
+                <span className="text-5xl font-bold text-white">C</span>
               </div>
               <div className="text-center">
                 <p className="text-2xl font-light text-gray-600 mb-2">How can I help you today?</p>
@@ -267,6 +267,25 @@ export default function InpersonaChat() {
 
         .scrollbar::-webkit-scrollbar-thumb:hover {
           background-color: #6B7280;
+        }
+
+        @keyframes float {
+          0% {
+            transform: translateY(0px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+          }
+          50% {
+            transform: translateY(-20px);
+            box-shadow: 0 25px 30px rgba(0, 0, 0, 0.1);
+          }
+          100% {
+            transform: translateY(0px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+          }
+        }
+
+        .animate-float {
+          animation: float 3s ease-in-out infinite;
         }
       `}</style>
     </div>
