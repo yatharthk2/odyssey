@@ -1,10 +1,15 @@
+import { useState } from 'react';
 import Layout from '../components/Layout';
 import Hero from './components/Hero';
 import Projects from './components/Projects';
+import ContactModal from './components/ContactModal';
 import { motion } from 'framer-motion';
 import config from './index.json';
+import Experience from './components/Experience';  // Add this import
 
 export default function Home() {
+  const [isContactModalOpen, setIsContactModalOpen] = useState(false);
+
   return (
     <Layout>
       {/* Hero Section */}
@@ -45,6 +50,9 @@ export default function Home() {
           </div>
         </motion.section>
 
+        {/* Experience Section */}
+        <Experience />  {/* Add this line */}
+
         {/* Projects Section */}
         <Projects />
 
@@ -63,15 +71,20 @@ export default function Home() {
             <p className="text-lg text-gray-600 dark:text-gray-300 mb-12">
               {config.contact.description}
             </p>
-            <a
-              href="#"
+            <button
+              onClick={() => setIsContactModalOpen(true)}
               className="inline-block px-8 py-4 rounded-full bg-gradient-to-r from-purple-600 to-blue-600 text-white font-medium hover:shadow-lg transition-shadow"
             >
               Get in Touch
-            </a>
+            </button>
           </div>
         </motion.section>
       </div>
+
+      <ContactModal 
+        isOpen={isContactModalOpen}
+        onClose={() => setIsContactModalOpen(false)}
+      />
     </Layout>
   );
 }

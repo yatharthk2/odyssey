@@ -19,14 +19,14 @@ function ContactForm() {
         onSubmit={handleSubmit} 
         action={`https://formspree.io/f/${contact.formId}`}
         method="post" 
-        className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+        className="bg-white dark:bg-gray-800 shadow-md rounded px-8 pt-6 pb-8 mb-4 dark:shadow-gray-900"
       >
         <div className="mb-4">
-          <label className="block text-gray-700 font-bold mb-2" htmlFor="name">
+          <label className="block text-gray-700 dark:text-gray-300 font-bold mb-2" htmlFor="name">
             Name
           </label>
           <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-300 dark:bg-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="name"
             type="text"
             name="name"
@@ -36,11 +36,11 @@ function ContactForm() {
           />
         </div>
         <div className="mb-4">
-          <label className="block text-gray-700 font-bold mb-2" htmlFor="email">
+          <label className="block text-gray-700 dark:text-gray-300 font-bold mb-2" htmlFor="email">
             Email
           </label>
           <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-300 dark:bg-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="email"
             type="email"
             name="email"
@@ -50,11 +50,11 @@ function ContactForm() {
           />
         </div>
         <div className="mb-4">
-          <label className="block text-gray-700 font-bold mb-2" htmlFor="message">
+          <label className="block text-gray-700 dark:text-gray-300 font-bold mb-2" htmlFor="message">
             Message
           </label>
           <textarea
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-300 dark:bg-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="message"
             name="message"
             rows={5}
@@ -74,12 +74,12 @@ function ContactForm() {
             disabled={state.submitting}
             className="text-lg font-bold p-0.5 mt-6 w-44 bg-gradient-to-r from-rose-400 via-fuchsia-500 to-indigo-500"
           >
-            <div className="bg-white">
-              <span className="block p-2 font-semibold bg-white font-bold bg-gradient-to-r from-rose-400 via-fuchsia-500 to-indigo-500 bg-clip-text text-transparent">
+            <div className="bg-white dark:bg-gray-800">
+              <span className="block p-2 font-semibold bg-gradient-to-r from-rose-400 via-fuchsia-500 to-indigo-500 bg-clip-text text-transparent">
                 Send
               </span>
-          </div>
-        </button>
+            </div>
+          </button>
         </div>
       </form>
     </div>
