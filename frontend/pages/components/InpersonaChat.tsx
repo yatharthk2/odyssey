@@ -12,6 +12,7 @@ interface Message {
   content: string;
   isUser: boolean;
   complete?: boolean;
+  loading?: boolean;
 }
 
 export default function InpersonaChat() {
@@ -21,6 +22,7 @@ export default function InpersonaChat() {
   const [useKnowledgeGraph, setUseKnowledgeGraph] = useState(false);
   const [useHydeQuery, setUseHydeQuery] = useState(false);
   const [isConnecting, setIsConnecting] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const wsRef = useRef<WebSocket | null>(null);
 
@@ -62,33 +64,38 @@ export default function InpersonaChat() {
         const data = JSON.parse(event.data);
         
         if (data.error) {
-          // Handle error by adding it as a system message
-          setMessages(prev => [...prev, { content: `Error: ${data.error}`, isUser: false, complete: true }]);
+          setIsLoading(false);
+          setMessages(prev => {
+            const newMessages = prev.slice(0, -1); // Remove loading message
+            return [...newMessages, { content: `Error: ${data.error}`, isUser: false, complete: true }];
+          });
           return;
         }
 
         if (data.type === 'chunk') {
           setMessages(prev => {
-            const lastMessage = prev[prev.length - 1];
+            const newMessages = [...prev];
+            const lastMessage = newMessages[newMessages.length - 1];
+            
             if (!lastMessage || lastMessage.isUser || lastMessage.complete) {
-              // Start a new AI message
-              return [...prev, { content: data.content, isUser: false }];
+              return [...prev.slice(0, -1), { content: data.content, isUser: false, loading: true }];
             } else {
-              // Append to the existing incomplete AI message
-              const newMessages = [...prev];
               newMessages[newMessages.length - 1] = {
                 ...lastMessage,
-                content: lastMessage.content + data.content
+                content: lastMessage.content + data.content,
+                loading: true
               };
               return newMessages;
             }
           });
         } else if (data.type === 'complete') {
+          setIsLoading(false);
           setMessages(prev => {
             const newMessages = [...prev];
             const lastMessage = newMessages[newMessages.length - 1];
             if (lastMessage && !lastMessage.isUser) {
               lastMessage.complete = true;
+              lastMessage.loading = false;
             }
             return newMessages;
           });
@@ -111,7 +118,10 @@ export default function InpersonaChat() {
 
     // Add user message
     const userMessage: Message = { content: message, isUser: true, complete: true };
-    setMessages(prev => [...prev, userMessage]);
+    // Add initial AI message with loading state
+    const loadingMessage: Message = { content: "", isUser: false, loading: true };
+    setMessages(prev => [...prev, userMessage, loadingMessage]);
+    setIsLoading(true);
 
     // Prepare and send the query
     const query = {
@@ -171,7 +181,18 @@ export default function InpersonaChat() {
                         : 'bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 shadow-md'
                     }`}
                   >
-                    <p className="leading-relaxed">{msg.content}</p>
+                    {msg.loading ? (
+                      <div className="flex items-center space-x-2">
+                        <p className="leading-relaxed">{msg.content}</p>
+                        <div className="flex space-x-1">
+                          <div className="w-2 h-2 bg-blue-600 rounded-full animate-bounce [animation-delay:-0.3s]"></div>
+                          <div className="w-2 h-2 bg-blue-600 rounded-full animate-bounce [animation-delay:-0.15s]"></div>
+                          <div className="w-2 h-2 bg-blue-600 rounded-full animate-bounce"></div>
+                        </div>
+                      </div>
+                    ) : (
+                      <p className="leading-relaxed">{msg.content}</p>
+                    )}
                   </div>
                 </div>
               ))}
