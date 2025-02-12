@@ -105,7 +105,8 @@ const Header = () => {
                   <>
                     <a 
                       href={item.url}
-                      onClick={(e) => handleClick(e, item.url)}
+                      onClick={item.isDownload ? undefined : (e) => handleClick(e, item.url)}
+                      download={item.isDownload}
                       className="whitespace-nowrap font-medium text-gray-700 dark:text-gray-200 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
                     >
                       {item.title}
