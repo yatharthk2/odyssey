@@ -34,7 +34,7 @@ export default function Hero() {
           transition={{ duration: 0.5, delay: 0.4 }}
           className="flex gap-4 justify-center"
         >
-          <a 
+          {/* <a 
             href="#projects" 
             className="px-6 py-3 rounded-full bg-gradient-to-r from-purple-600 to-blue-600 text-white font-medium hover:shadow-lg transition-shadow"
           >
@@ -45,7 +45,7 @@ export default function Hero() {
             className="px-6 py-3 rounded-full border-2 border-purple-600 text-purple-600 dark:text-purple-400 font-medium hover:bg-purple-600 hover:text-white transition-colors"
           >
             Contact Me
-          </a>
+          </a> */}
         </motion.div>
       </div>
 
