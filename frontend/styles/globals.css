@@ -16,6 +16,20 @@
   }
 }
 
+@layer base {
+  body {
+    @apply bg-white dark:bg-gray-900 transition-colors duration-200;
+  }
+  
+  main {
+    @apply min-h-screen flex flex-col;
+  }
+  
+  section:last-child {
+    @apply mb-0; /* Remove margin from last section */
+  }
+}
+
 body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
