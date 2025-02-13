@@ -1,0 +1,106 @@
+Candidate Details:
+- Full Name: Yatharth Kapadia
+- Email: yatharth.k2@outlook.com
+- Phone Number: (930) 333-4182
+- LinkedIn Profile: https://www.linkedin.com/in/yatharthkapadia/
+- GitHub Profile: https://github.com/yatharthk2
+- Personal Website: https://yatharthk.framer.wiki
+
+Education:
+1. Degree: Master of Science in Computer Science  
+   - Institution: Indiana University Bloomington  
+   - Location: Bloomington, Indiana, USA  
+   - Dates Attended: August 2023 – May 2025  
+   - Current GPA: 3.55/4.0  
+   - Relevant Coursework:
+     - Machine Learning and Deep Learning
+     - Artificial Intelligence and Natural Language Processing
+     - Distributed Systems and Cloud Computing
+   - Achievements:
+     - Served as a Teaching Assistant for the course "Elements of AI" under Professor David Leake.
+
+2. Degree: Bachelor of Engineering in Electronics and Communication Engineering  
+   - Institution: MIT World Peace University  
+   - Location: Pune, India  
+   - Dates Attended: August 2019 – May 2023  
+   - Final GPA: 9.32/10  
+   - Relevant Coursework:
+     - Embedded Systems and Microcontrollers
+     - Digital Signal Processing
+     - Data Structures and Algorithms
+     - Communication Systems
+   - Achievements: Graduated with Honors
+
+Technical Skills:
+- Programming Languages: Python, C++, GOLang, HTML, CSS, JavaScript, SLURM Scripting, SQL
+- Machine Learning Frameworks: TensorFlow, PyTorch
+- Cloud and DevOps Technologies: AWS, Azure, Docker, Kubernetes
+- Database Technologies: MongoDB, Neo4j, SQL, Databricks
+- Web Technologies: Django, Flask, FastAPI, Streamlit, WebAssembly
+- APIs and Frameworks: LangChain, OpenCV
+- Version Control: Git, GitHub
+- Other Tools and Skills: SLURM Scripting, Parallel Computing, Kubernetes, and Docker for container orchestration
+
+Professional Experience:
+1. Role: Machine Learning Intern  
+   - Company: OutSpeed  
+   - Location: San Francisco, USA  
+   - Dates: June 2024 – September 2024  
+   - Key Responsibilities:
+     - Led the fine-tuning and deployment of an in-house Large Language Model (LLM) based on Llama 3.1, resulting in a 30% reduction in API costs by reducing reliance on third-party services like ChatGPT.
+     - Developed and deployed real-time APIs for speech-to-text (STT) using Whisper and text-to-speech (TTS) using Parler TTS on an AWS EC2 instance with A10g GPU for optimized performance.
+     - Designed a parallel processing architecture to integrate STT, TTS, and LLM modules, enabling resource sharing and improving processing efficiency by 20%.
+     - Reduced pipeline latency to under 800ms by consolidating the STT, TTS, and LLM modules into a unified system, improving the real-time interaction capabilities.
+
+2. Role: ML Analyst and Researcher  
+   - Company: DSAIL Labs, Kelley School of Business  
+   - Location: Bloomington, USA  
+   - Dates: March 2024 – Present  
+   - Key Responsibilities:
+     - Conducted comprehensive security assessments on LLMs (e.g., Llama and ChatGPT) based on OWASP Top 10 criteria, identifying potential security vulnerabilities and developing mitigation strategies.
+     - Designed Python-based tools to detect critical AI vulnerabilities, including prompt injection, data leakage, and model hallucinations, enhancing the security and reliability of machine learning systems.
+
+3. Role: Associate Software Developer Intern  
+   - Company: IDeaS  
+   - Location: Pune, India  
+   - Dates: July 2022 – January 2023  
+   - Key Responsibilities:
+     - Developed a Python-based, multithreaded tool using Streamlit and Seaborn for visualizing 10 complex graphs used by global hotel chains, improving graph rendering times by 20%.
+     - Collaborated with cross-functional teams across multiple regions to create a data validation system based on Python and Salesforce, implementing 8 key tests that ensured 100% data accuracy during the training of machine learning models.
+     - Reduced engineering workload by automating data validation, saving over 100 engineering hours per month.
+
+4. Role: Machine Learning Intern  
+   - Company: Quidich Innovation Labs  
+   - Location: Mumbai, India  
+   - Dates: May 2022 – June 2022  
+   - Key Responsibilities:
+     - Led the development of a predictive algorithm that used player movement data to anticipate the moment a bowler releases the ball in cricket, achieving a 95% accuracy rate and enhancing decision-making for analysts.
+     - Redesigned a player tracking system using YoloV4 and integrated ByteTrack for unique ID assignment and memory retention, significantly improving the system's accuracy across multiple software platforms.
+
+5. Role: Software Developer Intern  
+   - Company: Azodha  
+   - Location: New York, USA  
+   - Dates: September 2021 – April 2022  
+   - Key Responsibilities:
+     - Led the Open-Notif project, creating a command-line interface (CLI) for user-company connectivity using AWS Lambda, Pub/Sub, Chalice, MongoDB, and Twilio, achieving sub-3-second notification delivery.
+     - Architected an NLP framework for the Ringisho app using BERT models for phrase suggestions and profanity detection, resulting in 92% positive feedback from users and 98% accuracy in real-time processing.
+     - Developed a web-based Know Your Customer (KYC) platform using WebAssembly, TensorFlowJS, and OpenCV, achieving 90% accuracy in client-side identity verification and reducing server load.
+
+Honors and Achievements:
+- Teaching Assistant for "Elements of AI" under Professor David Leake (August 2024)
+- 1st Prize at Smart India Hackathon (August 2022), organized by Dell
+- 4th Rank at India Academia Connect AI Hackathon (October 2021), organized by Nvidia
+- 87th Rank in the Amazon ML Challenge (August 2021)
+
+Projects:
+1. Project Name: INpersona LLM  
+   - Skills: Natural Language Processing (NLP), Large Language Models (LLM), Information Retrieval  
+   - Description: Designed and implemented a personalized conversational LLM using the Mistral 8x7b-instruct model to enhance user engagement. Developed advanced retrieval techniques using MiniLM-L6-v2 embeddings and Llama Index to optimize information accuracy and response times. Deployed the project on Hugging Face Spaces.
+
+2. Project Name: FaceInpainting  
+   - Skills: Computer Vision, Image Restoration, Algorithm Innovation  
+   - Description: Developed a facial image restoration model using Partial Convolution architecture with PyTorch, incorporating a novel random walk algorithm to generate specialized binary masks, preventing overfitting. Achieved 97% accuracy on severely distorted facial images, trained on a dataset of 50,000 images from the CelebA dataset, with potential forensic applications.
+
+Contact Information:
+- LinkedIn Profile: https://www.linkedin.com/in/yatharthkapadia/
+- GitHub: https://github.com/yatharthk2
