@@ -50,7 +50,7 @@ const Header = () => {
                   <motion.a
                     href={item.url}
                     onClick={(e) => handleClick(e, item.url)}
-                    className="relative whitespace-nowrap font-medium px-4 py-1.5 rounded-full text-purple-600 dark:text-purple-400"
+                    className="relative whitespace-nowrap font-medium px-3 py-1 rounded-full text-purple-600 dark:text-purple-400 max-w-[120px]"
                     whileHover={{ scale: 1.05 }}
                   >
                     {/* Smoother color changing glow effect */}
@@ -142,17 +142,92 @@ const Header = () => {
           <div className="md:hidden py-4">
             <div className="flex flex-col space-y-4">
               {navigation.map((item) => (
-                <a
-                  key={item.title}
-                  href={item.url}
-                  onClick={(e) => {
-                    handleClick(e, item.url);
-                    setIsMenuOpen(false);
-                  }}
-                  className="text-gray-700 dark:text-gray-200 hover:text-purple-600 dark:hover:text-purple-400"
-                >
-                  {item.title}
-                </a>
+                item.title === "Inpersona" ? (
+                  <motion.a
+                    key={item.title}
+                    href={item.url}
+                    onClick={(e) => {
+                      handleClick(e, item.url);
+                      setIsMenuOpen(false);
+                    }}
+                    className="relative inline-block whitespace-nowrap font-medium px-3 py-1 rounded-full text-purple-600 dark:text-purple-400 max-w-[120px]"
+                    whileHover={{ scale: 1.05 }}
+                  >
+                    <motion.span 
+                      className="absolute inset-0 rounded-full opacity-40 blur-xl"
+                      animate={{
+                        background: [
+                          'linear-gradient(to right, #9333EA, #EC4899, #3B82F6)',
+                          'linear-gradient(to right, #22C55E, #EAB308, #EC4899)',
+                          'linear-gradient(to right, #3B82F6, #F43F5E, #8B5CF6)',
+                          'linear-gradient(to right, #EAB308, #8B5CF6, #22C55E)',
+                          'linear-gradient(to right, #F43F5E, #22C55E, #3B82F6)',
+                          'linear-gradient(to right, #9333EA, #EC4899, #3B82F6)'
+                        ]
+                      }}
+                      transition={{
+                        duration: 4,
+                        repeat: Infinity,
+                        ease: "linear",
+                        times: [0, 0.2, 0.4, 0.6, 0.8, 1]
+                      }}
+                    />
+                    <motion.span 
+                      className="absolute -inset-0.5 rounded-full opacity-50 blur-md"
+                      animate={{
+                        background: [
+                          'linear-gradient(to right, #9333EA, #EC4899, #3B82F6)',
+                          'linear-gradient(to right, #22C55E, #EAB308, #EC4899)',
+                          'linear-gradient(to right, #3B82F6, #F43F5E, #8B5CF6)',
+                          'linear-gradient(to right, #EAB308, #8B5CF6, #22C55E)',
+                          'linear-gradient(to right, #F43F5E, #22C55E, #3B82F6)',
+                          'linear-gradient(to right, #9333EA, #EC4899, #3B82F6)'
+                        ]
+                      }}
+                      transition={{
+                        duration: 4,
+                        repeat: Infinity,
+                        ease: "linear",
+                        times: [0, 0.2, 0.4, 0.6, 0.8, 1]
+                      }}
+                    />
+                    <motion.span 
+                      className="absolute inset-0 rounded-full"
+                      animate={{
+                        background: [
+                          'linear-gradient(to right, #9333EA, #EC4899, #3B82F6)',
+                          'linear-gradient(to right, #22C55E, #EAB308, #EC4899)',
+                          'linear-gradient(to right, #3B82F6, #F43F5E, #8B5CF6)',
+                          'linear-gradient(to right, #EAB308, #8B5CF6, #22C55E)',
+                          'linear-gradient(to right, #F43F5E, #22C55E, #3B82F6)',
+                          'linear-gradient(to right, #9333EA, #EC4899, #3B82F6)'
+                        ]
+                      }}
+                      transition={{
+                        duration: 4,
+                        repeat: Infinity,
+                        ease: "linear",
+                        times: [0, 0.2, 0.4, 0.6, 0.8, 1]
+                      }}
+                    />
+                    <span className="absolute inset-[1.5px] rounded-full bg-white dark:bg-gray-900" />
+                    <span className="relative">
+                      ✨ {item.title}
+                    </span>
+                  </motion.a>
+                ) : (
+                  <a
+                    key={item.title}
+                    href={item.url}
+                    onClick={(e) => {
+                      handleClick(e, item.url);
+                      setIsMenuOpen(false);
+                    }}
+                    className="text-gray-700 dark:text-gray-200 hover:text-purple-600 dark:hover:text-purple-400"
+                  >
+                    {item.title}
+                  </a>
+                )
               ))}
             </div>
           </div>
