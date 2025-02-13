@@ -45,7 +45,7 @@
       {
         "title": "Inpersona",
         "description": "AI-powered avatar, to inpersonate as if you are talking to me in person.",
-        "url": "http://www.example.com/project3",
+        "url": "/inpersona",
         "github": "https://github.com/yatharthk2/odyssey",
         "image": "/inpersona_img.png"
       },
