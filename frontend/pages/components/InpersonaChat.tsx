@@ -137,10 +137,10 @@ export default function InpersonaChat() {
   return (
     <div className="relative flex flex-col w-full h-screen bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-blue-900 overflow-hidden">
       {/* Navigation Area */}
-      <div className="absolute top-4 left-4 right-4 flex justify-between items-center">
+      <div className="absolute top-2 sm:top-4 left-2 sm:left-4 right-2 sm:right-4 flex justify-between items-center z-10">
         <Link 
           href="/" 
-          className="whitespace-nowrap font-bold bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 bg-clip-text text-transparent"
+          className="text-sm sm:text-base whitespace-nowrap font-bold bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 bg-clip-text text-transparent"
         >
           Home
         </Link>
@@ -149,17 +149,17 @@ export default function InpersonaChat() {
 
       {/* Connection Status */}
       {isConnecting && (
-        <div className="absolute top-4 right-4 text-sm text-gray-600">
+        <div className="absolute top-2 sm:top-4 right-2 sm:right-4 text-xs sm:text-sm text-gray-600">
           Connecting...
         </div>
       )}
 
       {/* Messages Display Area */}
-      <div className="flex-1 overflow-y-auto px-4 pt-24 pb-40 w-full scrollbar">
+      <div className="flex-1 overflow-y-auto px-2 sm:px-4 pt-16 sm:pt-24 pb-32 sm:pb-40 w-full scrollbar">
         <div className="max-w-3xl mx-auto">
           {messages.length === 0 ? (
-            <div className="flex flex-col items-center justify-center h-full space-y-6">
-              <div className="w-32 h-32 rounded-full bg-gradient-to-br from-purple-600 to-blue-600 p-1 shadow-lg animate-float">
+            <div className="flex flex-col items-center justify-center h-full space-y-4 sm:space-y-6 px-4">
+              <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-gradient-to-br from-purple-600 to-blue-600 p-1 shadow-lg animate-float">
                 <img
                   src="/Newyork_Dumbo_300x300.jpg"
                   alt="Yatharth"
@@ -167,38 +167,27 @@ export default function InpersonaChat() {
                 />
               </div>
               <div className="text-center">
-                <p className="text-2xl font-light text-gray-600 dark:text-gray-300 mb-2">
+                <p className="text-xl sm:text-2xl font-light text-gray-600 dark:text-gray-300 mb-2">
                   How can I help you today?
                 </p>
                 <TextRotator />
               </div>
             </div>
           ) : (
-            <div className="space-y-6">
+            <div className="space-y-4 sm:space-y-6">
               {messages.map((msg, index) => (
                 <div 
                   key={index} 
                   className={`flex ${msg.isUser ? 'justify-end' : 'justify-start'} animate-fade-in`}
                 >
                   <div 
-                    className={`max-w-[85%] p-4 rounded-2xl transition-all ${
+                    className={`max-w-[90%] sm:max-w-[85%] p-3 sm:p-4 rounded-2xl transition-all ${
                       msg.isUser 
                         ? 'bg-gradient-to-br from-purple-600 to-blue-600 text-white shadow-lg'
                         : 'bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 shadow-md'
                     }`}
                   >
-                    {msg.loading ? (
-                      <div className="flex items-center space-x-2">
-                        <p className="leading-relaxed">{msg.content}</p>
-                        <div className="flex space-x-1">
-                          <div className="w-2 h-2 bg-blue-600 rounded-full animate-bounce [animation-delay:-0.3s]"></div>
-                          <div className="w-2 h-2 bg-blue-600 rounded-full animate-bounce [animation-delay:-0.15s]"></div>
-                          <div className="w-2 h-2 bg-blue-600 rounded-full animate-bounce"></div>
-                        </div>
-                      </div>
-                    ) : (
-                      <p className="leading-relaxed">{msg.content}</p>
-                    )}
+                    <p className="text-sm sm:text-base leading-relaxed">{msg.content}</p>
                   </div>
                 </div>
               ))}
@@ -209,50 +198,53 @@ export default function InpersonaChat() {
       </div>
 
       {/* Message Input Form */}
-      <div className="fixed bottom-0 left-0 w-full bg-gradient-to-t from-white dark:from-gray-900 to-transparent pt-20 pb-8">
-        <form onSubmit={handleSubmit} className="max-w-3xl mx-auto px-4 w-full">
+      <div className="fixed bottom-0 left-0 w-full bg-gradient-to-t from-white dark:from-gray-900 to-transparent pt-10 sm:pt-20 pb-4 sm:pb-8">
+        <form onSubmit={handleSubmit} className="max-w-3xl mx-auto px-2 sm:px-4 w-full">
           <div className="flex flex-col gap-2">
             {/* Toggle Buttons */}
-            <div className="flex gap-2 justify-end px-2">
-              <Tooltip text="Use Knowledge Graph to enhance responses with structured information and relationships from a comprehensive knowledge base">
+            <div className="flex flex-wrap gap-2 justify-end px-2">
+              <Tooltip text="Use Knowledge Graph">
                 <button
                   type="button"
                   onClick={() => setUseKnowledgeGraph(!useKnowledgeGraph)}
-                  className={`flex items-center gap-1 px-3 py-1 rounded-full text-sm transition-all ${
+                  className={`flex items-center gap-1 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm transition-all ${
                     useKnowledgeGraph
                       ? 'bg-purple-600 text-white'
                       : 'bg-white text-gray-600 border border-gray-300'
                   }`}
                 >
-                  <Grape size={14} />
-                  <span>Knowledge Graph</span>
+                  <Grape size={12} className="sm:w-4 sm:h-4" />
+                  <span className="hidden sm:inline">Knowledge Graph</span>
+                  <span className="sm:hidden">KG</span>
                 </button>
               </Tooltip>
-              <Tooltip text="Use Hypothetical Document Embeddings (HyDE) to improve query understanding and generate more accurate responses">
+              <Tooltip text="Use HyDE Query">
                 <button
                   type="button"
                   onClick={() => setUseHydeQuery(!useHydeQuery)}
-                  className={`flex items-center gap-1 px-3 py-1 rounded-full text-sm transition-all ${
+                  className={`flex items-center gap-1 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm transition-all ${
                     useHydeQuery
                       ? 'bg-blue-600 text-white'
                       : 'bg-white text-gray-600 border border-gray-300'
                   }`}
                 >
-                  <Search size={14} />
-                  <span>Hyde Query</span>
+                  <Search size={12} className="sm:w-4 sm:h-4" />
+                  <span className="hidden sm:inline">Hyde Query</span>
+                  <span className="sm:hidden">HyDE</span>
                 </button>
               </Tooltip>
             </div>
+
             {/* Input Bar */}
-            <div className="flex items-center bg-white dark:bg-gray-800 rounded-xl px-4 py-2 shadow-lg ring-1 ring-gray-100 dark:ring-gray-700 hover:ring-blue-200 dark:hover:ring-blue-700 transition-all">
+            <div className="flex items-center bg-white dark:bg-gray-800 rounded-xl px-3 sm:px-4 py-2 shadow-lg ring-1 ring-gray-100 dark:ring-gray-700 hover:ring-blue-200 dark:hover:ring-blue-700 transition-all">
               <input
                 type="text"
                 placeholder="Ask me anything..."
-                className="flex-1 bg-transparent outline-none text-gray-800 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500 text-lg py-2"
+                className="flex-1 bg-transparent outline-none text-gray-800 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500 text-sm sm:text-lg py-1 sm:py-2"
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 onKeyDown={(e) => {
-                  if (e.key === 'Enter') {
+                  if (e.key === 'Enter' && !e.shiftKey) {
                     e.preventDefault();
                     handleSubmit(e as any);
                   }
@@ -260,13 +252,13 @@ export default function InpersonaChat() {
               />
               <button 
                 type="submit"
-                className="ml-2 p-2 rounded-xl bg-gradient-to-br from-purple-600 to-blue-600 hover:opacity-90 transition-opacity shadow-md"
+                className="ml-2 p-1.5 sm:p-2 rounded-xl bg-gradient-to-br from-purple-600 to-blue-600 hover:opacity-90 transition-opacity shadow-md"
               >
-                <Send size={24} className="text-white" />
+                <Send size={20} className="sm:w-6 sm:h-6 text-white" />
               </button>
             </div>
           </div>
-          <p className="text-center text-sm text-gray-400 mt-3">
+          <p className="text-center text-xs sm:text-sm text-gray-400 mt-2 sm:mt-3">
             InPersona AI · Always learning
           </p>
         </form>
