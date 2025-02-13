@@ -159,11 +159,17 @@ export default function InpersonaChat() {
         <div className="max-w-3xl mx-auto">
           {messages.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full space-y-6">
-              <div className="w-32 h-32 flex items-center justify-center rounded-full bg-gradient-to-br from-purple-600 to-blue-600 shadow-lg animate-float">
-                <span className="text-5xl font-bold text-white">C</span>
+              <div className="w-32 h-32 rounded-full bg-gradient-to-br from-purple-600 to-blue-600 p-1 shadow-lg animate-float">
+                <img
+                  src="/Newyork_Dumbo_300x300.jpg"
+                  alt="Yatharth"
+                  className="w-full h-full object-cover rounded-full"
+                />
               </div>
               <div className="text-center">
-                <p className="text-2xl font-light text-gray-600 mb-2">How can I help you today?</p>
+                <p className="text-2xl font-light text-gray-600 dark:text-gray-300 mb-2">
+                  How can I help you today?
+                </p>
                 <TextRotator />
               </div>
             </div>
