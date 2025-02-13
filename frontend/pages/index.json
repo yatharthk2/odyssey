@@ -62,11 +62,11 @@
   "contact": {
     "title": "Contact",
     "description": "This is where you can describe about your contact. The more you describe about your contact, the more chances you have!",
-    "formId": "your-form-id"
+    "formId": "xkgovpaz"
   },
   "footer": {
-    "linkedin": "",
-    "twitter": "",
-    "github": ""
+    "linkedin": "https://www.linkedin.com/in/yatharthkapadia/",
+    "twitter": "https://x.com/yatharthk2",
+    "github": "https://github.com/yatharthk2"
   }
 }
