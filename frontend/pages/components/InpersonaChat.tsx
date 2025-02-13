@@ -203,7 +203,7 @@ export default function InpersonaChat() {
           <div className="flex flex-col gap-2">
             {/* Toggle Buttons */}
             <div className="flex flex-wrap gap-2 justify-end px-2">
-              <Tooltip text="Use Knowledge Graph">
+              <Tooltip text="More accurate, Less detailed">
                 <button
                   type="button"
                   onClick={() => setUseKnowledgeGraph(!useKnowledgeGraph)}
@@ -218,7 +218,7 @@ export default function InpersonaChat() {
                   <span className="sm:hidden">KG</span>
                 </button>
               </Tooltip>
-              <Tooltip text="Use HyDE Query">
+              <Tooltip text="Friendly, Detailed, Prone to Hallucination">
                 <button
                   type="button"
                   onClick={() => setUseHydeQuery(!useHydeQuery)}
@@ -259,7 +259,7 @@ export default function InpersonaChat() {
             </div>
           </div>
           <p className="text-center text-xs sm:text-sm text-gray-400 mt-2 sm:mt-3">
-            InPersona AI · Always learning
+            InPersona AI · Designed by Yatharth Kapadia
           </p>
         </form>
       </div>
