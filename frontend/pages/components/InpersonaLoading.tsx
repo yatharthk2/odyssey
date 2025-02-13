@@ -22,15 +22,14 @@ const InpersonaLoading = () => {
   };
 
   return (
-    <div className="fixed inset-0 bg-gradient-to-br from-purple-900 via-blue-900 to-black flex items-center justify-center">
-      <div className="relative">
+    <div className="fixed inset-0 bg-gradient-to-br from-purple-900 via-blue-900 to-black flex items-center justify-center p-4">
+      <div className="relative w-full max-w-[600px]">
         {/* Large chat bubble background */}
         <motion.div
           initial={{ scale: 0, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 0.5 }}
           className="absolute inset-0 bg-white/5 backdrop-blur-xl rounded-3xl"
-          style={{ width: '600px', height: '400px' }}
         />
 
         {/* Content container */}
@@ -38,20 +37,19 @@ const InpersonaLoading = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
-          className="relative p-8 text-white text-center"
-          style={{ width: '600px' }}
+          className="relative p-4 sm:p-8 text-white text-center"
         >
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.7 }}
-            className="text-3xl font-bold mb-8 bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent"
+            className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-8 bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent"
           >
             Initializing Inpersona
           </motion.h2>
 
           {/* Features with staggered animation */}
-          <div className="grid grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-6">
             {[
               {
                 icon: <MessageSquare className="w-6 h-6" />,
@@ -83,15 +81,15 @@ const InpersonaLoading = () => {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: feature.delay }}
-                className="flex items-center p-4 rounded-xl bg-white/10 backdrop-blur-sm"
+                className="flex items-center p-3 sm:p-4 rounded-xl bg-white/10 backdrop-blur-sm"
               >
-                <div className="flex items-center gap-3">
-                  <div className="p-2 rounded-lg bg-gradient-to-br from-purple-500 to-blue-500">
+                <div className="flex items-center gap-2 sm:gap-3">
+                  <div className="p-1.5 sm:p-2 rounded-lg bg-gradient-to-br from-purple-500 to-blue-500">
                     {feature.icon}
                   </div>
                   <div className="text-left">
-                    <h3 className="font-semibold">{feature.title}</h3>
-                    <p className="text-sm text-gray-300">{feature.desc}</p>
+                    <h3 className="font-semibold text-sm sm:text-base">{feature.title}</h3>
+                    <p className="text-xs sm:text-sm text-gray-300">{feature.desc}</p>
                   </div>
                 </div>
               </motion.div>
@@ -100,7 +98,7 @@ const InpersonaLoading = () => {
 
           {/* Progress bar */}
           <motion.div
-            className="mt-8 h-1 bg-white/20 rounded-full overflow-hidden"
+            className="mt-4 sm:mt-8 h-1 bg-white/20 rounded-full overflow-hidden"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 2.2 }}
@@ -124,9 +122,8 @@ const InpersonaLoading = () => {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               whileHover={{ scale: 1.05 }}
-              className="mt-8 px-8 py-3 rounded-full bg-gradient-to-r from-purple-500 to-blue-500 text-white font-medium shadow-lg relative group"
+              className="mt-4 sm:mt-8 px-6 sm:px-8 py-2.5 sm:py-3 rounded-full bg-gradient-to-r from-purple-500 to-blue-500 text-white text-sm sm:text-base font-medium shadow-lg relative group"
             >
-              {/* Pulse effect */}
               <motion.div
                 className="absolute inset-0 rounded-full bg-white opacity-20"
                 animate={{

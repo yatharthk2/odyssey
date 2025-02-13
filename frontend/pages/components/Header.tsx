@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import config from "../index.json";
 import Link from "next/link";
 import ThemeToggle from "../../components/ThemeToggle";
@@ -6,6 +6,7 @@ import { motion } from "framer-motion"; // Add this import
 import { useRouter } from 'next/router';
 
 const Header = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const router = useRouter();
   const navigation = config.navigation;
   
@@ -27,7 +28,22 @@ const Header = () => {
     <header className="sticky top-0 z-50 backdrop-blur-sm bg-white/30 dark:bg-gray-900/30 border-b border-gray-200/20 dark:border-gray-700/20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          <nav className="flex items-center space-x-8">
+          {/* Mobile menu button */}
+          <button
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="md:hidden p-2 rounded-md text-gray-700 dark:text-gray-200"
+          >
+            <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              {isMenuOpen ? (
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              ) : (
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              )}
+            </svg>
+          </button>
+
+          {/* Desktop navigation */}
+          <nav className="hidden md:flex items-center space-x-8">
             {navigation.map((item) => (
               <div key={item.title} className="relative group">
                 {item.title === "Inpersona" ? (
@@ -117,8 +133,30 @@ const Header = () => {
               </div>
             ))}
           </nav>
+
           <ThemeToggle />
         </div>
+
+        {/* Mobile navigation */}
+        {isMenuOpen && (
+          <div className="md:hidden py-4">
+            <div className="flex flex-col space-y-4">
+              {navigation.map((item) => (
+                <a
+                  key={item.title}
+                  href={item.url}
+                  onClick={(e) => {
+                    handleClick(e, item.url);
+                    setIsMenuOpen(false);
+                  }}
+                  className="text-gray-700 dark:text-gray-200 hover:text-purple-600 dark:hover:text-purple-400"
+                >
+                  {item.title}
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </header>
   );
