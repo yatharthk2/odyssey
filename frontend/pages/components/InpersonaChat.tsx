@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { Send, Grape, Search } from 'lucide-react';
+import { Send, Grape, Search, Info } from 'lucide-react';
 import Link from 'next/link';
 import Tooltip from './Tooltip';
 import TextRotator from './TextRotator';
@@ -23,6 +23,7 @@ export default function InpersonaChat() {
   const [useHydeQuery, setUseHydeQuery] = useState(false);
   const [isConnecting, setIsConnecting] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [showInfo, setShowInfo] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const wsRef = useRef<WebSocket | null>(null);
 
@@ -40,7 +41,9 @@ export default function InpersonaChat() {
       if (wsRef.current?.readyState === WebSocket.OPEN) return;
 
       setIsConnecting(true);
-      const ws = new WebSocket('ws://localhost:8000/chat');
+      // Changed URL to use dynamic host instead of hardcoded localhost
+      const host = window.location.hostname;
+      const ws = new WebSocket(`ws://${host}:8000/chat`);
       wsRef.current = ws;
 
       ws.onopen = () => {
@@ -112,6 +115,17 @@ export default function InpersonaChat() {
     };
   }, []);
 
+  // Add useEffect to handle mobile viewport
+  useEffect(() => {
+    // Prevent viewport height changes when keyboard opens
+    const metaViewport = document.querySelector('meta[name=viewport]');
+    metaViewport?.setAttribute('content', 'height=' + window.innerHeight + 'px, width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0');
+    
+    return () => {
+      metaViewport?.setAttribute('content', 'width=device-width, initial-scale=1.0');
+    };
+  }, []);
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!message.trim() || !wsRef.current || wsRef.current.readyState !== WebSocket.OPEN) return;
@@ -135,30 +149,35 @@ export default function InpersonaChat() {
   };
 
   return (
-    <div className="relative flex flex-col w-full h-screen bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-blue-900 overflow-hidden">
-      {/* Navigation Area */}
-      <div className="absolute top-2 sm:top-4 left-2 sm:left-4 right-2 sm:right-4 flex justify-between items-center z-10">
+    <div className="relative flex flex-col w-full h-[100dvh] bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-blue-900 overflow-hidden">
+      {/* Navigation Area - Reorganized */}
+      <div className="fixed top-0 left-0 right-0 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm py-2 px-4 flex justify-between items-center z-50">
         <Link 
           href="/" 
           className="text-sm sm:text-base whitespace-nowrap font-bold bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 bg-clip-text text-transparent"
         >
           Home
         </Link>
-        <ThemeToggle />
+        
+        {/* Status and Theme grouped together */}
+        <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
+            <div className={`w-2 h-2 rounded-full ${
+              wsRef.current?.readyState === WebSocket.OPEN ? 'bg-green-500' : 'bg-red-500'
+            }`}/>
+            <span className="text-xs text-gray-600 dark:text-gray-300">
+              {wsRef.current?.readyState === WebSocket.OPEN ? 'Connected' : 'Disconnected'}
+            </span>
+          </div>
+          <ThemeToggle />
+        </div>
       </div>
 
-      {/* Connection Status */}
-      {isConnecting && (
-        <div className="absolute top-2 sm:top-4 right-2 sm:right-4 text-xs sm:text-sm text-gray-600">
-          Connecting...
-        </div>
-      )}
-
       {/* Messages Display Area */}
-      <div className="flex-1 overflow-y-auto px-2 sm:px-4 pt-16 sm:pt-24 pb-32 sm:pb-40 w-full scrollbar">
+      <div className="flex-1 overflow-y-auto px-2 sm:px-4 pt-14 pb-32 w-full scrollbar">
         <div className="max-w-3xl mx-auto">
           {messages.length === 0 ? (
-            <div className="flex flex-col items-center justify-center h-full space-y-4 sm:space-y-6 px-4">
+            <div className="flex flex-col items-center justify-center min-h-[calc(100vh-240px)] space-y-4 sm:space-y-6 px-4 mt-2 sm:mt-4"> {/* Adjusted min-height and reduced margins further */}
               <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-gradient-to-br from-purple-600 to-blue-600 p-1 shadow-lg animate-float">
                 <img
                   src="/Newyork_Dumbo_300x300.jpg"
@@ -197,50 +216,123 @@ export default function InpersonaChat() {
         </div>
       </div>
 
-      {/* Message Input Form */}
-      <div className="fixed bottom-0 left-0 w-full bg-gradient-to-t from-white dark:from-gray-900 to-transparent pt-10 sm:pt-20 pb-4 sm:pb-8">
+      {/* Message Input Form - Updated for better mobile handling */}
+      <div className="fixed bottom-0 left-0 w-full bg-gradient-to-t from-white dark:from-gray-900 to-transparent pt-6 pb-4">
         <form onSubmit={handleSubmit} className="max-w-3xl mx-auto px-2 sm:px-4 w-full">
           <div className="flex flex-col gap-2">
             {/* Toggle Buttons */}
-            <div className="flex flex-wrap gap-2 justify-end px-2">
-              <Tooltip text="More accurate, Less detailed">
+            <div className="flex flex-wrap gap-2 justify-end px-2 mb-2">
+              {/* Desktop Tooltip */}
+              <div className="hidden sm:block">
+                <Tooltip text="More accurate, Less detailed">
+                  <button
+                    type="button"
+                    onClick={() => setUseKnowledgeGraph(!useKnowledgeGraph)}
+                    className={`flex items-center gap-1 px-3 py-1 rounded-full text-sm transition-all ${
+                      useKnowledgeGraph
+                        ? 'bg-purple-600 text-white'
+                        : 'bg-white text-gray-600 border border-gray-300'
+                    }`}
+                  >
+                    <Grape size={16} />
+                    <span>Knowledge Graph</span>
+                  </button>
+                </Tooltip>
+              </div>
+
+              {/* Mobile Version with Info Button */}
+              <div className="flex sm:hidden items-center gap-2">
                 <button
                   type="button"
                   onClick={() => setUseKnowledgeGraph(!useKnowledgeGraph)}
-                  className={`flex items-center gap-1 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm transition-all ${
+                  className={`flex items-center gap-1 px-2 py-1 rounded-full text-xs transition-all ${
                     useKnowledgeGraph
                       ? 'bg-purple-600 text-white'
                       : 'bg-white text-gray-600 border border-gray-300'
                   }`}
                 >
-                  <Grape size={12} className="sm:w-4 sm:h-4" />
-                  <span className="hidden sm:inline">Knowledge Graph</span>
-                  <span className="sm:hidden">KG</span>
+                  <Grape size={12} />
+                  <span>KG</span>
                 </button>
-              </Tooltip>
-              <Tooltip text="Friendly, Detailed, Prone to Hallucination">
                 <button
                   type="button"
                   onClick={() => setUseHydeQuery(!useHydeQuery)}
-                  className={`flex items-center gap-1 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm transition-all ${
+                  className={`flex items-center gap-1 px-2 py-1 rounded-full text-xs transition-all ${
                     useHydeQuery
                       ? 'bg-blue-600 text-white'
                       : 'bg-white text-gray-600 border border-gray-300'
                   }`}
                 >
-                  <Search size={12} className="sm:w-4 sm:h-4" />
-                  <span className="hidden sm:inline">Hyde Query</span>
-                  <span className="sm:hidden">HyDE</span>
+                  <Search size={12} />
+                  <span>HyDE</span>
                 </button>
-              </Tooltip>
+                <button
+                  onClick={() => setShowInfo(!showInfo)}
+                  className="p-1 rounded-full bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700"
+                >
+                  <Info size={14} className="text-gray-600 dark:text-gray-400" />
+                </button>
+              </div>
+
+              {/* Info Modal for Mobile */}
+              {showInfo && (
+                <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 sm:hidden">
+                  <div className="bg-white dark:bg-gray-800 rounded-xl p-4 max-w-xs w-full shadow-lg border border-gray-200 dark:border-gray-700">
+                    <h3 className="font-semibold mb-2 text-gray-800 dark:text-gray-200">Search Options</h3>
+                    <div className="text-sm mb-4 space-y-3 text-gray-600 dark:text-gray-300">
+                      <div>
+                        <p className="font-medium mb-1">KG (Knowledge Graph):</p>
+                        <p>More accurate but less detailed results.</p>
+                        <a 
+                          href="/inpersona/knowledgegraph" 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="text-blue-600 dark:text-blue-400 hover:underline mt-1 inline-block"
+                        >
+                          View Knowledge Graph →
+                        </a>
+                      </div>
+                      <div>
+                        <p className="font-medium mb-1">HyDE:</p>
+                        <p>Friendly and detailed results, but may occasionally provide inaccurate information.</p>
+                      </div>
+                    </div>
+                    <button
+                      onClick={() => setShowInfo(false)}
+                      className="w-full py-2 bg-gray-100 dark:bg-gray-700 rounded-lg text-sm text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+                    >
+                      Close
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* Similar pattern for HyDE button... */}
+              {/* Desktop Tooltip */}
+              <div className="hidden sm:block">
+                <Tooltip text="Friendly, Detailed, Prone to Hallucination">
+                  <button
+                    type="button"
+                    onClick={() => setUseHydeQuery(!useHydeQuery)}
+                    className={`flex items-center gap-1 px-3 py-1 rounded-full text-sm transition-all ${
+                      useHydeQuery
+                        ? 'bg-blue-600 text-white'
+                        : 'bg-white text-gray-600 border border-gray-300'
+                    }`}
+                  >
+                    <Search size={16} />
+                    <span>Hyde Query</span>
+                  </button>
+                </Tooltip>
+              </div>
             </div>
 
-            {/* Input Bar */}
-            <div className="flex items-center bg-white dark:bg-gray-800 rounded-xl px-3 sm:px-4 py-2 shadow-lg ring-1 ring-gray-100 dark:ring-gray-700 hover:ring-blue-200 dark:hover:ring-blue-700 transition-all">
+            {/* Input Bar - Added touch-action-manipulation for better mobile handling */}
+            <div className="flex items-center bg-white dark:bg-gray-800 rounded-xl px-3 py-2 shadow-lg ring-1 ring-gray-100 dark:ring-gray-700 touch-action-manipulation">
               <input
                 type="text"
                 placeholder="Ask me anything..."
-                className="flex-1 bg-transparent outline-none text-gray-800 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500 text-sm sm:text-lg py-1 sm:py-2"
+                className="flex-1 bg-transparent outline-none text-gray-800 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500 text-base py-1"
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 onKeyDown={(e) => {
@@ -252,9 +344,10 @@ export default function InpersonaChat() {
               />
               <button 
                 type="submit"
-                className="ml-2 p-1.5 sm:p-2 rounded-xl bg-gradient-to-br from-purple-600 to-blue-600 hover:opacity-90 transition-opacity shadow-md"
+                className="ml-2 p-1.5 rounded-xl bg-gradient-to-br from-purple-600 to-blue-600 hover:opacity-90 transition-opacity shadow-md"
+                disabled={!wsRef.current || wsRef.current.readyState !== WebSocket.OPEN || isLoading || !message.trim()}
               >
-                <Send size={20} className="sm:w-6 sm:h-6 text-white" />
+                <Send size={20} className="text-white" />
               </button>
             </div>
           </div>
@@ -305,6 +398,25 @@ export default function InpersonaChat() {
 
         .animate-float {
           animation: float 3s ease-in-out infinite;
+        }
+      `}</style>
+
+      {/* Global CSS for mobile input zoom prevention */}
+      <style jsx global>{`
+        @supports (-webkit-touch-callout: none) {
+          .h-screen {
+            height: -webkit-fill-available;
+          }
+        }
+        
+        body {
+          overscroll-behavior: none;
+        }
+        
+        @media screen and (max-width: 640px) {
+          input, textarea, select {
+            font-size: 16px;
+          }
         }
       `}</style>
     </div>

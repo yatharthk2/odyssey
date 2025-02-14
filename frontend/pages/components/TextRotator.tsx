@@ -24,22 +24,23 @@ export default function TextRotator() {
   }, []);
 
   return (
-    <div className="h-16 relative overflow-hidden w-full max-w-2xl mx-auto"> {/* Added width constraints and center container */}
+    <div className="h-24 relative overflow-hidden w-full max-w-2xl mx-auto"> {/* Increased height from h-16 to h-24 */}
       {suggestions.map((text, i) => (
         <div
           key={i}
-          className="absolute w-full transition-all duration-500 ease-in-out text-gray-400 text-lg min-h-[4rem] flex items-center justify-center px-8 text-center mx-auto" /* Added mx-auto */
+          className="absolute w-full transition-all duration-500 ease-in-out text-gray-400 text-lg min-h-[6rem] flex items-center justify-center px-8 text-center mx-auto" /* Increased min-height to 6rem */
           style={{
             transform: `translateX(-50%) translateY(${(i - index) * 100}%)`,
             opacity: i === index ? 1 : 0,
             width: '100%',
-            maxWidth: '800px', /* Increased max-width */
+            maxWidth: '800px',
             left: '50%',
-            textAlign: 'center', /* Explicit text alignment */
-            margin: '0 auto' /* Center the text container */
+            textAlign: 'center',
+            margin: '0 auto',
+            lineHeight: '1.5' /* Added line height for better text spacing */
           }}
         >
-          <span className="inline-block text-center w-full">"{text}"</span>
+          <span className="inline-block text-center w-full leading-relaxed">"{text}"</span>
         </div>
       ))}
     </div>
