@@ -5,7 +5,7 @@ import logging
 import os
 from dotenv import load_dotenv
 from chat.ChatManager import ChatManager
-from chat.settings import PropertyGraphSettings
+from settings import PropertyGraphSettings
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)

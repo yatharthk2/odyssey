@@ -7,7 +7,7 @@ from concurrent.futures import ThreadPoolExecutor
 from typing import Iterator
 from contextlib import contextmanager
 
-from .settings import PropertyGraphSettings
+# from .settings import PropertyGraphSettings
 from .ModelsManager import ModelManager
 from .ChromaClient import ChromaStoreManager
 from .VectorStore_manager import VectorStoreManager
@@ -21,7 +21,7 @@ class ChatManager:
     """Coordinates the document analysis and query system components."""
 
 
-    def __init__(self, settings: PropertyGraphSettings):
+    def __init__(self, settings):
         self.settings = settings
         self.model_manager = ModelManager(settings)
         self.Chroma_Store_Manager = ChromaStoreManager(settings)
