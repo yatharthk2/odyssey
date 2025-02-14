@@ -26,7 +26,7 @@ const Experience = () => {
       companyUrl: "https://ideas.com/",
       period: "07/2022 – 01/2023",
       location: "Pune, India",
-      image: "/companyLogo/ideas.jpg"
+      image: "companyLogo/Ideas_final.png"
     },
     {
       title: "Machine Learning Intern",
