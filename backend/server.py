@@ -32,7 +32,7 @@ if not groq_api_key:
     raise ValueError("GROQ_API_KEY not found in environment variables")
 
 settings = PropertyGraphSettings(
-    pdf_directory="./test_docs",  # Adjust path as needed
+    pdf_directory="./documents",  # Adjust path as needed
     groq_api_key=groq_api_key
 )
 
