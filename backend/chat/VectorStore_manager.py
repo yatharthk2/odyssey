@@ -94,41 +94,20 @@ class VectorStoreManager:
 
 
     def load_existing_vector_store(self) -> bool:
-        """
-        Load an existing vector store from storage.
-        
-        The vector store is stored as a binary pickle file and must be read
-        in binary mode with proper pickle deserialization.
-        """
+        """Load an existing vector store from storage."""
         try:
+            # Step 1: Check if vector file already exists
             vector_file = os.path.join(self.settings.storage_dir, "vector_store.pkl")
-            if not os.path.exists(vector_file):
-                logger.error(f"Vector store file not found: {vector_file}")
-                return False
-                
-            try:
+            if os.path.exists(vector_file):
                 with open(vector_file, "rb") as f:
                     self.index_vector = pickle.load(f)
-                    logger.info(f"Successfully loaded vector store from {vector_file}")
+                    logger.info(f"Loaded index from {vector_file}")
                     return True
-            except pickle.UnpicklingError as e:
-                logger.error(f"Corrupted vector store file: {str(e)}")
-                return False
                 
         except Exception as e:
             logger.error(f"Error loading vector store: {str(e)}", exc_info=True)
             return False
 
-    def can_load_existing_vector_store(self) -> bool:
-        """Check if a valid vector store exists in storage."""
-        try:
-            vector_file = os.path.join(self.settings.storage_dir, "vector_store.pkl")
-            return os.path.exists(vector_file) and os.path.getsize(vector_file) > 0
-            
-        except Exception as e:
-            logger.error(f"Error checking for existing vector store: {str(e)}", exc_info=True)
-            return False
-    
     def can_load_existing_graph(self) -> bool:
         """Check if a valid property graph exists in storage."""
         try:
@@ -142,6 +121,21 @@ class VectorStoreManager:
             return all(file in existing_files for file in required_files)
         except Exception as e:
             logger.error(f"Error checking for existing graph: {str(e)}", exc_info=True)
+            return False
+    
+    def can_load_existing_vector_store(self) -> bool:
+        """Check if a valid vector store exists in storage."""
+        try:
+            vector_file = os.path.join(self.settings.storage_dir, "vector_store.pkl")
+            
+            # Step 1: Check if vector file already exists
+            if os.path.exists(vector_file):
+                with open(vector_file, "rb") as f:
+                    return True
+            return False
+            
+        except Exception as e:
+            logger.error(f"Error checking for existing vector store: {str(e)}", exc_info=True)
             return False
     
     def _load_or_create_vector_store(self) -> bool:
