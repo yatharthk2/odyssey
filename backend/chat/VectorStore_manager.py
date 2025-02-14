@@ -56,16 +56,37 @@ class VectorStoreManager:
             logger.error(f"Error creating knowledge graph: {str(e)}", exc_info=True)
             return False
 
+    def _cleanup_corrupt_files(self) -> None:
+        """Remove corrupt storage files to allow fresh initialization."""
+        try:
+            files_to_remove = ['graph_store.json', 'docstore.json']
+            for file in files_to_remove:
+                file_path = Path(self.settings.storage_dir) / file
+                if file_path.exists():
+                    file_path.unlink()
+                    logger.warning(f"Removed corrupt file: {file_path}")
+        except Exception as e:
+            logger.error(f"Error cleaning up corrupt files: {str(e)}", exc_info=True)
+
     def load_existing_graph(self) -> bool:
         try:
-            self.index_KG = PropertyGraphIndex.from_existing(
-                SimplePropertyGraphStore.from_persist_dir(self.settings.storage_dir),
-                vector_store=self.vector_store_manager.get_vector_store(),
-                llm=self.model_manager.llm
-            )
-            return True
+            try:
+                self.index_KG = PropertyGraphIndex.from_existing(
+                    SimplePropertyGraphStore.from_persist_dir(self.settings.storage_dir),
+                    vector_store=self.vector_store_manager.get_vector_store(),
+                    llm=self.model_manager.llm
+                )
+                return True
+            except UnicodeDecodeError as ude:
+                logger.error(f"Encoding error while loading graph: {str(ude)}")
+                self._cleanup_corrupt_files()
+                return False
+            except Exception as e:
+                logger.error(f"Error loading existing graph: {str(e)}", exc_info=True)
+                return False
+                
         except Exception as e:
-            logger.error(f"Error loading existing graph: {str(e)}", exc_info=True)
+            logger.error(f"Critical error in load_existing_graph: {str(e)}", exc_info=True)
             return False
     
     def create_vector_store(self) -> bool:
@@ -153,7 +174,12 @@ class VectorStoreManager:
         """Helper method to handle graph loading/creation"""
         if self.can_load_existing_graph():
             logger.info("Found existing property graph. Loading from storage...")
-            return self.load_existing_graph()
+            if not self.load_existing_graph():
+                logger.info("Failed to load existing graph. Creating new one...")
+                if not self.load_documents():
+                    return False
+                return self.create_knowledge_graph()
+            return True
         else:
             logger.info("No existing property graph found. Creating new one...")
             if not self.load_documents():
