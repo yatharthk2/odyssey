@@ -19,7 +19,7 @@ class PropertyGraphSettings:
     # groq_model: str = "llama-3.3-70b-versatile"
     groq_model: str = "llama-3.1-8b-instant"
 
-    embedding_model: str = "thenlper/gte-large"
+    embedding_model: str = "BAAI/bge-base-en-v1.5"
     max_tokens: int = 4096
     similarity_top_k: int = 4
     thread_pool_size: int = os.cpu_count()
