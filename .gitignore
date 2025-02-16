@@ -3,6 +3,5 @@ backend/lib/*
 backend/chroma_db/*
 backend/__pycache__/*
 backend/chat/__pycache__/*
-backend/documents/*
 backend/storage/*
 backend/kg.html
