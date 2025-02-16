@@ -14,8 +14,12 @@ class PropertyGraphSettings:
 
     chroma_db_path: str = "./chroma_db"
     graph_file: str = "./kg.html"
-    chunk_size: int = 512
-    groq_model: str = "llama3-8b-8192"
+    chunk_size: int = 256
+    chunk_overlap: int = 50
+    # groq_model: str = "llama-3.3-70b-versatile"
+    groq_model: str = "llama-3.1-8b-instant"
 
-    embedding_model: str = "sentence-transformers/all-MiniLM-L6-v2"
+    embedding_model: str = "thenlper/gte-large"
+    max_tokens: int = 4096
+    similarity_top_k: int = 4
     thread_pool_size: int = os.cpu_count()

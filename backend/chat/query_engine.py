@@ -101,11 +101,18 @@ class QueryEngine:
         if not self.query_engine_KG or not self.query_engine_vector:
             raise RuntimeError("Query engines not initialized. Call initialize() first.")
 
+        # Log transformation type if HyDE is used
+        if transformation == "HyDE":
+            logger.info(f"{colorama.Fore.YELLOW}Using HyDE transformation{colorama.Fore.RESET}")
+        
+        else :
+            logger.info(f"{colorama.Fore.YELLOW}Using original query{colorama.Fore.RESET}")
+        
         if vector_store == 'KG':
-            query_engine = self.hyde_engine_KG if transformation == "HyDe" else self.query_engine_KG
+            query_engine = self.hyde_engine_KG if transformation == "HyDE" else self.query_engine_KG
             logger.info(f"{colorama.Fore.GREEN}Using KG query engine{colorama.Fore.RESET}")
         else:  # vector_store == 'SV'
-            query_engine = self.hyde_engine_vector if transformation == "HyDe" else self.query_engine_vector
+            query_engine = self.hyde_engine_vector if transformation == "HyDE" else self.query_engine_vector
             logger.info(f"{colorama.Fore.GREEN}Using Vector Store query engine{colorama.Fore.RESET}")
         
         # Get the response and check if it's empty
@@ -137,4 +144,4 @@ class QueryEngine:
         
         async for chunk in response.response_gen:
             if chunk and chunk.strip():
-                yield chunk 
+                yield chunk

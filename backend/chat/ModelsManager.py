@@ -21,11 +21,15 @@ class ModelManager:
                 api_key=self.settings.groq_api_key
             )
             Settings.llm = self.llm
+            Settings.chunk_overlap = self.settings.chunk_overlap
+            Settings.max_tokens = self.settings.max_tokens
+
 
             self.embed_model = HuggingFaceEmbedding(
                 model_name=self.settings.embedding_model
             )
             Settings.embed_model = self.embed_model
+            Settings.similarity_top_k = self.settings.similarity_top_k
             Settings.chunk_size = self.settings.chunk_size
 
             return True
