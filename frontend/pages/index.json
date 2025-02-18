@@ -45,7 +45,7 @@
       {
         "title": "Inpersona",
         "description": "AI-powered avatar, to inpersonate as if you are talking to me in person.",
-        "url": "/inpersona",
+        "url": "/loading",
         "github": "https://github.com/yatharthk2/odyssey",
         "image": "/inpersona_img.png"
       },
@@ -61,7 +61,7 @@
   },
   "contact": {
     "title": "Contact",
-    "description": "This is where you can describe about your contact. The more you describe about your contact, the more chances you have!",
+    "description": "Feel free to reach out to me for collaborations, job opportunities, or any queries you might have!",
     "formId": "xkgovpaz"
   },
   "footer": {
