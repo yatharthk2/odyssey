@@ -43,14 +43,14 @@ Yatharth implemented text-to-speech capabilities using Parler TTS at Outspeed.
 Yatharth deployed solutions on AWS EC2 instance with A10g GPU at Outspeed.
 Yatharth engineered parallel communication architecture between STT, TTS, and LLM components at Outspeed.
 Yatharth achieved sub-800ms latency for combined operations on single GPU at Outspeed.
-Yatharth's Research Assistant position at DSAIL Labs spanned March 2024 to December 2024 in Bloomington.
-Yatharth conducted security assessments of AI models using OWASP Top 10 criteria at DSAIL Labs.
-Yatharth utilized CounterFIT tool for AI security testing at DSAIL Labs.
-Yatharth implemented ProtectAI for vulnerability detection at DSAIL Labs.
-Yatharth employed Garak for identifying AI model weaknesses at DSAIL Labs.
-Yatharth specialized in detecting prompt injection vulnerabilities at DSAIL Labs.
-Yatharth identified information disclosure risks in AI systems at DSAIL Labs.
-Yatharth analyzed AI hallucination patterns and mitigation strategies at DSAIL Labs.
+Yatharth's Research Assistant position at DSAIL Labs at Kelley School of Bussiness spanned March 2024 to December 2024 in Bloomington.
+Yatharth conducted security assessments of AI models using OWASP Top 10 criteria at DSAIL Labs at Kelley School of Bussiness.
+Yatharth utilized CounterFIT tool for AI security testing at DSAIL Labs at Kelley School of Bussiness.
+Yatharth implemented ProtectAI for vulnerability detection at DSAIL Labs at Kelley School of Bussiness.
+Yatharth employed Garak for identifying AI model weaknesses at DSAIL Labs at Kelley School of Bussiness.
+Yatharth specialized in detecting prompt injection vulnerabilities at DSAIL Labs at Kelley School of Bussiness.
+Yatharth identified information disclosure risks in AI systems at DSAIL Labs at Kelley School of Bussiness.
+Yatharth analyzed AI hallucination patterns and mitigation strategies at DSAIL Labs at Kelley School of Bussiness.
 Yatharth's role as Associate Software Developer Intern at IDeaS spanned July 2022 to January 2023 in Pune.
 Yatharth engineered visualization platform using Python and React at IDeaS.
 Yatharth implemented Seaborn for complex data visualizations at IDeaS.
@@ -100,7 +100,6 @@ Yatharth developed interest in LLMs while building backend pipeline for Ringisho
 Yatharth's career aspirations include:
 Yatharth sees himself as Senior Applied Machine Learning Engineer / senior Backend Software Developer Engineer at big tech company by 2029.
 Yatharth aims to specialize in ML, GenAI, Efficient Systems programming and designing and Cloud deployments  over the next 3 years.
-Yatharth plans to contribute to open-source AI projects focusing on speech-to-speech architecture, which uses modules like Text-to-speech , LLM , speech-to-text.
 
 
 Yatharth's specific role in the Smart India Hackathon team included writing efficient Machine learning api , system design and cost effective cloud deployments.  .
@@ -117,7 +116,7 @@ Yatharth's proficiency in AWS services focuses on AWS Cost Optimization, AWS EKS
 Yatharth's database optimization skills were honed during the development of a Python and Salesforce-based data validation system at IDeaS, where he implemented critical tests ensuring 100% data quality for training purposes.
 Yatharth's full-stack development capabilities were demonstrated at Azodha through the development of the Open-Notif project, where he built a CLI for user-company connectivity using AWS Lambda, AWS Pub/Sub, AWS Chalice, MongoDB, and Twilio.
 Research Interests:
-Yatharth's research at DSAIL Labs focuses specifically on security assessments of AI models, detecting and addressing vulnerabilities such as prompt injection, information disclosure, and hallucinations using tools like CounterFIT, ProtectAI, and Garak.
+Yatharth's research at DSAIL Labs at Kelley School of Bussiness focuses specifically on security assessments of AI models, detecting and addressing vulnerabilities such as prompt injection, information disclosure, and hallucinations using tools like CounterFIT, ProtectAI, and Garak.
 
 Industry Impact:
 Yatharth's work at IDeaS impacted 50+ hotel chains globally by developing a workflow platform that automated 10 complex visualizations, reducing computation times by 20% and saving 100+ engineering hours monthly.
