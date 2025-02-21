@@ -28,20 +28,20 @@
 <br />
 <p align="center">
   <a href="https://github.com/yatharthk2/odyssey">
-    <img src="https://github.com/yatharthk2/odyssey/ivg/inpersona_img.png" alt="Logo" width="1080" height="500">
+    <img src="https://github.com/yatharthk2/odyssey/blob/main/ivg/inpersona_img.png" alt="Logo" width="1080" height="500">
   </a>
 
   <p align="center">
-    <h3 align="center">An image reconstruction project using concepts of partial convolution</h3>
+    <h3 align="center">A Websites that explains your Professional Journey Intelligently</h3>
     <br />
-    <a href="https://github.com/yatharthk2/Inpainting"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/yatharthk2/odyssey"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/yatharthk2/Inpainting/blob/master/result.jpg">View Demo</a>
+    <a href="https://github.com/yatharthk2/odyssey/blob/master/result.jpg">View Demo</a>
     ·
-    <a href="https://github.com/yatharthk2/Inpainting/issues">Report Bug</a>
+    <a href="https://github.com/yatharthk2/odyssey/issues">Report Bug</a>
     ·
-    <a href="https://github.com/yatharthk2/Inpainting/issues">Request Feature</a>
+    <a href="https://github.com/yatharthk2/odyssey/issues">Request Feature</a>
   </p>
 </p>
 
@@ -58,20 +58,20 @@ This is a very unique project in itself as  very recently the concept of partial
 Image taken from 
 <a href="https://openaccess.thecvf.com/content_ICCV_2017/papers/Harley_Segmentation-Aware_Convolutional_Networks_ICCV_2017_paper.pdf"><strong>Research Paper »</strong></a>
 
-<img src="https://github.com/yatharthk2/Inpainting/blob/master/ivg/architecture.jpg" alt="Logo" width="1080" height="300">
+<img src="https://github.com/yatharthk2/odyssey/blob/master/ivg/architecture.jpg" alt="Logo" width="1080" height="300">
 
 So to overcome the above 1st issue, a segmentation aware approach was used wherein the distorted image as well as the binary mask is inputted to the model as a result of which the model becomes aware of segmentations and different edges of the many objects in the image. Since the model is now aware of the segments it can more accurately segregate between the two objects.
 To overcome the 2nd issue, various methods have been documented by the authors of the Pconv research paper, but the Random Walk algorithm was chosen to generate a random mask for the model to train upon so that it does not overfit a particular hole point.
 
 ### gif for iterations over many epochs
-![](https://github.com/yatharthk2/Inpainting/blob/master/ivg/train%20video.gif)
+![](https://github.com/yatharthk2/odyssey/blob/master/ivg/train%20video.gif)
 
-Coming on to the aim of FaceInpainting, We saw that if we train the model on large datasets of images containing a single person then maybe we can teach the model to specifically reconstruct the distorted photo of a person. So to test the extent or limit to which we can reconstruct the broken image we trained the model with 50,000 images as training data, 5000 images as test data, and 5000 images as validation data for 1 million iterations.
+Coming on to the aim of Faceodyssey, We saw that if we train the model on large datasets of images containing a single person then maybe we can teach the model to specifically reconstruct the distorted photo of a person. So to test the extent or limit to which we can reconstruct the broken image we trained the model with 50,000 images as training data, 5000 images as test data, and 5000 images as validation data for 1 million iterations.
 To download the datasets and weights
 <a href="https://drive.google.com/drive/folders/1E482OOOe_xYWVE9nKCnF_hrh0aLHgZIN?usp=sharing">click here</a>
 ### final results shows reconstruction of 8 images , were  row 1 shows the distorted image ,row 2 shows the mask thats been applied for distortions , row 4 shows the final model reconstruction , row 5 shows the ground truth image. 
 
-<img src="https://github.com/yatharthk2/Inpainting/blob/master/ivg/8_segment_image.jpg" alt="Logo" width="900" height="500">
+<img src="https://github.com/yatharthk2/odyssey/blob/master/ivg/8_segment_image.jpg" alt="Logo" width="900" height="500">
 
 ### On our path to train model , we were able to implement one more splendid feature . Turns out that given enough data and iteration cycles the model has also aquired understanding to reconstruct some important features of human face such as eyes , ears and  lips.
 
@@ -139,8 +139,8 @@ Output will be saved in the root directory in ```result.jpg``` format.
 1. <a href="https://arxiv.org/pdf/1804.07723.pdf"><strong>Partial convolution research paper »</strong></a> 
 2. <a href="https://openaccess.thecvf.com/content_ICCV_2017/papers/Harley_Segmentation-Aware_Convolutional_Networks_ICCV_2017_paper.pdf"><strong>Segmentation aware convolution research paper »</strong></a>
 3. <a href="https://github.com/NVIDIA/partialconv"><strong>reference code Implementation »</strong></a> 
-4. <a href="https://github.com/naoto0804/pytorch-inpainting-with-partial-conv"><strong>Base code Implementation »</strong></a> 
-5. <a href="https://github.com/spmallick/learnopencv/blob/master/Image-Inpainting/inpaint.py"><strong>Manual mask generator code reference »</strong></a> 
+4. <a href="https://github.com/naoto0804/pytorch-odyssey-with-partial-conv"><strong>Base code Implementation »</strong></a> 
+5. <a href="https://github.com/spmallick/learnopencv/blob/master/Image-odyssey/inpaint.py"><strong>Manual mask generator code reference »</strong></a> 
 
 <!-- LICENSE -->
 ## License
@@ -159,16 +159,16 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/yatharthk2/Inpainting?color=red&label=contributors&logo=github&logoColor=green&style=for-the-badge
-[contributors-url]: https://github.com/yatharthk2/Inpainting/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/yatharthk2/Inpainting?color=red&logo=github&logoColor=green&style=for-the-badge
-[forks-url]: https://github.com/yatharthk2/Inpainting/network/members
+[contributors-shield]: https://img.shields.io/github/contributors/yatharthk2/odyssey?color=red&label=contributors&logo=github&logoColor=green&style=for-the-badge
+[contributors-url]: https://github.com/yatharthk2/odyssey/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/yatharthk2/odyssey?color=red&logo=github&logoColor=green&style=for-the-badge
+[forks-url]: https://github.com/yatharthk2/odyssey/network/members
 <!--[stars-shield]: https://img.shields.io/github/stars/othneildrew/Best-README-Template.svg?style=for-the-badge-->
 <!--[stars-url]: https://github.com/othneildrew/Best-README-Template/stargazers-->
-[issues-shield]: https://img.shields.io/bitbucket/issues-raw/yatharthk2/Inpainting?color=red&logo=github&logoColor=green&style=for-the-badge
-[issues-url]:https://github.com/yatharthk2/Inpainting/issues
+[issues-shield]: https://img.shields.io/bitbucket/issues-raw/yatharthk2/odyssey?color=red&logo=github&logoColor=green&style=for-the-badge
+[issues-url]:https://github.com/yatharthk2/odyssey/issues
 [license-shield]: https://img.shields.io/github/license/othneildrew/Best-README-Template.svg?style=for-the-badge
-[license-url]: https://github.com/yatharthk2/Inpainting/blob/master/LICENSE
+[license-url]: https://github.com/yatharthk2/odyssey/blob/master/LICENSE
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/othneildrew
-[product-screenshot]: C:\Users\yatha\OneDrive\Desktop\projects\Inpainting_project\Inpainting\train_video.gif
+[product-screenshot]: C:\Users\yatha\OneDrive\Desktop\projects\odyssey_project\odyssey\train_video.gif
