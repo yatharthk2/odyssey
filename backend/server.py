@@ -114,6 +114,6 @@ if __name__ == "__main__":
         app, 
         host="0.0.0.0", 
         port=8000,
-        ssl_keyfile='path_to_keyfile.key',
-        ssl_certfile='path_to_certfile.crt',
+        ssl_keyfile='/etc/ssl/yatharthk.com.key',
+        ssl_certfile='/etc/ssl/yatharthk.com.crt'
     )
