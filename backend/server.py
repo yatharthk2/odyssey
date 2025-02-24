@@ -95,4 +95,25 @@ def shutdown_event():
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    import ssl
+
+    # SSL configuration
+    ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
+    try:
+        ssl_context.load_cert_chain(
+            '/etc/ssl/yatharthk.com.crt',
+            '/etc/ssl/yatharthk.com.key',
+            '/etc/ssl/ca_bundle.crt'
+        )
+    except Exception as e:
+        logger.error(f"Failed to load SSL certificates: {e}")
+        raise
+
+    # Run with SSL
+    uvicorn.run(
+        app, 
+        host="0.0.0.0", 
+        port=8000,
+        ssl_keyfile='/etc/ssl/yatharthk.com.key',
+        ssl_certfile='/etc/ssl/yatharthk.com.crt'
+    )

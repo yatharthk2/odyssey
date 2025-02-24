@@ -43,7 +43,7 @@ export default function InpersonaChat() {
       setIsConnecting(true);
       // Changed URL to use dynamic host instead of hardcoded localhost
       const host = window.location.hostname;
-      const ws = new WebSocket(`ws://${host}:8000/chat`);
+      const ws = new WebSocket(`wss://${host}:8000/chat`);
       wsRef.current = ws;
 
       ws.onopen = () => {
