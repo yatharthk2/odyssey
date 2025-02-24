@@ -37,7 +37,7 @@
     <a href="https://github.com/yatharthk2/odyssey"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/yatharthk2/odyssey/blob/master/result.jpg">View Demo</a>
+    <a href="https://yatharthk.com/">View Demo</a>
     ·
     <a href="https://github.com/yatharthk2/odyssey/issues">Report Bug</a>
     ·
@@ -47,100 +47,45 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
+Odyssey is not just a portfolio—it's your personal gateway to opportunity. Designed to showcase your projects, skills, and professional journey with precision and style, Odyssey redefines what it means to leave a lasting impression.
 
+But what truly sets Odyssey apart? Introducing Inpersona AI—a revolutionary feature that brings your portfolio to life. This intelligent chatbot doesn’t just answer questions; it speaks as you. Whether it’s a recruiter looking to learn about your latest project or a potential client curious about your skills, Inpersona AI engages them as if they were talking to the real you.
 
+🌟 Why Odyssey Stands Out:
 
-This is a very unique project in itself as  very recently the concept of partial convolutions was introduced to the world [december 2018], before partial convolution we used to use algorithms such as PatchMatch, Iizuka et al, Yu et al and even the KNN for image reconstruction but there were two huge setbacks to these algorithms, which were :
-1) Since the algorithms were ignorant of the different objects in the image, they often tended to smoothen the whole reconstruction, which was good to human eyes but lacked the actual information in terms of object segregation.
+🎯 Interactive Portfolio: Highlight your best work, technical skills, and professional milestones in a sleek, user-friendly interface.
 
-2) Another limitation of many recent approaches is the focus on rectangular-shaped holes, often assumed to be the center of the image. We find these limitations may lead to overfitting to the rectangular holes and ultimately limit the utility of these models in application
-### Architecture: The Image depicts flowchart for working of segmentation aware convolutions.
-Image taken from 
-<a href="https://openaccess.thecvf.com/content_ICCV_2017/papers/Harley_Segmentation-Aware_Convolutional_Networks_ICCV_2017_paper.pdf"><strong>Research Paper »</strong></a>
+🤖 Inpersona AI: Personalized conversations that mimic your tone, style, and expertise—so every interaction feels authentic.
 
-<img src="https://github.com/yatharthk2/odyssey/blob/master/ivg/architecture.jpg" alt="Logo" width="1080" height="300">
+📊 Smart Insights: Get real-time analytics on who’s visiting, what they’re viewing, and the questions they’re asking.
 
-So to overcome the above 1st issue, a segmentation aware approach was used wherein the distorted image as well as the binary mask is inputted to the model as a result of which the model becomes aware of segmentations and different edges of the many objects in the image. Since the model is now aware of the segments it can more accurately segregate between the two objects.
-To overcome the 2nd issue, various methods have been documented by the authors of the Pconv research paper, but the Random Walk algorithm was chosen to generate a random mask for the model to train upon so that it does not overfit a particular hole point.
+🎨 Customizable Design: Tailor the look and feel of your portfolio to reflect your unique personal brand.
 
-### gif for iterations over many epochs
-![](https://github.com/yatharthk2/odyssey/blob/master/ivg/train%20video.gif)
+With Odyssey, you're always present—even when you're not. It's more than a portfolio. It's your digital twin for the professional world.
 
-Coming on to the aim of Faceodyssey, We saw that if we train the model on large datasets of images containing a single person then maybe we can teach the model to specifically reconstruct the distorted photo of a person. So to test the extent or limit to which we can reconstruct the broken image we trained the model with 50,000 images as training data, 5000 images as test data, and 5000 images as validation data for 1 million iterations.
-To download the datasets and weights
-<a href="https://drive.google.com/drive/folders/1E482OOOe_xYWVE9nKCnF_hrh0aLHgZIN?usp=sharing">click here</a>
-### final results shows reconstruction of 8 images , were  row 1 shows the distorted image ,row 2 shows the mask thats been applied for distortions , row 4 shows the final model reconstruction , row 5 shows the ground truth image. 
+Embark on your Odyssey—where your next opportunity is just a conversation away.
 
-<img src="https://github.com/yatharthk2/odyssey/blob/master/ivg/8_segment_image.jpg" alt="Logo" width="900" height="500">
+### Frontend Built With
+1) TypeScript
+2) React
+3) NextJs
+4) Tailwind CSS
 
-### On our path to train model , we were able to implement one more splendid feature . Turns out that given enough data and iteration cycles the model has also aquired understanding to reconstruct some important features of human face such as eyes , ears and  lips.
+### Backend Built With
+1) Python
+2) LLamaIndex
+3) Huggingface
+4) ChromaDB
+5) FastAPI
+ 
+## Backend Rag Architecture Explanation
+### Knowledge Graph Search
+This search is extremely accurate and handles difficult reasoning like a piece of cake. Firstly, data is inputted to the LLM to identify entities and their relations, which is then used to create a JSON-formatted large knowledge graph. ChromaDB is used to save this graph locally. The saved graph is then used to do entity-based search which returns relations and their properties. Knowledge graph takes more time than vector search but is much more accurate.
+<img src="https://github.com/yatharthk2/odyssey/blob/main/ivg/kg_im.png" alt="diagram" width="1080" height="400">
 
-
-
-
-
-### Built With
-1) Pytorch
-2) Opencv
-3) Nvidia cuda toolkit
-
-
-
-<!-- GETTING STARTED -->
-## Getting Started
-
-Step 1. Clone the repository.
-
-Step 2. Download the dataset and pretrained weights from <a href="https://drive.google.com/drive/folders/1E482OOOe_xYWVE9nKCnF_hrh0aLHgZIN?usp=sharing">Here</a> and place it in the same directory.
-
-### Installation
-
-* Python 3.6+
-* Install Pytorch
-
-  (for cude 10.2 – GPU)
-  ```sh
-  pip install torch==1.9.0+cu102 torchvision==0.10.0+cu102 torchaudio===0.9.0 -f https://download.pytorch.org/whl/torch_stable.html
-  ```
-  (for CPU)
-  ```sh
-  pip install torch torchvision torchaudio
-  ```
-  
-* Install python libraries
-  ```sh
-  pip install -r requirements.txt
-  ```
-
-### Training
-
-* Start from scratch
-  ```sh
-  python train.py
-  ```
-* Resume training
-  ```sh
-  python train.py --resume <weights_path>
-  ```
-### Testing
-
-* Run the command line
-  ```sh
-  python run.py --photo <test_image_path>
-  ```
-* Draw Mask
-* Press "s"
-
-Output will be saved in the root directory in ```result.jpg``` format. 
-
-
-<!-- CONTRIBUTING -->
-## References
-1. <a href="https://arxiv.org/pdf/1804.07723.pdf"><strong>Partial convolution research paper »</strong></a> 
-2. <a href="https://openaccess.thecvf.com/content_ICCV_2017/papers/Harley_Segmentation-Aware_Convolutional_Networks_ICCV_2017_paper.pdf"><strong>Segmentation aware convolution research paper »</strong></a>
-3. <a href="https://github.com/NVIDIA/partialconv"><strong>reference code Implementation »</strong></a> 
-4. <a href="https://github.com/naoto0804/pytorch-odyssey-with-partial-conv"><strong>Base code Implementation »</strong></a> 
-5. <a href="https://github.com/spmallick/learnopencv/blob/master/Image-odyssey/inpaint.py"><strong>Manual mask generator code reference »</strong></a> 
+### HyDe Query Transformation
+HyDe stands for Hypothetical Document Embeddings and is based on the study “Precise Zero-Shot Dense Retrieval without Relevance Labels.” The idea is very simple — instead of using the user’s question for searching in the vector database, we use the LLM to generate a response (a virtual hypothetical document) and then use the response for searching in the vector database (to find similar answers). The good thing is that it provides very fluid and natural responses and retains high confidence while generating output. On the contrary, HyDe is really prone to excessive information sharing and hallucinating to some extent.
+<img src="https://github.com/yatharthk2/odyssey/blob/main/ivg/kg_im.png" alt="diagram" width="1080" height="400">
 
 <!-- LICENSE -->
 ## License
@@ -151,8 +96,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 <!-- CONTACT -->
 ## Contact
-* Contact Yatharth Kapadia @yatharthk2.nn@gmail.com
-* Contact Poojan Panchal @ pdavpoojan@gmail.com 
+* Contact Yatharth Kapadia @ yatharth.k3@outlook.com
 
 
 
