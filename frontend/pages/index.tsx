@@ -3,9 +3,10 @@ import Layout from '../components/Layout';
 import Hero from './components/Hero';
 import Projects from './components/Projects';
 import ContactModal from './components/ContactModal';
+import Skills from './components/Skills';  // Add this import
 import { motion } from 'framer-motion';
 import config from './index.json';
-import Experience from './components/Experience';  // Add this import
+import Experience from './components/Experience';
 
 export default function Home() {
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
@@ -50,8 +51,11 @@ export default function Home() {
           </div>
         </motion.section>
 
+        {/* Skills Section */}
+        <Skills />
+
         {/* Experience Section */}
-        <Experience />  {/* Add this line */}
+        <Experience />
 
         {/* Projects Section */}
         <Projects />

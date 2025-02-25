@@ -27,10 +27,10 @@
     "subtitle": "Innovating AI for smarter solutions and scalable systems."
   },
   "about": {
-    "title": "About me",
-    "image": "/Newyork_Dumbo_300x300.jpg",
-    "primary": "Software Engineer with expertise in LLM fine-tuning, cloud computing, web development and Multithreaded Backend Services. Passionate about building efficient, scalable AI solutions.",
-    "secondary": "I love playing guitar and trekking in the high Himalayas!😊"
+    "title": "About Me",
+    "primary": "I'm a passionate software engineer and machine learning enthusiast, focused on building intelligent systems that solve real-world problems.",
+    "secondary": "With a background in computer science and years of industry experience, I blend technical expertise with creative problem-solving to deliver innovative solutions.",
+    "image": "/Newyork_Dumbo_300x300.jpg"
   },
   "projects": {
     "title": "Projects",
@@ -60,9 +60,72 @@
     ]
   },
   "contact": {
-    "title": "Contact",
-    "description": "Feel free to reach out to me for collaborations, job opportunities, or any queries you might have!",
+    "title": "Get In Touch",
+    "description": "Have a project in mind or want to discuss potential opportunities? I'd love to hear from you!",
     "formId": "xkgovpaz"
+  },
+  "skills": {
+    "title": "Skills & Expertise",
+    "description": "A comprehensive toolkit of programming languages and technologies",
+    "categories": {
+      "languages": {
+        "title": "Languages",
+        "icon": "💻",
+        "items": [
+          { "name": "Python" },
+          { "name": "GOLang" },
+          { "name": "HTML" },
+          { "name": "CSS" },
+          { "name": "JavaScript" },
+          { "name": "Java" },
+          { "name": "SLURM Scripting" },
+          { "name": "SQL" }
+        ]
+      },
+      "technologies": {
+        "title": "Technologies",
+        "icon": "🔧",
+        "items": [
+          { "name": "GIT" },
+          { "name": "PyTorch" },
+          { "name": "Tensorflow" },
+          { "name": "Django" },
+          { "name": "NodeJS" },
+          { "name": "ReactJS" },
+          { "name": "TailWind CSS" },
+          { "name": "Fastapi" },
+          { "name": "Docker" },
+          { "name": "AWS" },
+          { "name": "GraphQL" },
+          { "name": "Databricks" },
+          { "name": "Spark" },
+          { "name": "Airflow" },
+          { "name": "GitHub Actions" }
+        ]
+      },
+      "databases": {
+        "title": "Databases",
+        "icon": "🗄️",
+        "items": [
+          { "name": "MySQL" },
+          { "name": "MongoDB" },
+          { "name": "Neo4j" },
+          { "name": "CassandraDB" },
+          { "name": "DynamoDB" }
+        ]
+      },
+      "coreCompetencies": {
+        "title": "Core Competencies",
+        "icon": "🚀",
+        "items": [
+          { "name": "ML Model Finetuning" },
+          { "name": "AI Integration in Web Apps" },
+          { "name": "Building AI-Powered Platforms" },
+          { "name": "AWS Cost Optimization" },
+          { "name": "CI/CD" }
+        ]
+      }
+    }
   },
   "footer": {
     "linkedin": "https://www.linkedin.com/in/yatharthkapadia/",
