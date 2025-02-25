@@ -65,72 +65,55 @@ const defaultCategoryIcons = {
 // Use skills data from config file
 const skillsData = config.skills.categories;
 
-// Enhanced animation variants
+// Mobile-optimized animation variants
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: { 
     opacity: 1,
     transition: { 
-      staggerChildren: 0.08,
-      delayChildren: 0.2
+      staggerChildren: 0.04,
+      delayChildren: 0.1
     }
   }
 };
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
+  hidden: { opacity: 0, y: 10 },
   visible: { 
     opacity: 1, 
     y: 0,
     transition: { 
       type: "spring",
-      stiffness: 260,
-      damping: 20,
-      mass: 0.8
+      stiffness: 200,
+      damping: 25
     }
   }
 };
 
 const headerVariants = {
-  hidden: { opacity: 0, scale: 0.9 },
+  hidden: { opacity: 0, scale: 0.95 },
   visible: { 
     opacity: 1, 
     scale: 1,
     transition: {
       type: "spring",
-      stiffness: 200,
-      damping: 15
+      stiffness: 150,
+      damping: 20
     }
   }
 };
 
-// Decorative background pattern component
+// Simplified background pattern for mobile
 const BackgroundPattern = ({ color }) => {
   return (
     <div className="absolute inset-0 overflow-hidden opacity-10 pointer-events-none">
-      <div className={`w-full h-full ${color} blur-3xl`}>
-        {Array.from({ length: 6 }).map((_, i) => (
-          <div 
-            key={i}
-            className="absolute rounded-full mix-blend-multiply"
-            style={{
-              width: `${Math.random() * 30 + 15}%`,
-              height: `${Math.random() * 30 + 15}%`,
-              left: `${Math.random() * 70}%`,
-              top: `${Math.random() * 70}%`,
-              opacity: Math.random() * 0.5 + 0.2,
-              filter: `blur(${Math.random() * 40 + 30}px)`,
-              transform: `rotate(${Math.random() * 360}deg)`
-            }}
-          />
-        ))}
-      </div>
+      <div className={`w-full h-full ${color} blur-2xl`}></div>
     </div>
   );
 };
 
 // Simplified SkillTag component without progress bar
-const SkillTag = ({ skill, categoryStyle, category }) => {
+const SkillTag = ({ skill, categoryStyle, category, isMobile }) => {
   const { name } = skill;
   const [isHovered, setIsHovered] = useState(false);
   const controls = useAnimation();
@@ -138,29 +121,23 @@ const SkillTag = ({ skill, categoryStyle, category }) => {
   // Get the appropriate icon or use category default
   const IconComponent = iconMapping[name] || defaultCategoryIcons[category] || FaCode;
   
+  // Simplified hover effect that doesn't trigger expensive animations on mobile
   useEffect(() => {
-    if (isHovered) {
+    // Only run animation effects when not on mobile
+    if (!isMobile && isHovered) {
       controls.start({ 
         scale: 1.05,
         boxShadow: "0 4px 15px rgba(0,0,0,0.1)",
-        transition: { 
-          type: "spring", 
-          stiffness: 400, 
-          damping: 17 
-        }
+        transition: { type: "spring", stiffness: 400, damping: 17 }
       });
     } else {
       controls.start({ 
         scale: 1,
         boxShadow: "0 0 0 rgba(0,0,0,0)",
-        transition: { 
-          type: "spring", 
-          stiffness: 300, 
-          damping: 20 
-        }
+        transition: { type: "spring", stiffness: 300, damping: 20 }
       });
     }
-  }, [isHovered, controls]);
+  }, [isHovered, controls, isMobile]);
   
   return (
     <motion.div
@@ -169,7 +146,7 @@ const SkillTag = ({ skill, categoryStyle, category }) => {
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
       className={`relative px-3 py-2 rounded-full border ${categoryStyle.border} ${categoryStyle.bg} 
-                 transition-all duration-300 cursor-pointer transform-gpu`}
+                 transition-colors duration-200 cursor-pointer transform-gpu`}
     >
       <div className="flex items-center space-x-2">
         {/* Icon */}
@@ -183,18 +160,41 @@ const SkillTag = ({ skill, categoryStyle, category }) => {
         </span>
       </div>
       
-      {/* 3D glow effect on hover */}
-      <motion.div
-        className={`absolute inset-0 rounded-full ${categoryStyle.glow}`}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: isHovered ? 0.15 : 0 }}
-        transition={{ duration: 0.2 }}
-      ></motion.div>
+      {/* Only show glow effect on non-mobile */}
+      {!isMobile && (
+        <motion.div
+          className={`absolute inset-0 rounded-full ${categoryStyle.glow}`}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: isHovered ? 0.15 : 0 }}
+          transition={{ duration: 0.2 }}
+        ></motion.div>
+      )}
     </motion.div>
   );
 };
 
 export default function Skills() {
+  const [isMobile, setIsMobile] = useState(false);
+  const [isClient, setIsClient] = useState(false);
+
+  // Set isClient to true when component mounts (client-side only)
+  useEffect(() => {
+    setIsClient(true);
+    
+    const checkIsMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    // Set initial value
+    checkIsMobile();
+    
+    // Update on resize
+    window.addEventListener('resize', checkIsMobile);
+    
+    // Clean up
+    return () => window.removeEventListener('resize', checkIsMobile);
+  }, []);
+
   const categoryStyles = {
     languages: {
       bg: 'bg-gradient-to-r from-purple-600/10 via-purple-500/5 to-blue-600/10',
@@ -246,25 +246,27 @@ export default function Skills() {
     <motion.div 
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, margin: "-50px" }}
+      viewport={{ once: true, margin: isMobile ? "-20px" : "-50px" }}
       variants={containerVariants}
-      className="relative backdrop-blur-sm bg-white/40 dark:bg-gray-800/40 p-6 rounded-2xl shadow-lg border border-gray-200/50 dark:border-gray-700/50 group overflow-hidden"
+      className={`relative backdrop-blur-sm bg-white/40 dark:bg-gray-800/40 ${isMobile ? 'p-4' : 'p-6'} rounded-2xl shadow-lg border border-gray-200/50 dark:border-gray-700/50 group overflow-hidden`}
     >
-      {/* Background pattern */}
+      {/* Simplified background pattern */}
       <BackgroundPattern color={style.pattern} />
       
-      {/* Glowing border effect on hover */}
-      <div className="absolute inset-0 opacity-0 group-hover:opacity-50 transition-opacity duration-1000">
-        <div className={`absolute inset-0 rounded-2xl ${style.progressBar} blur-lg opacity-20`}></div>
-      </div>
+      {/* Only show glow effect on non-mobile */}
+      {!isMobile && isClient && (
+        <div className="absolute inset-0 opacity-0 group-hover:opacity-50 transition-opacity duration-1000">
+          <div className={`absolute inset-0 rounded-2xl ${style.progressBar} blur-lg opacity-20`}></div>
+        </div>
+      )}
       
       {/* Category header with icon */}
       <motion.div className="relative z-10" variants={headerVariants}>
-        <div className="flex items-center space-x-3 mb-5">
-          <div className={`flex items-center justify-center w-12 h-12 rounded-full ${style.bg} border ${style.border} shadow-inner`}>
-            <span className="text-2xl">{style.icon}</span>
+        <div className={`flex items-center space-x-3 ${isMobile ? 'mb-3' : 'mb-5'}`}>
+          <div className={`flex items-center justify-center ${isMobile ? 'w-10 h-10' : 'w-12 h-12'} rounded-full ${style.bg} border ${style.border} shadow-inner`}>
+            <span className={`${isMobile ? 'text-xl' : 'text-2xl'}`}>{style.icon}</span>
           </div>
-          <h3 className="text-xl font-bold">
+          <h3 className={`${isMobile ? 'text-lg' : 'text-xl'} font-bold`}>
             <span className="bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 bg-clip-text text-transparent">
               {style.title}
             </span>
@@ -272,14 +274,15 @@ export default function Skills() {
         </div>
       </motion.div>
       
-      {/* Skills grid with custom gap */}
-      <div className="relative z-10 flex flex-wrap gap-3">
+      {/* Skills grid with reduced gap for mobile */}
+      <div className={`relative z-10 flex flex-wrap ${isMobile ? 'gap-2' : 'gap-3'}`}>
         {category.items.map((skill) => (
           <SkillTag 
             key={skill.name} 
             skill={skill} 
             categoryStyle={style}
             category={categoryKey}
+            isMobile={isMobile}
           />
         ))}
       </div>
@@ -289,49 +292,50 @@ export default function Skills() {
   return (
     <motion.section
       id="skills"
-      initial={{ opacity: 0, y: 50 }}
+      initial={{ opacity: 0, y: isMobile ? 30 : 50 }}
       whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.7 }}
+      transition={{ duration: isMobile ? 0.5 : 0.7 }}
       viewport={{ once: true }}
-      className="relative py-16 sm:py-24 bg-gradient-to-br from-white/80 to-gray-100/80 dark:from-gray-800/80 dark:to-gray-900/80 backdrop-blur-sm rounded-3xl my-12 sm:my-24 shadow-xl border border-gray-200/50 dark:border-gray-700/50 overflow-hidden"
+      className={`relative ${isMobile ? 'py-10' : 'py-16 sm:py-24'} bg-gradient-to-br from-white/80 to-gray-100/80 dark:from-gray-800/80 dark:to-gray-900/80 backdrop-blur-sm rounded-3xl ${isMobile ? 'my-8' : 'my-12 sm:my-24'} shadow-xl border border-gray-200/50 dark:border-gray-700/50 overflow-hidden`}
     >
-      {/* Decorative elements */}
-      <div className="absolute top-0 left-0 w-40 h-40 bg-purple-500/10 rounded-full filter blur-3xl"></div>
-      <div className="absolute bottom-0 right-0 w-60 h-60 bg-blue-500/10 rounded-full filter blur-3xl"></div>
-      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-pink-500/5 rounded-full filter blur-3xl"></div>
+      {/* Simplified decorative elements for mobile */}
+      {!isMobile && (
+        <>
+          <div className="absolute top-0 left-0 w-40 h-40 bg-purple-500/10 rounded-full filter blur-3xl"></div>
+          <div className="absolute bottom-0 right-0 w-60 h-60 bg-blue-500/10 rounded-full filter blur-3xl"></div>
+        </>
+      )}
       
       <div className="relative max-w-6xl mx-auto px-4 sm:px-6 z-10">
         <motion.div 
-          initial={{ opacity: 0, y: -20 }}
+          initial={{ opacity: 0, y: isMobile ? -10 : -20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
+          transition={{ duration: 0.4, delay: 0.1 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className={`text-center ${isMobile ? 'mb-8' : 'mb-16'}`}
         >
           <motion.h2 
-            className="text-4xl sm:text-5xl font-extrabold mb-6 bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 bg-clip-text text-transparent"
-            initial={{ opacity: 0, y: -10 }}
+            className={`${isMobile ? 'text-3xl' : 'text-4xl sm:text-5xl'} font-extrabold mb-4 bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 bg-clip-text text-transparent`}
+            initial={{ opacity: 0, y: -5 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
+            transition={{ duration: 0.4, delay: 0.2 }}
             viewport={{ once: true }}
           >
             {config.skills.title}
           </motion.h2>
           
-          {/* Removed underline element */}
-          
           <motion.p 
-            className="mt-4 text-gray-600 dark:text-gray-300 max-w-2xl mx-auto"
+            className="mt-2 text-gray-600 dark:text-gray-300 max-w-2xl mx-auto"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.6 }}
+            transition={{ duration: 0.4, delay: 0.3 }}
             viewport={{ once: true }}
           >
             {config.skills.description}
           </motion.p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-10">
+        <div className={`grid grid-cols-1 ${isMobile ? 'gap-6' : 'md:grid-cols-2 gap-8 sm:gap-10'}`}>
           <SkillCategory 
             category={skillsData.languages}
             categoryKey="languages"
