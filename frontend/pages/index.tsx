@@ -8,6 +8,7 @@ import Achievements from './components/Achievements'; // Add this import
 import { motion } from 'framer-motion';
 import config from './index.json';
 import Experience from './components/Experience';
+import Testimonials from './components/Testimonials';
 
 export default function Home() {
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
@@ -63,6 +64,9 @@ export default function Home() {
 
         {/* Projects Section */}
         <Projects />
+
+        {/* Testimonials Section */}
+        <Testimonials />
 
         {/* Contact Section */}
         <motion.section 

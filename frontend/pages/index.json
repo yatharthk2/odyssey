@@ -66,7 +66,7 @@
   },
   "skills": {
     "title": "Skills & Expertise",
-    "description": "A comprehensive toolkit of programming languages and technologies",
+    "description": "",
     "categories": {
       "languages": {
         "title": "Languages",
@@ -150,6 +150,26 @@
         "description": "Ranked 87th among 10,000+ in Amazon's ML Challenge by building a product categorization model using TF-IDF.",
         "companyIcon": "amazon",
         "link": "https://www.hackerearth.com/challenges/competitive/amazon-ml-challenge/leaderboard/page/2/"
+      }
+    ]
+  },
+  "testimonials": {
+    "title": "Testimonials",
+    "subtitle": "",
+    "items": [
+      {
+        "name": "Yogesh Shinde",
+        "role": "Sr. Project Manager, Tools and Automation",
+        "company": "IDeaS Revenue Solutions",
+        "content": "I am pleased to recommend Yatharth Kapadia for his contributions during his time at IDeaS. He distinguished himself not only through his technical expertise but also through his collaborative approach to teamwork. Yatharth consistently demonstrated thoughtfulness, a willingness to assist others, and a commitment to delivering high-quality work. He is the type of individual who makes a meaningful impact, and I am confident he will bring the same dedication and professionalism to his future endeavors.",
+        "imageUrl": "Testimonial/yogi.jpeg"
+      },
+      {
+        "name": "Janak Agrawal",
+        "role": "Co-founder",
+        "company": "Outspeed",
+        "content": "I had the privilege of working with Yatharth at Outspeed, where he quickly became an invaluable member of our team. Yatharth is knowledgeable and meticulous in understanding and modeling machine learning problems. His eagerness to contribute was evident when he swiftly took on a complex project and provided a solution that significantly increased productivity within just one month of joining my team.\n\nYatharth's hands-on experience with machine learning and generative AI allows him to solve problems effectively and efficiently. He is never shy about sharing innovative ideas and consistently delivers elegant solutions. I am also impressed by his business acumen at such an early stage in his career.\n\nAny AI and machine learning team would greatly benefit from Yatharth’s proficiency, adaptability, and problem-solving mindset. I highly recommend him for any opportunity that requires technical expertise and a commitment to excellence.",
+        "imageUrl": "Testimonial/janak.jpeg"
       }
     ]
   },
