@@ -4,6 +4,7 @@ import Hero from './components/Hero';
 import Projects from './components/Projects';
 import ContactModal from './components/ContactModal';
 import Skills from './components/Skills';  // Add this import
+import Achievements from './components/Achievements'; // Add this import
 import { motion } from 'framer-motion';
 import config from './index.json';
 import Experience from './components/Experience';
@@ -56,6 +57,9 @@ export default function Home() {
 
         {/* Experience Section */}
         <Experience />
+
+        {/* Achievements Section */}
+        <Achievements />
 
         {/* Projects Section */}
         <Projects />

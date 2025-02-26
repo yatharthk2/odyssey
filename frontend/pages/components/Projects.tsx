@@ -15,9 +15,6 @@ export default function Projects() {
         <h2 className="text-4xl font-bold text-center mb-12 bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 bg-clip-text text-transparent dark:text-gray-100">
           {config.projects.title}
         </h2>
-        <p className="text-base text-gray-700 dark:text-gray-300 md:text-lg">
-          {config.projects.description}
-        </p>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {config.projects.projects.map((project, index) => (
             <motion.div
@@ -26,7 +23,7 @@ export default function Projects() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.2 }}
-              className="group relative bg-white dark:bg-gray-900 rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1"
+              className="group relative bg-white dark:bg-gray-900 rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 flex flex-col h-full"
             >
               {/* Project Image with Overlay */}
               <div className="relative h-48 overflow-hidden">
@@ -39,36 +36,39 @@ export default function Projects() {
               </div>
 
               {/* Project Content */}
-              <div className="p-6">
+              <div className="p-6 flex-grow flex flex-col">
                 <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
                   {project.title}
                 </h3>
-                <p className="text-gray-600 dark:text-gray-300 mb-4 line-clamp-3">
+                <p className="text-gray-600 dark:text-gray-300 mb-4 flex-grow">
                   {project.description}
                 </p>
 
                 {/* Project Links */}
-                <div className="flex items-center gap-4 mt-auto">
+                <div className="mt-5 pt-3 border-t border-gray-200 dark:border-gray-600 flex justify-between items-center">
+                  {project.github && (
+                    <a
+                      href={project.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors"
+                    >
+                      <Github size={16} className="mr-1" />
+                      <span>Source</span>
+                    </a>
+                  )}
+                  
                   {project.url && (
                     <a
                       href={project.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-2 text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 transition-colors"
+                      className="inline-flex items-center text-sm font-medium text-purple-600 dark:text-purple-400 hover:text-purple-800 dark:hover:text-purple-300 transition-colors ml-auto"
                     >
-                      <ExternalLink size={16} />
                       <span>Live Demo</span>
+                      <ExternalLink size={16} className="ml-1" />
                     </a>
                   )}
-                  <a
-                    href={project.github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 transition-colors"
-                  >
-                    <Github size={16} />
-                    <span>Source</span>
-                  </a>
                 </div>
               </div>
 
