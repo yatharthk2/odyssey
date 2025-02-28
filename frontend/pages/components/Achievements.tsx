@@ -3,10 +3,15 @@ import { motion } from 'framer-motion';
 import config from '../index.json';
 import { SiDell, SiNvidia, SiAmazon } from 'react-icons/si';
 
+// Cast each icon to React.ComponentType to resolve the type issues
+const SafeSiDell = SiDell as React.ComponentType<React.SVGProps<SVGSVGElement>>;
+const SafeSiNvidia = SiNvidia as React.ComponentType<React.SVGProps<SVGSVGElement>>;
+const SafeSiAmazon = SiAmazon as React.ComponentType<React.SVGProps<SVGSVGElement>>;
+
 const companyIconMap: { [key: string]: React.ReactElement } = {
-  dell: <SiDell className="text-blue-700 dark:text-blue-400 text-2xl" />,
-  nvidia: <SiNvidia className="text-green-600 dark:text-green-400 text-2xl" />,
-  amazon: <SiAmazon className="text-orange-500 dark:text-orange-400 text-2xl" />
+  dell: <SafeSiDell className="text-blue-700 dark:text-blue-400 text-2xl" />,
+  nvidia: <SafeSiNvidia className="text-green-600 dark:text-green-400 text-2xl" />,
+  amazon: <SafeSiAmazon className="text-orange-500 dark:text-orange-400 text-2xl" />
 };
 
 const Achievements = () => {

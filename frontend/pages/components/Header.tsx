@@ -49,7 +49,7 @@ const Header = () => {
                 {item.title === "Inpersona" ? (
                   <motion.a
                     href={item.url}
-                    onClick={(e) => handleClick(e, item.url)}
+                    onClick={(e: React.MouseEvent<HTMLAnchorElement>) => handleClick(e, item.url)}
                     className="relative whitespace-nowrap font-medium px-3 py-1 rounded-full text-purple-600 dark:text-purple-400 max-w-[120px]"
                     whileHover={{ scale: 1.05 }}
                   >
@@ -121,7 +121,7 @@ const Header = () => {
                   <>
                     <a 
                       href={item.url}
-                      onClick={item.isDownload ? undefined : (e) => handleClick(e, item.url)}
+                      onClick={item.isDownload ? undefined : (e: React.MouseEvent<HTMLAnchorElement>) => handleClick(e, item.url)}
                       download={item.isDownload}
                       className="whitespace-nowrap font-medium text-gray-700 dark:text-gray-200 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
                     >
@@ -146,7 +146,7 @@ const Header = () => {
                   <motion.a
                     key={item.title}
                     href={item.url}
-                    onClick={(e) => {
+                    onClick={(e: React.MouseEvent<HTMLAnchorElement>) => {
                       handleClick(e, item.url);
                       setIsMenuOpen(false);
                     }}
@@ -219,7 +219,7 @@ const Header = () => {
                   <a
                     key={item.title}
                     href={item.url}
-                    onClick={(e) => {
+                    onClick={(e: React.MouseEvent<HTMLAnchorElement>) => {
                       handleClick(e, item.url);
                       setIsMenuOpen(false);
                     }}
