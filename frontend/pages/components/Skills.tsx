@@ -1,11 +1,12 @@
 import { motion, useAnimation } from 'framer-motion';
 import { useState, useEffect } from 'react';
+import { IconType } from 'react-icons';
 import { 
-  SiPython, SiGo, SiHtml5, SiCss3, SiJavascript, SiJava, SiBash, SiMysql, 
+  SiPython, SiGo, SiHtml5, SiCss3, SiJavascript, SiDash, SiMysql, 
   SiGit, SiPytorch, SiTensorflow, SiDjango, SiNodedotjs, SiReact, SiTailwindcss,
-  SiFastapi, SiDocker, SiAmazonaws, SiGraphql, SiDatabricks, SiApachespark, SiApacheairflow,
+  SiFastapi, SiDocker, SiAmazon, SiGraphql, SiDatabricks, SiApachespark, SiApacheairflow,
   SiGithubactions, SiMongodb, SiNeo4J, SiApachecassandra, SiAmazondynamodb,
-  SiGooglecloud, SiMicrosoftazure, SiJenkins, SiPostgresql
+  SiGooglecloud, SiJenkins, SiPostgresql
 } from 'react-icons/si';
 import { FaCode, FaDatabase, FaTools, FaRocket, FaNetworkWired, FaServer } from 'react-icons/fa';
 import config from '../index.json';
@@ -18,8 +19,8 @@ const iconMapping = {
   'HTML': SiHtml5,
   'CSS': SiCss3,
   'JavaScript': SiJavascript,
-  'Java': SiJava,
-  'SLURM Scripting': SiBash,
+  'Java': FaCode, // Default icon for Java
+  'SLURM Scripting': SiDash,
   'SQL': SiMysql,
   
   // Technologies
@@ -32,7 +33,7 @@ const iconMapping = {
   'TailWind CSS': SiTailwindcss,
   'Fastapi': SiFastapi,
   'Docker': SiDocker,
-  'AWS': SiAmazonaws,
+  'AWS': SiAmazon,
   'GraphQL': SiGraphql,
   'Databricks': SiDatabricks,
   'Spark': SiApachespark,
@@ -49,8 +50,8 @@ const iconMapping = {
   // Default icons for core competencies and others
   'ML Model Finetuning': SiPytorch,
   'AI Integration in Web Apps': SiReact,
-  'Building AI-Powered Platforms': SiAmazonaws,
-  'AWS Cost Optimization': SiAmazonaws,
+  'Building AI-Powered Platforms': SiAmazon,
+  'AWS Cost Optimization': SiAmazon,
   'CI/CD': SiGithubactions
 };
 
@@ -104,7 +105,7 @@ const headerVariants = {
 };
 
 // Simplified background pattern for mobile
-const BackgroundPattern = ({ color }) => {
+const BackgroundPattern = ({ color }: { color: string }) => {
   return (
     <div className="absolute inset-0 overflow-hidden opacity-10 pointer-events-none">
       <div className={`w-full h-full ${color} blur-2xl`}></div>
@@ -112,14 +113,50 @@ const BackgroundPattern = ({ color }) => {
   );
 };
 
+// Define interfaces for type safety
+interface Skill {
+  name: string;
+  // Add other properties if needed
+}
+
+interface Category {
+  title: string;
+  icon: string;
+  items: Skill[];
+}
+
+interface CategoryStyle {
+  bg: string;
+  border: string;
+  textColor: string;
+  glow: string;
+  title: string;
+  icon: string;
+  progressBar: string;
+  shadow: string;
+  pattern: string;
+}
+
 // Simplified SkillTag component without progress bar
-const SkillTag = ({ skill, categoryStyle, category, isMobile }) => {
+const SkillTag = ({ 
+  skill, 
+  categoryStyle, 
+  category, 
+  isMobile 
+}: { 
+  skill: Skill; 
+  categoryStyle: CategoryStyle; 
+  category: string; 
+  isMobile: boolean 
+}) => {
   const { name } = skill;
   const [isHovered, setIsHovered] = useState(false);
   const controls = useAnimation();
   
   // Get the appropriate icon or use category default
-  const IconComponent = iconMapping[name] || defaultCategoryIcons[category] || FaCode;
+  const IconComponent = (iconMapping[name as keyof typeof iconMapping] || 
+    defaultCategoryIcons[category as keyof typeof defaultCategoryIcons] || 
+    FaCode) as React.ComponentType;
   
   // Simplified hover effect that doesn't trigger expensive animations on mobile
   useEffect(() => {
@@ -149,7 +186,7 @@ const SkillTag = ({ skill, categoryStyle, category, isMobile }) => {
                  transition-colors duration-200 cursor-pointer transform-gpu`}
     >
       <div className="flex items-center space-x-2">
-        {/* Icon */}
+        {/* Icon - render with proper React element creation */}
         <span className={`text-lg ${categoryStyle.textColor}`}>
           <IconComponent />
         </span>
@@ -242,7 +279,15 @@ export default function Skills() {
     }
   };
 
-  const SkillCategory = ({ category, categoryKey, style }) => (
+  const SkillCategory = ({ 
+    category, 
+    categoryKey, 
+    style 
+  }: { 
+    category: Category; 
+    categoryKey: string; 
+    style: CategoryStyle 
+  }) => (
     <motion.div 
       initial="hidden"
       whileInView="visible"
@@ -276,7 +321,7 @@ export default function Skills() {
       
       {/* Skills grid with reduced gap for mobile */}
       <div className={`relative z-10 flex flex-wrap ${isMobile ? 'gap-2' : 'gap-3'}`}>
-        {category.items.map((skill) => (
+        {category.items.map((skill: Skill) => (
           <SkillTag 
             key={skill.name} 
             skill={skill} 

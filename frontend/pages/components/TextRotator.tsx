@@ -40,7 +40,7 @@ export default function TextRotator() {
             lineHeight: '1.5' /* Added line height for better text spacing */
           }}
         >
-          <span className="inline-block text-center w-full leading-relaxed">"{text}"</span>
+          <span className="inline-block text-center w-full leading-relaxed">&ldquo;{text}&rdquo;</span>
         </div>
       ))}
     </div>

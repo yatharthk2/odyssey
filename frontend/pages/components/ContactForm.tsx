@@ -23,7 +23,7 @@ function ContactForm() {
             Message Sent Successfully!
           </h3>
           <p className="text-gray-600 dark:text-gray-300">
-            I'll get back to you as soon as possible. Thank you for reaching out!
+            I&apos;ll get back to you as soon as possible. Thank you for reaching out!
           </p>
         </div>
       ) : (
