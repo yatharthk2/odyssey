@@ -110,6 +110,7 @@ Yatharth's teaching philosophy as a Graduate Teaching Assistant emphasizes on Ta
 Yatharth's soft skills include Perseverence, Communication, self-reliant, listner, Self-motivated, Porblem-solving , critical-thinking.
 Yatharth's project management experience involves leading teams of 3 people.
 Yatharth's cross-cultural collaboration experience includes working with teams in United States and India.
+
 Technical Deep Dives:
 Yatharth's expertise in PyTorch developed through project Face-Inpainting, Sprechen, Pix-to-Pix.
 Yatharth's proficiency in AWS services focuses on AWS Cost Optimization, AWS EKS, S3 bucket, Dynamo-DB, AWS EC2, AWS Lambda, AWS Chalice, and AWS Pub/Sub for deploying, optimizing, and integrating AI, machine learning, and real-time applications.
@@ -120,5 +121,12 @@ Yatharth's research at DSAIL Labs at Kelley School of Bussiness focuses specific
 
 Industry Impact:
 Yatharth's work at IDeaS impacted 50+ hotel chains globally by developing a workflow platform that automated 10 complex visualizations, reducing computation times by 20% and saving 100+ engineering hours monthly.
-Yatharth's cricket analytics at Quidich improved decision-making for 10+ professional cricket teams and tournaments, achieving 95% accuracy in predicting bowler release moments and significantly enhancing situational awareness across 3 integrated software systems.
+Yatharth's cricket analytics at Quidich improved decision-making for professional cricket teams and tournaments, achieving 95% accuracy in predicting bowler release moments and significantly enhancing situational awareness across 3 integrated software systems.
 Yatharth's contribution to Open-Notif affected 2000+ users, enabling sub-3-second event-triggered notifications through AWS Lambda, AWS Pub/Sub, and AWS Chalice.
+
+Work Preferences and Authorization:
+Yatharth prefers a hybrid work model, balancing in-office collaboration with remote flexibility.
+Yatharth is open to relocation and remote work opportunities in the USA.
+Yatharth is authorized to work in the USA.
+Yatharth is willing to travel for work assignments.
+Yatharth is currently on an F-1 stem visa in the USA, which allows for 3 years of work authorization post-graduation.
