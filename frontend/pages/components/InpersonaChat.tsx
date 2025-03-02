@@ -7,9 +7,10 @@ import Tooltip from './Tooltip';
 import TextRotator from './TextRotator';
 import { useTheme } from '../../context/ThemeContext';
 import ThemeToggle from '../../components/ThemeToggle';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
-import rehypeRaw from 'rehype-raw';
+// Remove ReactMarkdown imports as we're using HTML now
+// import ReactMarkdown from 'react-markdown';
+// import remarkGfm from 'remark-gfm';
+// import rehypeRaw from 'rehype-raw';
 
 interface Message {
   content: string;
@@ -212,53 +213,11 @@ export default function InpersonaChat() {
                     {msg.isUser ? (
                       <p className="text-sm sm:text-base leading-relaxed">{msg.content}</p>
                     ) : (
-                      <div className="markdown-content text-sm sm:text-base leading-relaxed">
-                        <ReactMarkdown 
-                          remarkPlugins={[remarkGfm]} 
-                          rehypePlugins={[rehypeRaw]}
-                          components={{
-                            code({node, inline, className, children, ...props}) {
-                              return (
-                                <code 
-                                  className={`${inline ? 'inline-code' : 'block-code'} ${className || ''}`} 
-                                  {...props}
-                                >
-                                  {children}
-                                </code>
-                              )
-                            },
-                            blockquote({node, children, ...props}) {
-                              return (
-                                <blockquote 
-                                  className="callout border-l-4 border-blue-500 pl-4 my-3 py-1 bg-blue-50 dark:bg-blue-900/20 rounded" 
-                                  {...props}
-                                >
-                                  {children}
-                                </blockquote>
-                              )
-                            },
-                            h2({node, children, ...props}) {
-                              return (
-                                <h2 className="text-lg sm:text-xl font-bold mt-4 mb-2 border-b border-gray-200 dark:border-gray-700 pb-1" {...props}>
-                                  {children}
-                                </h2>
-                              )
-                            },
-                            h3({node, children, ...props}) {
-                              return (
-                                <h3 className="text-base sm:text-lg font-semibold mt-3 mb-2" {...props}>
-                                  {children}
-                                </h3>
-                              )
-                            },
-                            hr() {
-                              return <hr className="my-4 border-gray-300 dark:border-gray-700" />
-                            }
-                          }}
-                        >
-                          {msg.content}
-                        </ReactMarkdown>
-                      </div>
+                      // Changed to use dangerouslySetInnerHTML for HTML content
+                      <div 
+                        className="html-content text-sm sm:text-base leading-relaxed"
+                        dangerouslySetInnerHTML={{ __html: msg.content }}
+                      />
                     )}
                   </div>
                 </div>
@@ -454,7 +413,7 @@ export default function InpersonaChat() {
         }
       `}</style>
 
-      {/* Global CSS for mobile input zoom prevention and markdown styling */}
+      {/* Global CSS for mobile input zoom prevention and HTML content styling */}
       <style jsx global>{`
         @supports (-webkit-touch-callout: none) {
           .h-screen {
@@ -472,92 +431,50 @@ export default function InpersonaChat() {
           }
         }
         
-        /* Markdown styling */
-        .markdown-content p {
+        /* HTML content styling */
+        .html-content p {
           margin-bottom: 0.75rem;
         }
         
-        .markdown-content p:last-child {
+        .html-content p:last-child {
           margin-bottom: 0;
         }
         
-        .markdown-content ul, .markdown-content ol {
-          margin: 0.5rem 0 0.5rem 1.5rem;
+        .html-content ul, .html-content ol {
+          margin: 0.75rem 0;
+          padding-left: 1.5rem;
         }
         
-        .markdown-content li {
-          margin-bottom: 0.25rem;
+        .html-content li {
+          margin-bottom: 0.5rem;
         }
         
-        .markdown-content h2, .markdown-content h3, .markdown-content h4 {
+        .html-content h3 {
           font-weight: 600;
-          margin: 1rem 0 0.5rem 0;
+          margin: 1.25rem 0 0.75rem 0;
+          font-size: 1.1em;
         }
         
-        .markdown-content .inline-code {
-          background-color: rgba(0, 0, 0, 0.05);
-          padding: 0.2rem 0.4rem;
-          border-radius: 0.25rem;
-          font-size: 0.875em;
-          font-family: monospace;
-        }
-        
-        .markdown-content .block-code {
-          display: block;
-          background-color: rgba(0, 0, 0, 0.05);
-          padding: 0.75rem 1rem;
-          border-radius: 0.375rem;
-          margin: 0.5rem 0 1rem;
-          font-size: 0.875em;
-          font-family: monospace;
-          white-space: pre-wrap;
-          overflow-x: auto;
-        }
-        
-        .dark .markdown-content .inline-code,
-        .dark .markdown-content .block-code {
-          background-color: rgba(255, 255, 255, 0.1);
-        }
-        
-        .markdown-content strong {
+        .html-content strong {
           font-weight: 600;
         }
         
-        .markdown-content a {
+        .html-content a {
           color: #3b82f6;
           text-decoration: underline;
         }
         
-        .dark .markdown-content a {
+        .dark .html-content a {
           color: #60a5fa;
         }
         
-        .markdown-content hr {
+        .html-content hr {
           margin: 1.5rem 0;
           border-color: rgba(209, 213, 219, 0.3);
         }
         
-        .dark .markdown-content hr {
+        .dark .html-content hr {
           border-color: rgba(75, 85, 99, 0.5);
-        }
-        
-        .markdown-content blockquote {
-          border-left-color: #3b82f6;
-          background-color: rgba(59, 130, 246, 0.1);
-          margin: 1rem 0;
-        }
-        
-        .dark .markdown-content blockquote {
-          border-left-color: #60a5fa;
-          background-color: rgba(96, 165, 250, 0.1);
-        }
-        
-        .markdown-content blockquote p {
-          margin-bottom: 0.5rem;
-        }
-        
-        .markdown-content blockquote p:last-child {
-          margin-bottom: 0;
         }
       `}</style>
     </div>
