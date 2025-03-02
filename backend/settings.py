@@ -17,7 +17,7 @@ class PropertyGraphSettings:
     chunk_size: int = 256
     chunk_overlap: int = 50
     # groq_model: str = "llama-3.3-70b-versatile"
-    groq_model: str = "llama-3.1-8b-instant"
+    groq_model: str = "llama-3.3-70b-versatile"
 
     embedding_model: str = "BAAI/bge-base-en-v1.5"
     max_tokens: int = 4096
