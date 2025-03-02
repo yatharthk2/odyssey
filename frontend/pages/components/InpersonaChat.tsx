@@ -7,6 +7,10 @@ import Tooltip from './Tooltip';
 import TextRotator from './TextRotator';
 import { useTheme } from '../../context/ThemeContext';
 import ThemeToggle from '../../components/ThemeToggle';
+// Remove ReactMarkdown imports as we're using HTML now
+// import ReactMarkdown from 'react-markdown';
+// import remarkGfm from 'remark-gfm';
+// import rehypeRaw from 'rehype-raw';
 
 interface Message {
   content: string;
@@ -206,7 +210,15 @@ export default function InpersonaChat() {
                         : 'bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 shadow-md'
                     }`}
                   >
-                    <p className="text-sm sm:text-base leading-relaxed">{msg.content}</p>
+                    {msg.isUser ? (
+                      <p className="text-sm sm:text-base leading-relaxed">{msg.content}</p>
+                    ) : (
+                      // Changed to use dangerouslySetInnerHTML for HTML content
+                      <div 
+                        className="html-content text-sm sm:text-base leading-relaxed"
+                        dangerouslySetInnerHTML={{ __html: msg.content }}
+                      />
+                    )}
                   </div>
                 </div>
               ))}
@@ -401,7 +413,7 @@ export default function InpersonaChat() {
         }
       `}</style>
 
-      {/* Global CSS for mobile input zoom prevention */}
+      {/* Global CSS for mobile input zoom prevention and HTML content styling */}
       <style jsx global>{`
         @supports (-webkit-touch-callout: none) {
           .h-screen {
@@ -417,6 +429,52 @@ export default function InpersonaChat() {
           input, textarea, select {
             font-size: 16px;
           }
+        }
+        
+        /* HTML content styling */
+        .html-content p {
+          margin-bottom: 0.75rem;
+        }
+        
+        .html-content p:last-child {
+          margin-bottom: 0;
+        }
+        
+        .html-content ul, .html-content ol {
+          margin: 0.75rem 0;
+          padding-left: 1.5rem;
+        }
+        
+        .html-content li {
+          margin-bottom: 0.5rem;
+        }
+        
+        .html-content h3 {
+          font-weight: 600;
+          margin: 1.25rem 0 0.75rem 0;
+          font-size: 1.1em;
+        }
+        
+        .html-content strong {
+          font-weight: 600;
+        }
+        
+        .html-content a {
+          color: #3b82f6;
+          text-decoration: underline;
+        }
+        
+        .dark .html-content a {
+          color: #60a5fa;
+        }
+        
+        .html-content hr {
+          margin: 1.5rem 0;
+          border-color: rgba(209, 213, 219, 0.3);
+        }
+        
+        .dark .html-content hr {
+          border-color: rgba(75, 85, 99, 0.5);
         }
       `}</style>
     </div>
