@@ -1,5 +1,7 @@
-import config from '../index.json';
+import React from 'react';
 import { motion } from 'framer-motion';
+import config from '../index.json';
+import InpersonaButton from './InpersonaButton';
 
 export default function Hero() {
   return (
@@ -8,7 +10,7 @@ export default function Hero() {
       <div className="absolute inset-0 bg-gradient-to-br from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20" />
       
       {/* Content */}
-      <div className="relative z-10 text-center">
+      <div className="relative z-10 text-center max-w-4xl mx-auto">
         <motion.h1 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -22,16 +24,52 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="text-lg sm:text-xl md:text-2xl text-gray-600 dark:text-gray-300 mb-6 sm:mb-8 max-w-2xl mx-auto"
+          className="text-lg sm:text-xl md:text-2xl text-gray-600 dark:text-gray-300 mb-6 sm:mb-8 max-w-2xl mx-auto px-4"
         >
           {config.hero.subtitle}
         </motion.p>
+
+        {/* InPersona Button with subtle floating animation - mobile optimized */}
+        <motion.div
+          className="mt-6 sm:mt-8 mb-8 sm:mb-12"
+          initial={{ opacity: 0 }}
+          animate={{ 
+            opacity: 1,
+            y: [0, -5, 0]
+          }}
+          transition={{ 
+            delay: 0.3,
+            y: {
+              delay: 0.8,
+              duration: 2.5,
+              repeat: Infinity,
+              repeatType: "reverse",
+              ease: "easeInOut"
+            }
+          }}
+        >
+          {/* Subtle shimmer effect behind button */}
+          <div className="relative mx-auto w-fit">
+            <motion.div 
+              className="absolute -inset-1 rounded-full bg-gradient-to-r from-purple-400/20 via-fuchsia-400/20 to-blue-400/20 blur-lg opacity-0"
+              animate={{
+                opacity: [0, 0.7, 0],
+              }}
+              transition={{
+                duration: 3,
+                repeat: Infinity,
+                delay: 1.5
+              }}
+            />
+            <InpersonaButton className="touch-manipulation" />
+          </div>
+        </motion.div>
 
         {/* Call to action buttons */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
+          transition={{ duration: 0.5, delay: 0.5 }}
           className="flex flex-col sm:flex-row gap-4 justify-center"
         >
           {/* Add your CTA buttons here */}
