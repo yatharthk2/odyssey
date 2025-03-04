@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import config from '../index.json';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
@@ -30,25 +30,42 @@ const TestimonialCard: React.FC<TestimonialProps> = ({ name, role, company, cont
 
   return (
     <motion.div 
-      className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm p-6 rounded-xl shadow-lg border border-gray-100 dark:border-gray-700 flex flex-col h-full mx-4"
-      initial={{ opacity: 0, scale: 0.9 }}
-      animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.9 }}
+      className="bg-gradient-to-br from-white/95 to-white/90 dark:from-gray-800/95 dark:to-gray-800/90 backdrop-blur-sm p-8 rounded-xl shadow-xl border border-gray-100/40 dark:border-gray-700/40 flex flex-col h-full mx-4 relative"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
       transition={{ duration: 0.5 }}
     >
-      <div className="flex items-center mb-4">
+      
+      
+      <div className="mb-6 flex-grow">
+        <p className="text-gray-700 dark:text-gray-200 leading-relaxed text-lg first-letter:text-3xl first-letter:font-serif first-letter:mr-1">
+          "{truncatedContent}"
+        </p>
+        
+        {shouldTruncate && (
+          <button 
+            className="text-purple-600 dark:text-purple-400 mt-2 text-sm font-medium hover:underline focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded px-2 py-0.5"
+            onClick={() => setIsExpanded(!isExpanded)}
+          >
+            {isExpanded ? 'Read less' : 'Read more'}
+          </button>
+        )}
+      </div>
+      
+      <div className="mt-auto pt-4 border-t border-gray-100 dark:border-gray-700 flex items-center">
         {imageUrl ? (
-          <div className="h-16 w-16 rounded-full overflow-hidden mr-4 border-2 border-purple-500">
+          <div className="h-14 w-14 rounded-full overflow-hidden mr-4 ring-2 ring-purple-500 ring-offset-2 dark:ring-offset-gray-800">
             <img src={imageUrl} alt={name} className="h-full w-full object-cover" />
           </div>
         ) : (
-          <div className="h-16 w-16 rounded-full mr-4 flex items-center justify-center bg-gradient-to-r from-purple-500 to-blue-600 text-white font-bold text-2xl">
+          <div className="h-14 w-14 rounded-full mr-4 flex items-center justify-center bg-gradient-to-br from-purple-500 to-indigo-600 text-white font-bold text-xl shadow-md">
             {name.charAt(0)}
           </div>
         )}
         <div className="flex-grow">
           <div className="flex items-center justify-between">
-            <h3 className="font-bold text-lg text-gray-800 dark:text-gray-200">{name}</h3>
+            <h3 className="font-bold text-gray-800 dark:text-gray-200">{name}</h3>
             {linkedinUrl && (
               <a 
                 href={linkedinUrl}
@@ -64,17 +81,6 @@ const TestimonialCard: React.FC<TestimonialProps> = ({ name, role, company, cont
           <p className="text-sm text-gray-600 dark:text-gray-400">{role}{company && `, ${company}`}</p>
         </div>
       </div>
-      <div className="flex-grow">
-        <p className="text-gray-600 dark:text-gray-300 italic leading-relaxed">"{truncatedContent}"</p>
-        {shouldTruncate && (
-          <button 
-            className="text-purple-600 dark:text-purple-400 mt-2 text-sm font-medium hover:underline focus:outline-none"
-            onClick={() => setIsExpanded(!isExpanded)}
-          >
-            {isExpanded ? 'Read less' : 'Read more'}
-          </button>
-        )}
-      </div>
     </motion.div>
   );
 };
@@ -82,12 +88,16 @@ const TestimonialCard: React.FC<TestimonialProps> = ({ name, role, company, cont
 const Testimonials: React.FC = () => {
   const { title, subtitle, items } = config.testimonials;
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [displayCount, setDisplayCount] = useState(1); // Number of testimonials to show at once
+  const [displayCount, setDisplayCount] = useState(1);
+  const [autoRotate, setAutoRotate] = useState(true);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   // Update display count based on screen width
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth >= 1024) {
+      if (window.innerWidth >= 1280) {
+        setDisplayCount(3); // Show 3 on extra large screens
+      } else if (window.innerWidth >= 1024) {
         setDisplayCount(2); // Show 2 on large screens
       } else {
         setDisplayCount(1); // Show 1 on smaller screens
@@ -99,22 +109,52 @@ const Testimonials: React.FC = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  // Auto-rotation
+  useEffect(() => {
+    if (!autoRotate || items.length <= displayCount) return;
+    
+    timerRef.current = setInterval(() => {
+      setCurrentIndex((prevIndex) => 
+        prevIndex + displayCount >= items.length ? 0 : prevIndex + displayCount
+      );
+    }, 7000); // Rotate every 7 seconds
+    
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current);
+    };
+  }, [autoRotate, displayCount, items.length, currentIndex]);
+
   const nextSlide = () => {
+    if (timerRef.current) clearInterval(timerRef.current);
     setCurrentIndex((prevIndex) => 
       prevIndex + displayCount >= items.length 
         ? 0 
         : prevIndex + displayCount
     );
+    // Restart auto-rotation
+    setAutoRotate(true);
   };
 
   const prevSlide = () => {
+    if (timerRef.current) clearInterval(timerRef.current);
     setCurrentIndex((prevIndex) => 
       prevIndex - displayCount < 0 
         ? Math.max(0, items.length - displayCount) 
         : prevIndex - displayCount
     );
+    // Restart auto-rotation
+    setAutoRotate(true);
   };
 
+  const jumpToSlide = (index: number) => {
+    if (timerRef.current) clearInterval(timerRef.current);
+    setCurrentIndex(index * displayCount);
+    // Restart auto-rotation
+    setAutoRotate(true);
+  };
+
+  const maxIndex = Math.ceil(items.length / displayCount);
+  const currentPage = Math.floor(currentIndex / displayCount);
   const visibleTestimonials = items.slice(currentIndex, currentIndex + displayCount);
 
   return (
@@ -123,30 +163,53 @@ const Testimonials: React.FC = () => {
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       viewport={{ once: true }}
-      className="py-12 sm:py-20 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm rounded-3xl my-8 sm:my-20 shadow-xl"
+      className="py-16 sm:py-24 bg-gradient-to-b from-purple-50/60 to-white/60 dark:from-gray-900/60 dark:to-gray-800/60 backdrop-blur-sm rounded-3xl my-12 sm:my-24 shadow-xl relative overflow-hidden"
+      onMouseEnter={() => setAutoRotate(false)}
+      onMouseLeave={() => setAutoRotate(true)}
+      aria-label="Customer testimonials"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold mb-4 bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 bg-clip-text text-transparent">
+      {/* Background decoration */}
+      <div className="absolute inset-0 overflow-hidden opacity-10">
+        <div className="absolute -top-40 -right-40 w-80 h-80 rounded-full bg-purple-300/30"></div>
+        <div className="absolute -bottom-40 -left-40 w-96 h-96 rounded-full bg-blue-300/30"></div>
+      </div>
+      
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="text-center mb-12 sm:mb-16">
+          <motion.h2 
+            className="text-3xl sm:text-5xl font-bold mb-6 bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 bg-clip-text text-transparent"
+            initial={{ opacity: 0, y: -20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
             {title}
-          </h2>
-          <p className="text-gray-700 dark:text-gray-300 max-w-3xl mx-auto">
+          </motion.h2>
+          <motion.p 
+            className="text-gray-700 dark:text-gray-300 max-w-3xl mx-auto text-lg"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+          >
             {subtitle}
-          </p>
+          </motion.p>
         </div>
 
-        <div className="relative px-4">
+        <div className="relative">
           <div className="overflow-hidden">
-            <div className={`flex flex-col lg:flex-row justify-center ${items.length <= displayCount ? 'gap-6' : ''}`}>
+            <div className={`flex flex-col lg:flex-row justify-center gap-6 lg:gap-8`}>
               <AnimatePresence mode="wait">
                 {visibleTestimonials.map((testimonial, index) => (
                   <motion.div
                     key={`${currentIndex}-${index}`}
-                    className="w-full lg:w-1/2 flex-shrink-0"
+                    className={`w-full ${
+                      displayCount === 3 ? 'lg:w-1/3' : displayCount === 2 ? 'lg:w-1/2' : 'max-w-2xl mx-auto'
+                    }`}
                     initial={{ opacity: 0, x: 50 }}
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: -50 }}
-                    transition={{ duration: 0.5 }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
                   >
                     <TestimonialCard {...testimonial} />
                   </motion.div>
@@ -156,40 +219,42 @@ const Testimonials: React.FC = () => {
           </div>
           
           {items.length > displayCount && (
-            <div className="flex justify-center items-center mt-8 gap-8">
+            <div className="flex flex-col sm:flex-row justify-between items-center mt-10 max-w-3xl mx-auto">
               <button 
                 onClick={prevSlide}
-                className="p-2 rounded-full bg-purple-100 dark:bg-gray-700 hover:bg-purple-200 dark:hover:bg-gray-600 transition-colors"
-                aria-label="Previous testimonial"
+                className="p-3 rounded-full bg-white dark:bg-gray-700 hover:bg-purple-100 dark:hover:bg-purple-900/30 transition-colors shadow-md group"
+                aria-label="Previous testimonials"
               >
-                <ChevronLeft className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+                <ChevronLeft className="w-5 h-5 text-purple-600 dark:text-purple-400 group-hover:scale-110 transition-transform" />
               </button>
               
               {/* Pagination indicators */}
-              <div className="flex gap-2">
-                {Array.from({ length: Math.ceil(items.length / displayCount) }).map((_, idx) => (
+              <div className="flex gap-3 my-4 sm:my-0">
+                {Array.from({ length: maxIndex }).map((_, idx) => (
                   <button
                     key={idx}
-                    onClick={() => setCurrentIndex(idx * displayCount)}
-                    className={`w-2.5 h-2.5 rounded-full transition-colors ${
-                      Math.floor(currentIndex / displayCount) === idx 
-                        ? 'bg-purple-600' 
-                        : 'bg-gray-300 dark:bg-gray-600'
+                    onClick={() => jumpToSlide(idx)}
+                    className={`transition-all duration-300 rounded ${
+                      currentPage === idx 
+                        ? 'w-8 h-2 bg-purple-600 dark:bg-purple-500' 
+                        : 'w-2 h-2 bg-gray-300 dark:bg-gray-600 hover:bg-purple-400 dark:hover:bg-purple-700'
                     }`}
-                    aria-label={`Go to slide ${idx + 1}`}
+                    aria-label={`Go to testimonial group ${idx + 1}`}
+                    aria-current={currentPage === idx ? 'true' : 'false'}
                   />
                 ))}
               </div>
               
               <button 
                 onClick={nextSlide}
-                className="p-2 rounded-full bg-purple-100 dark:bg-gray-700 hover:bg-purple-200 dark:hover:bg-gray-600 transition-colors"
-                aria-label="Next testimonial"
+                className="p-3 rounded-full bg-white dark:bg-gray-700 hover:bg-purple-100 dark:hover:bg-purple-900/30 transition-colors shadow-md group"
+                aria-label="Next testimonials"
               >
-                <ChevronRight className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+                <ChevronRight className="w-5 h-5 text-purple-600 dark:text-purple-400 group-hover:scale-110 transition-transform" />
               </button>
             </div>
           )}
+          
         </div>
       </div>
     </motion.section>
