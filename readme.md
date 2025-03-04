@@ -85,7 +85,7 @@ This search is extremely accurate and handles difficult reasoning like a piece o
 
 ### HyDe Query Transformation
 HyDe stands for Hypothetical Document Embeddings and is based on the study “Precise Zero-Shot Dense Retrieval without Relevance Labels.” The idea is very simple — instead of using the user’s question for searching in the vector database, we use the LLM to generate a response (a virtual hypothetical document) and then use the response for searching in the vector database (to find similar answers). The good thing is that it provides very fluid and natural responses and retains high confidence while generating output. On the contrary, HyDe is really prone to excessive information sharing and hallucinating to some extent.
-<img src="https://github.com/yatharthk2/odyssey/blob/main/ivg/kg_im.png" alt="diagram" width="1080" height="400">
+<img src="https://github.com/yatharthk2/odyssey/blob/main/ivg/hyde.png" alt="diagram" width="1080" height="400">
 
 <!-- LICENSE -->
 ## License
