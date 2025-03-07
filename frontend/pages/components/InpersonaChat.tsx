@@ -291,7 +291,7 @@ export default function InpersonaChat() {
                     }`}
                   >
                     <Grape size={16} />
-                    <span>Knowledge Graph</span>
+                    <span>Use Knowledge Graph</span>
                   </button>
                 </Tooltip>
               </div>
@@ -370,7 +370,7 @@ export default function InpersonaChat() {
                     }`}
                   >
                     <Search size={16} />
-                    <span>Hyde Query</span>
+                    <span>Use Hyde Query</span>
                   </button>
                 </Tooltip>
               </div>
