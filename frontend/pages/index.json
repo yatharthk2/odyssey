@@ -55,6 +55,20 @@
         "description": "Implementing Transformer-based architecture to convert text between languages with precision.",
         "github": "https://github.com/yatharthk2/SPRECHEN",
         "image": "Projects/Sprechen.png"
+      },
+
+      {
+        "title": "Highway Agent",
+        "description": "Developed a reinforcement learning agent for autonomous highway navigation using actor-critic architecture and policy gradient framework.",
+        "github": "https://github.com/yatharthk2/autopilot",
+        "image": "Projects/dqn_.gif"
+      },
+
+      {
+        "title": "PixTOPix",
+        "description": "Engineered a Conditional GANs framework achieving 87% accuracy in satellite-to-map image translation with 100K Google Maps dataset.",
+        "github": "https://github.com/yatharthk2/PixToPix",
+        "image": "Projects/PixtoPix.png"
       }
 
     ]
