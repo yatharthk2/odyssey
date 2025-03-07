@@ -4,13 +4,10 @@ import { useState, useRef, useEffect } from 'react';
 import { Send, Grape, Search, Info } from 'lucide-react';
 import Link from 'next/link';
 import Tooltip from './Tooltip';
-import TextRotator from './TextRotator';
+// Remove TextRotator import since we're replacing it
+// import TextRotator from './TextRotator';
 import { useTheme } from '../../context/ThemeContext';
 import ThemeToggle from '../../components/ThemeToggle';
-// Remove ReactMarkdown imports as we're using HTML now
-// import ReactMarkdown from 'react-markdown';
-// import remarkGfm from 'remark-gfm';
-// import rehypeRaw from 'rehype-raw';
 
 interface Message {
   content: string;
@@ -30,6 +27,35 @@ export default function InpersonaChat() {
   const [showInfo, setShowInfo] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const wsRef = useRef<WebSocket | null>(null);
+
+  // Update suggestion questions - limit to top 4
+  const suggestionQuestions = [
+    "Tell me about your background",
+    "What are your technical skills?",
+    "What projects have you worked on?",
+    "What's your educational background?"
+  ];
+
+  // Function to handle suggestion tile clicks
+  const handleSuggestionClick = (question: string) => {
+    if (!wsRef.current || wsRef.current.readyState !== WebSocket.OPEN || isLoading) return;
+    
+    // Add user message
+    const userMessage: Message = { content: question, isUser: true, complete: true };
+    // Add initial AI message with loading state
+    const loadingMessage: Message = { content: "", isUser: false, loading: true };
+    setMessages(prev => [...prev, userMessage, loadingMessage]);
+    setIsLoading(true);
+
+    // Prepare and send the query
+    const query = {
+      question: question,
+      vector_store: useKnowledgeGraph ? "KG" : "vector",
+      query_transformation: useHydeQuery ? "HyDE" : null
+    };
+
+    wsRef.current.send(JSON.stringify(query));
+  };
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -181,7 +207,7 @@ export default function InpersonaChat() {
       <div className="flex-1 overflow-y-auto px-2 sm:px-4 pt-14 pb-32 w-full scrollbar">
         <div className="max-w-3xl mx-auto">
           {messages.length === 0 ? (
-            <div className="flex flex-col items-center justify-center min-h-[calc(100vh-240px)] space-y-4 sm:space-y-6 px-4 mt-2 sm:mt-4"> {/* Adjusted min-height and reduced margins further */}
+            <div className="flex flex-col items-center justify-center min-h-[calc(100vh-240px)] space-y-4 sm:space-y-6 px-4 mt-2 sm:mt-4">
               <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-gradient-to-br from-purple-600 to-blue-600 p-1 shadow-lg animate-float">
                 <img
                   src="/Newyork_Dumbo_300x300.jpg"
@@ -190,10 +216,21 @@ export default function InpersonaChat() {
                 />
               </div>
               <div className="text-center">
-                <p className="text-xl sm:text-2xl font-light text-gray-600 dark:text-gray-300 mb-2">
+                <p className="text-xl sm:text-2xl font-light text-gray-600 dark:text-gray-300 mb-4">
                   How can I help you today?
                 </p>
-                <TextRotator />
+                {/* Display only 4 suggestion tiles */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-xl mx-auto">
+                  {suggestionQuestions.slice(0, 4).map((question, index) => (
+                    <button
+                      key={index}
+                      onClick={() => handleSuggestionClick(question)}
+                      className="bg-white dark:bg-gray-800 p-3 rounded-xl text-left text-sm sm:text-base text-gray-700 dark:text-gray-300 shadow-sm hover:shadow-md border border-gray-200 dark:border-gray-700 transition-all hover:border-purple-300 dark:hover:border-purple-600 hover:bg-gray-50 dark:hover:bg-gray-750"
+                    >
+                      {question}
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
           ) : (
@@ -215,9 +252,16 @@ export default function InpersonaChat() {
                     ) : (
                       // Changed to use dangerouslySetInnerHTML for HTML content
                       <div 
-                        className="html-content text-sm sm:text-base leading-relaxed"
-                        dangerouslySetInnerHTML={{ __html: msg.content }}
+                        className={`html-content text-sm sm:text-base leading-relaxed ${msg.loading ? 'typing-container' : ''}`}
+                        dangerouslySetInnerHTML={{ __html: msg.content || '&nbsp;' }}
                       />
+                    )}
+                    {msg.loading && (
+                      <div className="typing-indicator">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                      </div>
                     )}
                   </div>
                 </div>
@@ -242,8 +286,8 @@ export default function InpersonaChat() {
                     onClick={() => setUseKnowledgeGraph(!useKnowledgeGraph)}
                     className={`flex items-center gap-1 px-3 py-1 rounded-full text-sm transition-all ${
                       useKnowledgeGraph
-                        ? 'bg-purple-600 text-white'
-                        : 'bg-white text-gray-600 border border-gray-300'
+                        ? 'bg-gradient-to-r from-purple-700 to-purple-500 text-white shadow-md'
+                        : 'bg-gradient-to-r from-white to-gray-100 dark:from-gray-800 dark:to-gray-700 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 hover:shadow-sm'
                     }`}
                   >
                     <Grape size={16} />
@@ -259,8 +303,8 @@ export default function InpersonaChat() {
                   onClick={() => setUseKnowledgeGraph(!useKnowledgeGraph)}
                   className={`flex items-center gap-1 px-2 py-1 rounded-full text-xs transition-all ${
                     useKnowledgeGraph
-                      ? 'bg-purple-600 text-white'
-                      : 'bg-white text-gray-600 border border-gray-300'
+                      ? 'bg-gradient-to-r from-purple-700 to-purple-500 text-white shadow-md'
+                      : 'bg-gradient-to-r from-white to-gray-100 dark:from-gray-800 dark:to-gray-700 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 hover:shadow-sm'
                   }`}
                 >
                   <Grape size={12} />
@@ -271,8 +315,8 @@ export default function InpersonaChat() {
                   onClick={() => setUseHydeQuery(!useHydeQuery)}
                   className={`flex items-center gap-1 px-2 py-1 rounded-full text-xs transition-all ${
                     useHydeQuery
-                      ? 'bg-blue-600 text-white'
-                      : 'bg-white text-gray-600 border border-gray-300'
+                      ? 'bg-gradient-to-r from-blue-700 to-blue-500 text-white shadow-md'
+                      : 'bg-gradient-to-r from-white to-gray-100 dark:from-gray-800 dark:to-gray-700 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 hover:shadow-sm'
                   }`}
                 >
                   <Search size={12} />
@@ -295,14 +339,7 @@ export default function InpersonaChat() {
                       <div>
                         <p className="font-medium mb-1">KG (Knowledge Graph):</p>
                         <p>More accurate but less detailed results.</p>
-                        <a 
-                          href="/inpersona/knowledgegraph" 
-                          target="_blank" 
-                          rel="noopener noreferrer"
-                          className="text-blue-600 dark:text-blue-400 hover:underline mt-1 inline-block"
-                        >
-                          View Knowledge Graph →
-                        </a>
+                        {/* Removing the Knowledge Graph link */}
                       </div>
                       <div>
                         <p className="font-medium mb-1">HyDE:</p>
@@ -328,8 +365,8 @@ export default function InpersonaChat() {
                     onClick={() => setUseHydeQuery(!useHydeQuery)}
                     className={`flex items-center gap-1 px-3 py-1 rounded-full text-sm transition-all ${
                       useHydeQuery
-                        ? 'bg-blue-600 text-white'
-                        : 'bg-white text-gray-600 border border-gray-300'
+                        ? 'bg-gradient-to-r from-blue-700 to-blue-500 text-white shadow-md'
+                        : 'bg-gradient-to-r from-white to-gray-100 dark:from-gray-800 dark:to-gray-700 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 hover:shadow-sm'
                     }`}
                   >
                     <Search size={16} />
@@ -411,6 +448,19 @@ export default function InpersonaChat() {
         .animate-float {
           animation: float 3s ease-in-out infinite;
         }
+        
+        /* Button hover effects */
+        button {
+          transition: all 0.2s ease;
+        }
+        
+        button:hover {
+          transform: translateY(-1px);
+        }
+        
+        button:active {
+          transform: translateY(0);
+        }
       `}</style>
 
       {/* Global CSS for mobile input zoom prevention and HTML content styling */}
@@ -428,6 +478,119 @@ export default function InpersonaChat() {
         @media screen and (max-width: 640px) {
           input, textarea, select {
             font-size: 16px;
+          }
+        }
+        
+        /* New typing indicator animation (three dots) */
+        .typing-indicator {
+          display: inline-flex;
+          align-items: center;
+          margin-top: 4px;
+          min-height: 18px;
+        }
+        
+        .typing-indicator span {
+          height: 8px;
+          width: 8px;
+          margin: 0 2px;
+          background-color: rgba(107, 114, 128, 0.7);
+          border-radius: 50%;
+          display: inline-block;
+          opacity: 0.4;
+        }
+        
+        .dark .typing-indicator span {
+          background-color: rgba(156, 163, 175, 0.7);
+        }
+        
+        .typing-indicator span:nth-child(1) {
+          animation: bounce 1s infinite 0.2s;
+        }
+        
+        .typing-indicator span:nth-child(2) {
+          animation: bounce 1s infinite 0.4s;
+        }
+        
+        .typing-indicator span:nth-child(3) {
+          animation: bounce 1s infinite 0.6s;
+        }
+        
+        @keyframes bounce {
+          0%, 60%, 100% {
+            transform: translateY(0);
+          }
+          30% {
+            transform: translateY(-4px);
+          }
+        }
+        
+        /* Shimmer effect for loading content */
+        .typing-container {
+          position: relative;
+          overflow: hidden;
+        }
+        
+        .typing-container::after {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          height: 100%;
+          width: 100%;
+          background: linear-gradient(
+            90deg,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 0.2) 50%,
+            rgba(255, 255, 255, 0) 100%
+          );
+          animation: shimmer 1.5s infinite;
+        }
+        
+        .dark .typing-container::after {
+          background: linear-gradient(
+            90deg,
+            rgba(30, 41, 59, 0) 0%,
+            rgba(30, 41, 59, 0.2) 50%,
+            rgba(30, 41, 59, 0) 100%
+          );
+        }
+        
+        @keyframes shimmer {
+          0% {
+            transform: translateX(-100%);
+          }
+          100% {
+            transform: translateX(100%);
+          }
+        }
+        
+        /* New character appear animation */
+        .html-content {
+          position: relative;
+        }
+        
+        .html-content p, .html-content li, .html-content h3 {
+          animation: slide-up-fade 0.4s ease forwards;
+          opacity: 0;
+          transform: translateY(8px);
+        }
+        
+        .html-content p:nth-child(1) { animation-delay: 0.1s; }
+        .html-content p:nth-child(2) { animation-delay: 0.2s; }
+        .html-content p:nth-child(3) { animation-delay: 0.3s; }
+        .html-content p:nth-child(n+4) { animation-delay: 0.4s; }
+        
+        .html-content li:nth-child(odd) { animation-delay: 0.15s; }
+        .html-content li:nth-child(even) { animation-delay: 0.25s; }
+        
+        @keyframes slide-up-fade {
+          0% {
+            opacity: 0;
+            transform: translateY(8px);
+          }
+          100% {
+            opacity: 1;
+            transform: translateY(0);
           }
         }
         
@@ -475,6 +638,11 @@ export default function InpersonaChat() {
         
         .dark .html-content hr {
           border-color: rgba(75, 85, 99, 0.5);
+        }
+
+        /* Add style for dark hover state */
+        .dark .dark\\:hover\\:bg-gray-750:hover {
+          background-color: #2d3748;
         }
       `}</style>
     </div>
