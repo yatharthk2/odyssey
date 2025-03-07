@@ -39,7 +39,7 @@
         "title": "Image Inpainting",
         "description": "Harnessing segmentation-aware partial convolutions for ultra-precise image reconstruction.",
         "github": "https://github.com/yatharthk2/FaceInpainting",
-        "image": "/Inpainting_img.png"
+        "image": "Projects/Inpainting_img.png"
       },
 
       {
@@ -47,14 +47,14 @@
         "description": "AI-powered avatar, to inpersonate as if you are talking to me in person.",
         "url": "/loading",
         "github": "https://github.com/yatharthk2/odyssey",
-        "image": "/inpersona_img.png"
+        "image": "Projects/inpersona_img.png"
       },
 
       {
         "title": "Sprechen",
         "description": "Implementing Transformer-based architecture to convert text between languages with precision.",
         "github": "https://github.com/yatharthk2/SPRECHEN",
-        "image": "/Sprechen.png"
+        "image": "Projects/Sprechen.png"
       }
 
     ]
