@@ -308,7 +308,7 @@ export default function InpersonaChat() {
                   }`}
                 >
                   <Grape size={12} />
-                  <span>KG</span>
+                  <span>Use KG</span>
                 </button>
                 <button
                   type="button"
@@ -320,7 +320,7 @@ export default function InpersonaChat() {
                   }`}
                 >
                   <Search size={12} />
-                  <span>HyDE</span>
+                  <span>Use HyDE</span>
                 </button>
                 <button
                   onClick={() => setShowInfo(!showInfo)}
