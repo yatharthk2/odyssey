@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { Github, ExternalLink } from 'lucide-react';
 import config from '../index.json';
+import OpenNotifAnimation from '../../components/animations/OpenNotifAnimation';
 
 export default function Projects() {
   return (
@@ -25,14 +26,23 @@ export default function Projects() {
               transition={{ delay: index * 0.2 }}
               className="group relative bg-white dark:bg-gray-900 rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 flex flex-col h-full"
             >
-              {/* Project Image with Overlay */}
+              {/* Project Image with Overlay or Custom Animation for Open-Notif */}
               <div className="relative h-48 overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-r from-purple-600/50 to-blue-600/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10" />
-                <img
-                  src={project.image}
-                  alt={project.title}
-                  className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-300"
-                />
+                
+                {project.title === "Open-Notif" ? (
+                  <div className="w-full h-full flex items-center justify-center">
+                    <div className="w-full h-full">
+                      <OpenNotifAnimation />
+                    </div>
+                  </div>
+                ) : (
+                  <img
+                    src={project.image}
+                    alt={project.title}
+                    className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-300"
+                  />
+                )}
               </div>
 
               {/* Project Content */}

@@ -69,8 +69,14 @@
         "description": "Engineered a Conditional GANs framework achieving 87% accuracy in satellite-to-map image translation with 100K Google Maps dataset.",
         "github": "https://github.com/yatharthk2/PixToPix",
         "image": "Projects/PixtoPix.png"
-      }
+      },
 
+      {
+        "title": "Open-Notif",
+        "description": "CLI for user-company connectivity with AWS (Lambda, SNS, SQS), MongoDB and Twilio. Achieved sub-3-second notification delivery using AWS Chalice for Infrastructure as Code.",
+        "github": "https://github.com/yatharthk2/notifications",
+        "image": "Projects/OpenNotif.png"
+      }
     ]
   },
   "contact": {
