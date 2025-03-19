@@ -37,7 +37,7 @@ const Experience = () => {
       image: "/companyLogo/Quidich.png"
     },
     {
-      title: "Software Engineer Intern",
+      title: "Software Engineer",
       company: "Azodha",
       companyUrl: "https://www.azodha.com/",
       period: "09/2021 – 04/2022",
