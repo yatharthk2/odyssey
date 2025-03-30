@@ -7,6 +7,7 @@ import logging
 from .prompt import contextualized_query
 import colorama
 import asyncio
+from .CacheManager import CacheManager
 
 logger = logging.getLogger(__name__)
 
@@ -14,7 +15,7 @@ class QueryEngine:
     """Manages query processing and streaming responses."""
 
     
-    def __init__(self, graph_manager, chat):
+    def __init__(self, graph_manager, chat, cache_manager=None):
         self.graph_manager = graph_manager
         self.chat = chat
         self.query_engine_KG = None
@@ -22,6 +23,8 @@ class QueryEngine:
         # Add cached HyDE engines
         self.hyde_engine_KG = None
         self.hyde_engine_vector = None
+        # Add cache manager
+        self.cache_manager = cache_manager
 
     def initialize(self) -> bool:
         """Initialize query engines after indexes are ready."""
@@ -47,6 +50,16 @@ class QueryEngine:
     def process_query(self, question: str, query_transformation: str = None, vector_store: str = None) -> Iterator[str]:
         """Process a query and return streaming response in real-time."""
         try:
+            # Check cache first if available
+            if self.cache_manager and self.cache_manager.is_available():
+                cached_response = self.cache_manager.get_cached_response(question)
+                if cached_response:
+                    self.chat.append({"role": "user", "content": question})
+                    self.chat.append({"role": "assistant", "content": cached_response})
+                    logger.info(f"{colorama.Fore.CYAN}Returning cached response{colorama.Fore.RESET}")
+                    yield cached_response
+                    return
+
             self.chat.append({"role": "user", "content": question})
             chat_history = self.chat.to_list()
             
@@ -84,11 +97,18 @@ class QueryEngine:
                 elif msg_type == "done":
                     break
 
+            # Complete response to store in chat history and cache
+            complete_response = "".join(response_text) or "I apologize, but I couldn't generate a response to your question."
+            
             # Update chat history with complete response
             self.chat.append({
                 "role": "assistant",
-                "content": "".join(response_text) or "I apologize, but I couldn't generate a response to your question."
+                "content": complete_response
             })
+            
+            # Cache the response if cache_manager is available
+            if self.cache_manager and self.cache_manager.is_available():
+                self.cache_manager.cache_response(question, complete_response)
 
         except Exception as e:
             error_msg = f"I encountered an error while processing your question: {str(e)}"

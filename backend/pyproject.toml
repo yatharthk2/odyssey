@@ -20,7 +20,8 @@ dependencies = [
     "colorama (>=0.4.6,<0.5.0)",
     "transformers (==4.45.2)",
     "llama-index-readers-file (==0.2.2)",
-    "llama-index-llms-gemini"
+    "llama-index-llms-gemini",
+    "redis (>=5.0.0,<6.0.0)"
 ]
 
 

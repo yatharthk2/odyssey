@@ -35,6 +35,9 @@ Google_API_KEY = os.getenv('Google_Gemini_API_KEY')
 if not Google_API_KEY:
     raise ValueError("Google_Gemini_API_KEY not found in environment variables")
 
+# Get Redis URL from environment variables
+redis_url = os.getenv('REDIS_URL', 'redis://localhost:6379')
+
 settings = PropertyGraphSettings(
     pdf_directory="./documents",  # Adjust path as needed
     groq_api_key=groq_api_key, Google_API_KEY=Google_API_KEY
@@ -42,7 +45,7 @@ settings = PropertyGraphSettings(
 
 # Default to gemini, but this could be made configurable
 model_provider = os.getenv('DEFAULT_MODEL_PROVIDER', 'groq')
-chat_manager = ChatManager(settings=settings, model_provider=model_provider)
+chat_manager = ChatManager(settings=settings, model_provider=model_provider, redis_url=redis_url)
 if not chat_manager.initialize_system():
     raise RuntimeError("Failed to initialize ChatManager system")
 
@@ -75,7 +78,7 @@ async def websocket_endpoint(websocket: WebSocket):
             if model_provider and model_provider.lower() != chat_manager.model_manager.model_provider:
                 logger.info(f"Switching model provider from {chat_manager.model_manager.model_provider} to {model_provider.lower()}")
                 chat_manager.cleanup()
-                chat_manager = ChatManager(settings=settings, model_provider=model_provider)
+                chat_manager = ChatManager(settings=settings, model_provider=model_provider, redis_url=redis_url)
                 if not chat_manager.initialize_system():
                     await websocket.send_text(json.dumps({
                         "error": f"Failed to initialize system with model provider: {model_provider}"

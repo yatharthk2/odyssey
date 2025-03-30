@@ -12,6 +12,7 @@ from .ModelsManager import ModelManager
 from .ChromaClient import ChromaStoreManager
 from .VectorStore_manager import VectorStoreManager
 from .query_engine import QueryEngine
+from .CacheManager import CacheManager
 
 logger = logging.getLogger(__name__)
 
@@ -19,15 +20,22 @@ logger = logging.getLogger(__name__)
 class ChatManager:
     """Coordinates the document analysis and query system components."""
 
-    def __init__(self, settings, model_provider="gemini"):
+    def __init__(self, settings, model_provider="gemini", redis_url=None):
         self.settings = settings
         self.model_manager = ModelManager(settings, model_provider)
         self.Chroma_Store_Manager = ChromaStoreManager(settings)
         self.chat = Chat(settings.chat_size)
         self.Vector_Store_Manager = VectorStoreManager(settings, self.model_manager, self.Chroma_Store_Manager)
-        self.query_engine = QueryEngine(self.Vector_Store_Manager, self.chat)
+        # Initialize cache manager if Redis URL is provided
+        self.cache_manager = None
+        if redis_url:
+            self.cache_manager = CacheManager(redis_url=redis_url, max_cached_items=6)
+            logger.info(f"Initialized cache manager with Redis at {redis_url}")
+        else:
+            logger.info("Redis URL not provided, caching disabled")
+        # Initialize query engine with cache manager
+        self.query_engine = QueryEngine(self.Vector_Store_Manager, self.chat, self.cache_manager)
         self.thread_pool = ThreadPoolExecutor(max_workers=settings.thread_pool_size)
-        # self.Choice_of_vector_store = 'sv'  # Make sure this matches the case in _process_query
 
     def initialize_system(self) -> bool:
         """Initialize all components of the system."""
@@ -70,6 +78,7 @@ class ChatManager:
             ('model_manager', lambda x: None),
             ('Chroma_Store_Manager', lambda x: None),
             ('Vector_Store_Manager', lambda x: None),
+            ('cache_manager', lambda x: None),
             ('query_engine', lambda x: None)
         ]
         
@@ -127,7 +136,7 @@ if __name__ == '__main__':
         
         # Initialize the summarizer
         print(f"{colorama.Fore.CYAN}Initializing ChatManager...{colorama.Fore.RESET}")
-        chat_manager = ChatManager(settings=settings)
+        chat_manager = ChatManager(settings=settings, redis_url=os.getenv('REDIS_URL'))
         
 
 
