@@ -6,6 +6,7 @@ class PropertyGraphSettings:
     """Settings for PropertyGraphSummarizer"""
     pdf_directory: str
     groq_api_key: str
+    Google_API_KEY: str
     chat_size: int = 10
     # storage_dir_Kg: str = "./storage_Kg"
     # storage_dir_SV: str = "./storage_SV"
@@ -16,8 +17,9 @@ class PropertyGraphSettings:
     graph_file: str = "./kg.html"
     chunk_size: int = 256
     chunk_overlap: int = 50
-    # groq_model: str = "llama-3.3-70b-versatile"
     groq_model: str = "llama-3.3-70b-versatile"
+    # groq_model: str = "llama-3.1-8b-instant"
+    google_model: str = "models/gemini-2.0-pro-exp-02-05"
 
     embedding_model: str = "BAAI/bge-base-en-v1.5"
     max_tokens: int = 4096

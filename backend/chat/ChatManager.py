@@ -16,14 +16,12 @@ from .query_engine import QueryEngine
 logger = logging.getLogger(__name__)
 
 
-
 class ChatManager:
     """Coordinates the document analysis and query system components."""
 
-
-    def __init__(self, settings):
+    def __init__(self, settings, model_provider="gemini"):
         self.settings = settings
-        self.model_manager = ModelManager(settings)
+        self.model_manager = ModelManager(settings, model_provider)
         self.Chroma_Store_Manager = ChromaStoreManager(settings)
         self.chat = Chat(settings.chat_size)
         self.Vector_Store_Manager = VectorStoreManager(settings, self.model_manager, self.Chroma_Store_Manager)
@@ -107,6 +105,12 @@ if __name__ == '__main__':
         print(f"{colorama.Fore.RED}Error: GROQ_API_KEY not found in environment variables{colorama.Fore.RESET}")
         sys.exit(1)
     
+    google_api_key = os.getenv('Google_Gemini_API_KEY')
+    if not google_api_key:
+        print(f"{colorama.Fore.RED}Error: Google_Gemini_API_KEY not found in environment variables{colorama.Fore.RESET}")
+        sys.exit(1)
+
+    
     # Test configuration
     pdf_directory = "./test_docs"
     
@@ -117,7 +121,8 @@ if __name__ == '__main__':
         # Initialize settings
         settings = PropertyGraphSettings(
             pdf_directory=pdf_directory,
-            groq_api_key=groq_api_key
+            groq_api_key=groq_api_key,
+            google_api_key=google_api_key
         )
         
         # Initialize the summarizer

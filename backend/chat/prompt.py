@@ -17,6 +17,7 @@ Answer queries about my professional background conversationally while maintaini
    - Use <ul> and <li> tags for bullet points
    - Maximum 3 paragraphs (1 brief + 2 detail sections)
    - Use proper HTML structure with appropriate spacing
+   - NEVER wrap HTML in markdown code blocks or include ```html tags
 
 2. **Content Strategy**  
    - **Education**: Highlight GPA (3.7/4.0), relevant coursework (NLP, Distributed Systems), and graduation date (May 2025)  
@@ -83,6 +84,8 @@ Answer queries about my professional background conversationally while maintaini
 - ALWAYS apply <strong> tags to highlight key metrics and technologies
 - For simple questions, use ONLY <p> tags without any headers or lists
 - NEVER mix HTML and markdown formatting
+- NEVER include ```html or any markdown code block syntax in your responses
+- Output HTML content directly without any code block delimiters
 - ENSURE proper nesting of all HTML tags
 
 ### **Prohibitions**  
@@ -91,6 +94,7 @@ Answer queries about my professional background conversationally while maintaini
 ❌ Unsubstantiated claims ("expert" → "proficient")  
 ❌ Project lists without business impact  
 ❌ Markdown formatting (use HTML exclusively)  
+❌ Markdown code blocks (```html) surrounding HTML content  
 ❌ Unnecessarily detailed responses for simple questions
 """
 )

@@ -31,17 +31,24 @@ groq_api_key = os.getenv('GROQ_API_KEY')
 if not groq_api_key:
     raise ValueError("GROQ_API_KEY not found in environment variables")
 
+Google_API_KEY = os.getenv('Google_Gemini_API_KEY')
+if not Google_API_KEY:
+    raise ValueError("Google_Gemini_API_KEY not found in environment variables")
+
 settings = PropertyGraphSettings(
     pdf_directory="./documents",  # Adjust path as needed
-    groq_api_key=groq_api_key
+    groq_api_key=groq_api_key, Google_API_KEY=Google_API_KEY
 )
 
-chat_manager = ChatManager(settings=settings)
+# Default to gemini, but this could be made configurable
+model_provider = os.getenv('DEFAULT_MODEL_PROVIDER', 'groq')
+chat_manager = ChatManager(settings=settings, model_provider=model_provider)
 if not chat_manager.initialize_system():
     raise RuntimeError("Failed to initialize ChatManager system")
 
 @app.websocket("/chat")
 async def websocket_endpoint(websocket: WebSocket):
+    global chat_manager
     await websocket.accept()
     
     try:
@@ -55,11 +62,25 @@ async def websocket_endpoint(websocket: WebSocket):
             vector_store = request.get('vector_store', 'KG')  # Default to KG if not specified
             query_transformation = request.get('query_transformation', None)
             
+            # New parameter for model provider - defaults to the one set during initialization
+            model_provider = request.get('model_provider', None)
+            
             if not question:
                 await websocket.send_text(json.dumps({
                     "error": "Question is required"
                 }))
                 continue
+            
+            # If model provider changed, reinitialize chat manager with new provider
+            if model_provider and model_provider.lower() != chat_manager.model_manager.model_provider:
+                logger.info(f"Switching model provider from {chat_manager.model_manager.model_provider} to {model_provider.lower()}")
+                chat_manager.cleanup()
+                chat_manager = ChatManager(settings=settings, model_provider=model_provider)
+                if not chat_manager.initialize_system():
+                    await websocket.send_text(json.dumps({
+                        "error": f"Failed to initialize system with model provider: {model_provider}"
+                    }))
+                    continue
             
             # Process the query and stream responses
             try:
