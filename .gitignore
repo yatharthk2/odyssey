@@ -5,3 +5,4 @@ backend/__pycache__/*
 backend/chat/__pycache__/*
 backend/storage/*
 backend/kg.html
+backend/.env
