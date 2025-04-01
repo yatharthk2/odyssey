@@ -77,6 +77,7 @@ Embark on your Odyssey—where your next opportunity is just a conversation away
 3) Huggingface
 4) ChromaDB
 5) FastAPI
+6) Redis
  
 ## Backend Rag Architecture Explanation
 ### Knowledge Graph Search
