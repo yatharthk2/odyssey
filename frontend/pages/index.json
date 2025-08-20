@@ -23,14 +23,14 @@
     }
   ],
   "hero": {
-    "name": "I am Yatharth",
-    "subtitle": "Innovating AI for smarter solutions and scalable systems."
+    "name": "I am Nupur",
+    "subtitle": "Statistic Researcher"
   },
   "about": {
     "title": "About Me",
     "primary": "I'm a passionate software engineer and machine learning enthusiast, focused on building intelligent systems that solve real-world problems.",
     "secondary": "With a background in computer science and years of industry experience, I blend technical expertise with creative problem-solving to deliver innovative solutions.",
-    "image": "/Newyork_Dumbo_300x300.jpg"
+    "image": "/nupur.jpg"
   },
   "projects": {
     "title": "Projects",
