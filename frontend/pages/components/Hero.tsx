@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from "react";
 import config from "../index.json";
-import Link from "next/link";
 
 // Define interfaces for type safety
 interface Point {
@@ -176,16 +175,7 @@ const Hero = () => {
           </span>
         </h1>
         <h1 className="text-6xl font-bold tracking-wide mt-4">{hero.subtitle}</h1>
-        <Link href="/email-auth-flow/signin" className="group relative inline-block mt-8 w-fit">
-          <div className="relative overflow-hidden rounded-lg bg-gradient-to-r from-teal-500 via-amber-500 to-cyan-500 p-0.5 transition-all duration-300 group-hover:scale-105 group-hover:shadow-lg group-hover:shadow-teal-500/25">
-            <div className="relative rounded-md bg-white px-8 py-3 transition-all duration-300 group-hover:bg-gray-50">
-              <span className="text-xl font-bold bg-gradient-to-r from-teal-600 via-amber-600 to-cyan-600 bg-clip-text text-transparent transition-all duration-300 group-hover:from-teal-700 group-hover:via-amber-700 group-hover:to-cyan-700">
-                Try Demo!
-              </span>
-              <div className="absolute inset-0 rounded-md bg-gradient-to-r from-teal-500/10 via-amber-500/10 to-cyan-500/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
-            </div>
-          </div>
-        </Link>
+  {/* Try Demo button removed */}
       </div>
     </section>
   );

@@ -137,7 +137,7 @@ export default function Home() {
           transition={{ duration: 0.6, ease: "easeOut" }}
           viewport={{ once: true, margin: "-50px" }}
         >
-          <Testimonials />
+          {/* <Testimonials /> */}
         </motion.div>
 
         {/* Contact Section */}
