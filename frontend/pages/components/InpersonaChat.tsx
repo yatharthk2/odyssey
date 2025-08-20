@@ -6,8 +6,7 @@ import Link from 'next/link';
 import Tooltip from './Tooltip';
 // Remove TextRotator import since we're replacing it
 // import TextRotator from './TextRotator';
-import { useTheme } from '../../context/ThemeContext';
-import ThemeToggle from '../../components/ThemeToggle';
+// Dark mode removed
 
 interface Message {
   content: string;
@@ -17,7 +16,6 @@ interface Message {
 }
 
 export default function InpersonaChat() {
-  const { theme } = useTheme();
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState<Message[]>([]);
   const [useKnowledgeGraph, setUseKnowledgeGraph] = useState(false);
@@ -179,9 +177,9 @@ export default function InpersonaChat() {
   };
 
   return (
-    <div className="relative flex flex-col w-full h-[100dvh] bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-blue-900 overflow-hidden">
+  <div className="relative flex flex-col w-full h-[100dvh] bg-gradient-to-br from-gray-50 to-blue-50 overflow-hidden">
       {/* Navigation Area - Reorganized */}
-      <div className="fixed top-0 left-0 right-0 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm py-2 px-4 flex justify-between items-center z-50">
+  <div className="fixed top-0 left-0 right-0 bg-white/80 backdrop-blur-sm py-2 px-4 flex justify-between items-center z-50">
         <Link 
           href="/" 
           className="text-sm sm:text-base whitespace-nowrap font-bold bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 bg-clip-text text-transparent"
@@ -195,11 +193,11 @@ export default function InpersonaChat() {
             <div className={`w-2 h-2 rounded-full ${
               wsRef.current?.readyState === WebSocket.OPEN ? 'bg-green-500' : 'bg-red-500'
             }`}/>
-            <span className="text-xs text-gray-600 dark:text-gray-300">
+            <span className="text-xs text-gray-600">
               {wsRef.current?.readyState === WebSocket.OPEN ? 'Connected' : 'Disconnected'}
             </span>
           </div>
-          <ThemeToggle />
+          {/* Theme toggle removed */}
         </div>
       </div>
 
@@ -216,7 +214,7 @@ export default function InpersonaChat() {
                 />
               </div>
               <div className="text-center">
-                <p className="text-xl sm:text-2xl font-light text-gray-600 dark:text-gray-300 mb-4">
+                <p className="text-xl sm:text-2xl font-light text-gray-600 mb-4">
                   How can I help you today?
                 </p>
                 {/* Display only 4 suggestion tiles */}
@@ -225,7 +223,7 @@ export default function InpersonaChat() {
                     <button
                       key={index}
                       onClick={() => handleSuggestionClick(question)}
-                      className="bg-white dark:bg-gray-800 p-3 rounded-xl text-left text-sm sm:text-base text-gray-700 dark:text-gray-300 shadow-sm hover:shadow-md border border-gray-200 dark:border-gray-700 transition-all hover:border-purple-300 dark:hover:border-purple-600 hover:bg-gray-50 dark:hover:bg-gray-750"
+                      className="bg-white p-3 rounded-xl text-left text-sm sm:text-base text-gray-700 shadow-sm hover:shadow-md border border-gray-200 transition-all hover:border-purple-300 hover:bg-gray-50"
                     >
                       {question}
                     </button>
@@ -241,10 +239,10 @@ export default function InpersonaChat() {
                   className={`flex ${msg.isUser ? 'justify-end' : 'justify-start'} animate-fade-in`}
                 >
                   <div 
-                    className={`max-w-[90%] sm:max-w-[85%] p-3 sm:p-4 rounded-2xl transition-all ${
+          className={`max-w-[90%] sm:max-w-[85%] p-3 sm:p-4 rounded-2xl transition-all ${
                       msg.isUser 
                         ? 'bg-gradient-to-br from-purple-600 to-blue-600 text-white shadow-lg'
-                        : 'bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 shadow-md'
+            : 'bg-white text-gray-800 shadow-md'
                     }`}
                   >
                     {msg.isUser ? (
@@ -273,7 +271,7 @@ export default function InpersonaChat() {
       </div>
 
       {/* Message Input Form - Updated for better mobile handling */}
-      <div className="fixed bottom-0 left-0 w-full bg-gradient-to-t from-white dark:from-gray-900 to-transparent pt-6 pb-4">
+  <div className="fixed bottom-0 left-0 w-full bg-gradient-to-t from-white to-transparent pt-6 pb-4">
         <form onSubmit={handleSubmit} className="max-w-3xl mx-auto px-2 sm:px-4 w-full">
           <div className="flex flex-col gap-2">
             {/* Toggle Buttons */}
@@ -284,10 +282,10 @@ export default function InpersonaChat() {
                   <button
                     type="button"
                     onClick={() => setUseKnowledgeGraph(!useKnowledgeGraph)}
-                    className={`flex items-center gap-1 px-3 py-1 rounded-full text-sm transition-all ${
+          className={`flex items-center gap-1 px-3 py-1 rounded-full text-sm transition-all ${
                       useKnowledgeGraph
                         ? 'bg-gradient-to-r from-purple-700 to-purple-500 text-white shadow-md'
-                        : 'bg-gradient-to-r from-white to-gray-100 dark:from-gray-800 dark:to-gray-700 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 hover:shadow-sm'
+            : 'bg-gradient-to-r from-white to-gray-100 text-gray-700 border border-gray-300 hover:shadow-sm'
                     }`}
                   >
                     <Grape size={16} />
@@ -301,10 +299,10 @@ export default function InpersonaChat() {
                 <button
                   type="button"
                   onClick={() => setUseKnowledgeGraph(!useKnowledgeGraph)}
-                  className={`flex items-center gap-1 px-2 py-1 rounded-full text-xs transition-all ${
+          className={`flex items-center gap-1 px-2 py-1 rounded-full text-xs transition-all ${
                     useKnowledgeGraph
                       ? 'bg-gradient-to-r from-purple-700 to-purple-500 text-white shadow-md'
-                      : 'bg-gradient-to-r from-white to-gray-100 dark:from-gray-800 dark:to-gray-700 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 hover:shadow-sm'
+            : 'bg-gradient-to-r from-white to-gray-100 text-gray-700 border border-gray-300 hover:shadow-sm'
                   }`}
                 >
                   <Grape size={12} />
@@ -313,10 +311,10 @@ export default function InpersonaChat() {
                 <button
                   type="button"
                   onClick={() => setUseHydeQuery(!useHydeQuery)}
-                  className={`flex items-center gap-1 px-2 py-1 rounded-full text-xs transition-all ${
+          className={`flex items-center gap-1 px-2 py-1 rounded-full text-xs transition-all ${
                     useHydeQuery
                       ? 'bg-gradient-to-r from-blue-700 to-blue-500 text-white shadow-md'
-                      : 'bg-gradient-to-r from-white to-gray-100 dark:from-gray-800 dark:to-gray-700 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 hover:shadow-sm'
+            : 'bg-gradient-to-r from-white to-gray-100 text-gray-700 border border-gray-300 hover:shadow-sm'
                   }`}
                 >
                   <Search size={12} />
@@ -324,18 +322,18 @@ export default function InpersonaChat() {
                 </button>
                 <button
                   onClick={() => setShowInfo(!showInfo)}
-                  className="p-1 rounded-full bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700"
+                  className="p-1 rounded-full bg-gray-100 border border-gray-200"
                 >
-                  <Info size={14} className="text-gray-600 dark:text-gray-400" />
+                  <Info size={14} className="text-gray-600" />
                 </button>
               </div>
 
               {/* Info Modal for Mobile */}
               {showInfo && (
                 <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 sm:hidden">
-                  <div className="bg-white dark:bg-gray-800 rounded-xl p-4 max-w-xs w-full shadow-lg border border-gray-200 dark:border-gray-700">
-                    <h3 className="font-semibold mb-2 text-gray-800 dark:text-gray-200">Search Options</h3>
-                    <div className="text-sm mb-4 space-y-3 text-gray-600 dark:text-gray-300">
+                  <div className="bg-white rounded-xl p-4 max-w-xs w-full shadow-lg border border-gray-200">
+                    <h3 className="font-semibold mb-2 text-gray-800">Search Options</h3>
+                    <div className="text-sm mb-4 space-y-3 text-gray-600">
                       <div>
                         <p className="font-medium mb-1">KG (Knowledge Graph):</p>
                         <p>More accurate but less detailed results.</p>
@@ -348,7 +346,7 @@ export default function InpersonaChat() {
                     </div>
                     <button
                       onClick={() => setShowInfo(false)}
-                      className="w-full py-2 bg-gray-100 dark:bg-gray-700 rounded-lg text-sm text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+                      className="w-full py-2 bg-gray-100 rounded-lg text-sm text-gray-800 hover:bg-gray-200 transition-colors"
                     >
                       Close
                     </button>
@@ -363,10 +361,10 @@ export default function InpersonaChat() {
                   <button
                     type="button"
                     onClick={() => setUseHydeQuery(!useHydeQuery)}
-                    className={`flex items-center gap-1 px-3 py-1 rounded-full text-sm transition-all ${
+          className={`flex items-center gap-1 px-3 py-1 rounded-full text-sm transition-all ${
                       useHydeQuery
                         ? 'bg-gradient-to-r from-blue-700 to-blue-500 text-white shadow-md'
-                        : 'bg-gradient-to-r from-white to-gray-100 dark:from-gray-800 dark:to-gray-700 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 hover:shadow-sm'
+            : 'bg-gradient-to-r from-white to-gray-100 text-gray-700 border border-gray-300 hover:shadow-sm'
                     }`}
                   >
                     <Search size={16} />
@@ -377,11 +375,11 @@ export default function InpersonaChat() {
             </div>
 
             {/* Input Bar - Added touch-action-manipulation for better mobile handling */}
-            <div className="flex items-center bg-white dark:bg-gray-800 rounded-xl px-3 py-2 shadow-lg ring-1 ring-gray-100 dark:ring-gray-700 touch-action-manipulation">
+      <div className="flex items-center bg-white rounded-xl px-3 py-2 shadow-lg ring-1 ring-gray-100 touch-action-manipulation">
               <input
                 type="text"
                 placeholder="Ask me anything..."
-                className="flex-1 bg-transparent outline-none text-gray-800 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500 text-base py-1"
+        className="flex-1 bg-transparent outline-none text-gray-800 placeholder-gray-400 text-base py-1"
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 onKeyDown={(e) => {

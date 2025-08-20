@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import config from "../index.json";
 import Link from "next/link";
-import ThemeToggle from "../../components/ThemeToggle";
 import { motion } from "framer-motion"; // Add this import
 import { useRouter } from 'next/router';
 
@@ -25,13 +24,13 @@ const Header = () => {
   };
 
   return (
-    <header className="sticky top-0 z-50 backdrop-blur-sm bg-white/30 dark:bg-gray-900/30 border-b border-gray-200/20 dark:border-gray-700/20">
+    <header className="sticky top-0 z-50 relative supports-[backdrop-filter]:backdrop-blur-sm bg-white/60">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Mobile menu button */}
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="md:hidden p-2 rounded-md text-gray-700 dark:text-gray-200"
+            className="md:hidden p-2 rounded-md text-gray-700"
           >
             <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               {isMenuOpen ? (
@@ -50,7 +49,7 @@ const Header = () => {
                   <motion.a
                     href={item.url}
                     onClick={(e: React.MouseEvent<HTMLAnchorElement>) => handleClick(e, item.url)}
-                    className="relative whitespace-nowrap font-medium px-3 py-1 rounded-full text-purple-600 dark:text-purple-400 max-w-[120px]"
+                    className="relative whitespace-nowrap font-medium px-3 py-1 rounded-full text-teal-600 max-w-[120px]"
                     whileHover={{ scale: 1.05 }}
                   >
                     {/* Smoother color changing glow effect */}
@@ -58,12 +57,12 @@ const Header = () => {
                       className="absolute inset-0 rounded-full opacity-40 blur-xl"
                       animate={{
                         background: [
-                          'linear-gradient(to right, #9333EA, #EC4899, #3B82F6)',
-                          'linear-gradient(to right, #22C55E, #EAB308, #EC4899)',
-                          'linear-gradient(to right, #3B82F6, #F43F5E, #8B5CF6)',
-                          'linear-gradient(to right, #EAB308, #8B5CF6, #22C55E)',
-                          'linear-gradient(to right, #F43F5E, #22C55E, #3B82F6)',
-                          'linear-gradient(to right, #9333EA, #EC4899, #3B82F6)'
+                          'linear-gradient(to right, #14b8a6, #f59e0b, #06b6d4)',
+                          'linear-gradient(to right, #06b6d4, #14b8a6, #f59e0b)',
+                          'linear-gradient(to right, #f59e0b, #06b6d4, #14b8a6)',
+                          'linear-gradient(to right, #14b8a6, #06b6d4, #f59e0b)',
+                          'linear-gradient(to right, #06b6d4, #f59e0b, #14b8a6)',
+                          'linear-gradient(to right, #14b8a6, #f59e0b, #06b6d4)'
                         ]
                       }}
                       transition={{
@@ -77,12 +76,12 @@ const Header = () => {
                       className="absolute -inset-0.5 rounded-full opacity-50 blur-md"
                       animate={{
                         background: [
-                          'linear-gradient(to right, #9333EA, #EC4899, #3B82F6)',
-                          'linear-gradient(to right, #22C55E, #EAB308, #EC4899)',
-                          'linear-gradient(to right, #3B82F6, #F43F5E, #8B5CF6)',
-                          'linear-gradient(to right, #EAB308, #8B5CF6, #22C55E)',
-                          'linear-gradient(to right, #F43F5E, #22C55E, #3B82F6)',
-                          'linear-gradient(to right, #9333EA, #EC4899, #3B82F6)'
+                          'linear-gradient(to right, #14b8a6, #f59e0b, #06b6d4)',
+                          'linear-gradient(to right, #06b6d4, #14b8a6, #f59e0b)',
+                          'linear-gradient(to right, #f59e0b, #06b6d4, #14b8a6)',
+                          'linear-gradient(to right, #14b8a6, #06b6d4, #f59e0b)',
+                          'linear-gradient(to right, #06b6d4, #f59e0b, #14b8a6)',
+                          'linear-gradient(to right, #14b8a6, #f59e0b, #06b6d4)'
                         ]
                       }}
                       transition={{
@@ -96,12 +95,12 @@ const Header = () => {
                       className="absolute inset-0 rounded-full"
                       animate={{
                         background: [
-                          'linear-gradient(to right, #9333EA, #EC4899, #3B82F6)',
-                          'linear-gradient(to right, #22C55E, #EAB308, #EC4899)',
-                          'linear-gradient(to right, #3B82F6, #F43F5E, #8B5CF6)',
-                          'linear-gradient(to right, #EAB308, #8B5CF6, #22C55E)',
-                          'linear-gradient(to right, #F43F5E, #22C55E, #3B82F6)',
-                          'linear-gradient(to right, #9333EA, #EC4899, #3B82F6)'
+                          'linear-gradient(to right, #14b8a6, #f59e0b, #06b6d4)',
+                          'linear-gradient(to right, #06b6d4, #14b8a6, #f59e0b)',
+                          'linear-gradient(to right, #f59e0b, #06b6d4, #14b8a6)',
+                          'linear-gradient(to right, #14b8a6, #06b6d4, #f59e0b)',
+                          'linear-gradient(to right, #06b6d4, #f59e0b, #14b8a6)',
+                          'linear-gradient(to right, #14b8a6, #f59e0b, #06b6d4)'
                         ]
                       }}
                       transition={{
@@ -111,7 +110,7 @@ const Header = () => {
                         times: [0, 0.2, 0.4, 0.6, 0.8, 1]
                       }}
                     />
-                    <span className="absolute inset-[1.5px] rounded-full bg-white dark:bg-gray-900" />
+                    <span className="absolute inset-[1.5px] rounded-full bg-white" />
                     {/* Text content */}
                     <span className="relative">
                       ✨ {item.title}
@@ -123,21 +122,21 @@ const Header = () => {
                       href={item.url}
                       onClick={item.isDownload ? undefined : (e: React.MouseEvent<HTMLAnchorElement>) => handleClick(e, item.url)}
                       download={item.isDownload}
-                      className="whitespace-nowrap font-medium text-gray-700 dark:text-gray-200 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
+                      className="whitespace-nowrap font-medium text-gray-800 hover:text-teal-600 transition-colors"
                     >
                       {item.title}
                     </a>
-                    <div className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 scale-x-0 group-hover:scale-x-100 transition-transform" />
+                    <div className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-teal-500 via-amber-500 to-cyan-500 scale-x-0 group-hover:scale-x-100 transition-transform" />
                   </>
                 )}
               </div>
             ))}
           </nav>
 
-          <ThemeToggle />
+          {/* Theme toggle removed */}
         </div>
 
-        {/* Mobile navigation */}
+    {/* Mobile navigation */}
         {isMenuOpen && (
           <div className="md:hidden py-4">
             <div className="flex flex-col space-y-4">
@@ -150,19 +149,19 @@ const Header = () => {
                       handleClick(e, item.url);
                       setIsMenuOpen(false);
                     }}
-                    className="relative inline-block whitespace-nowrap font-medium px-3 py-1 rounded-full text-purple-600 dark:text-purple-400 max-w-[120px]"
+  className="relative inline-block whitespace-nowrap font-medium px-3 py-1 rounded-full text-teal-600 max-w-[120px]"
                     whileHover={{ scale: 1.05 }}
                   >
                     <motion.span 
                       className="absolute inset-0 rounded-full opacity-40 blur-xl"
                       animate={{
                         background: [
-                          'linear-gradient(to right, #9333EA, #EC4899, #3B82F6)',
-                          'linear-gradient(to right, #22C55E, #EAB308, #EC4899)',
-                          'linear-gradient(to right, #3B82F6, #F43F5E, #8B5CF6)',
-                          'linear-gradient(to right, #EAB308, #8B5CF6, #22C55E)',
-                          'linear-gradient(to right, #F43F5E, #22C55E, #3B82F6)',
-                          'linear-gradient(to right, #9333EA, #EC4899, #3B82F6)'
+          'linear-gradient(to right, #14b8a6, #f59e0b, #06b6d4)',
+          'linear-gradient(to right, #06b6d4, #14b8a6, #f59e0b)',
+          'linear-gradient(to right, #f59e0b, #06b6d4, #14b8a6)',
+          'linear-gradient(to right, #14b8a6, #06b6d4, #f59e0b)',
+          'linear-gradient(to right, #06b6d4, #f59e0b, #14b8a6)',
+          'linear-gradient(to right, #14b8a6, #f59e0b, #06b6d4)'
                         ]
                       }}
                       transition={{
@@ -176,12 +175,12 @@ const Header = () => {
                       className="absolute -inset-0.5 rounded-full opacity-50 blur-md"
                       animate={{
                         background: [
-                          'linear-gradient(to right, #9333EA, #EC4899, #3B82F6)',
-                          'linear-gradient(to right, #22C55E, #EAB308, #EC4899)',
-                          'linear-gradient(to right, #3B82F6, #F43F5E, #8B5CF6)',
-                          'linear-gradient(to right, #EAB308, #8B5CF6, #22C55E)',
-                          'linear-gradient(to right, #F43F5E, #22C55E, #3B82F6)',
-                          'linear-gradient(to right, #9333EA, #EC4899, #3B82F6)'
+          'linear-gradient(to right, #14b8a6, #f59e0b, #06b6d4)',
+          'linear-gradient(to right, #06b6d4, #14b8a6, #f59e0b)',
+          'linear-gradient(to right, #f59e0b, #06b6d4, #14b8a6)',
+          'linear-gradient(to right, #14b8a6, #06b6d4, #f59e0b)',
+          'linear-gradient(to right, #06b6d4, #f59e0b, #14b8a6)',
+          'linear-gradient(to right, #14b8a6, #f59e0b, #06b6d4)'
                         ]
                       }}
                       transition={{
@@ -195,12 +194,12 @@ const Header = () => {
                       className="absolute inset-0 rounded-full"
                       animate={{
                         background: [
-                          'linear-gradient(to right, #9333EA, #EC4899, #3B82F6)',
-                          'linear-gradient(to right, #22C55E, #EAB308, #EC4899)',
-                          'linear-gradient(to right, #3B82F6, #F43F5E, #8B5CF6)',
-                          'linear-gradient(to right, #EAB308, #8B5CF6, #22C55E)',
-                          'linear-gradient(to right, #F43F5E, #22C55E, #3B82F6)',
-                          'linear-gradient(to right, #9333EA, #EC4899, #3B82F6)'
+          'linear-gradient(to right, #14b8a6, #f59e0b, #06b6d4)',
+          'linear-gradient(to right, #06b6d4, #14b8a6, #f59e0b)',
+          'linear-gradient(to right, #f59e0b, #06b6d4, #14b8a6)',
+          'linear-gradient(to right, #14b8a6, #06b6d4, #f59e0b)',
+          'linear-gradient(to right, #06b6d4, #f59e0b, #14b8a6)',
+          'linear-gradient(to right, #14b8a6, #f59e0b, #06b6d4)'
                         ]
                       }}
                       transition={{
@@ -210,7 +209,7 @@ const Header = () => {
                         times: [0, 0.2, 0.4, 0.6, 0.8, 1]
                       }}
                     />
-                    <span className="absolute inset-[1.5px] rounded-full bg-white dark:bg-gray-900" />
+                    <span className="absolute inset-[1.5px] rounded-full bg-white" />
                     <span className="relative">
                       ✨ {item.title}
                     </span>
@@ -223,7 +222,7 @@ const Header = () => {
                       handleClick(e, item.url);
                       setIsMenuOpen(false);
                     }}
-                    className="text-gray-700 dark:text-gray-200 hover:text-purple-600 dark:hover:text-purple-400"
+  className="text-gray-800 hover:text-teal-600"
                   >
                     {item.title}
                   </a>
@@ -233,6 +232,8 @@ const Header = () => {
           </div>
         )}
       </div>
+  {/* Gradient bottom border to match Hero palette */}
+  <div className="pointer-events-none absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-teal-500 via-amber-500 to-cyan-500 opacity-70" />
     </header>
   );
 };
