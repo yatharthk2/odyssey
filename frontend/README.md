@@ -147,7 +147,3 @@ You will need the following things properly installed on your computer.
 * `npm run lint:hbs`
 * `npm run lint:js`
 * `npm run lint:js -- --fix`
-
-### Building
-
-*  `npm run build`
