@@ -5,12 +5,13 @@ import { Calendar, Building2, ExternalLink, MapPin } from 'lucide-react';
 const Experience = () => {
   const experiences = [
     {
-      title: "Machine Learning Intern",
-      company: "Outspeed",
-      companyUrl: "https://www.outspeed.com/",
-      period: "06/2024 – 09/2024",
+      title: "Founding Engineer (Core Team)",
+      company: "Moss",
+      companyUrl: "https://www.usemoss.dev/",
+      period: "10/2025 – Present",
       location: "San Francisco, CA",
-      image: "/companyLogo/Outspeed_2.png"
+      image: "/companyLogo/Moss.png",
+      iconOnly: true
     },
     {
       title: "Research Assistant",
@@ -21,15 +22,23 @@ const Experience = () => {
       image: "/companyLogo/DSAIL.jpg"
     },
     {
-      title: "Associate Software Intern",
-      company: "IDeAS",
+      title: "Software Engineer Intern",
+      company: "Outspeed",
+      companyUrl: "https://www.outspeed.com/",
+      period: "06/2024 – 08/2024",
+      location: "San Francisco, CA",
+      image: "/companyLogo/Outspeed_2.png"
+    },
+    {
+      title: "Software Developer Intern",
+      company: "IDeaS",
       companyUrl: "https://ideas.com/",
       period: "07/2022 – 01/2023",
       location: "Pune, India",
-      image: "companyLogo/Ideas_final.png"
+      image: "/companyLogo/Ideas_final.png"
     },
     {
-      title: "Machine Learning Intern",
+      title: "Software Engineer Intern",
       company: "Quidich Innovation Labs",
       companyUrl: "https://www.quidich.com/",
       period: "05/2022 – 06/2022",
@@ -37,7 +46,7 @@ const Experience = () => {
       image: "/companyLogo/Quidich.png"
     },
     {
-      title: "Software Engineer",
+      title: "Software Developer Intern",
       company: "Azodha",
       companyUrl: "https://www.azodha.com/",
       period: "09/2021 – 04/2022",
@@ -70,12 +79,12 @@ const Experience = () => {
               className="group relative bg-white dark:bg-gray-900 rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1"
             >
               {/* Image Container with Gradient Overlay */}
-              <div className="relative h-40 overflow-hidden">
+              <div className={`relative h-40 overflow-hidden ${exp.iconOnly ? 'bg-white' : ''}`}>
                 <div className="absolute inset-0 bg-gradient-to-r from-purple-600/50 to-blue-600/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10" />
                 <img
                   src={exp.image}
                   alt={exp.title}
-                  className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-300"
+                  className={`w-full h-full transform group-hover:scale-110 transition-transform duration-300 ${exp.iconOnly ? 'object-contain p-6' : 'object-cover'}`}
                 />
               </div>
 

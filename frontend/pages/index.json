@@ -92,13 +92,12 @@
         "title": "Languages",
         "icon": "💻",
         "items": [
+          { "name": "Rust" },
           { "name": "Python" },
-          { "name": "GOLang" },
-          { "name": "HTML" },
-          { "name": "CSS" },
+          { "name": "C++" },
+          { "name": "Go" },
+          { "name": "TypeScript" },
           { "name": "JavaScript" },
-          { "name": "Java" },
-          { "name": "SLURM Scripting" },
           { "name": "SQL" }
         ]
       },
@@ -106,16 +105,20 @@
         "title": "Technologies",
         "icon": "🔧",
         "items": [
-          { "name": "GIT" },
           { "name": "PyTorch" },
           { "name": "Tensorflow" },
           { "name": "Django" },
           { "name": "NodeJS" },
+          { "name": "Express" },
           { "name": "ReactJS" },
+          { "name": "Next.js" },
           { "name": "TailWind CSS" },
           { "name": "Fastapi" },
           { "name": "Docker" },
+          { "name": "Kubernetes (EKS)" },
           { "name": "AWS" },
+          { "name": "Kafka" },
+          { "name": "GIT" },
           { "name": "GraphQL" },
           { "name": "Databricks" },
           { "name": "Spark" },
@@ -127,20 +130,21 @@
         "title": "Databases",
         "icon": "🗄️",
         "items": [
-          { "name": "MySQL" },
           { "name": "MongoDB" },
           { "name": "Neo4j" },
-          { "name": "CassandraDB" },
-          { "name": "DynamoDB" }
+          { "name": "DynamoDB" },
+          { "name": "Redis" }
         ]
       },
       "coreCompetencies": {
         "title": "Core Competencies",
         "icon": "🚀",
         "items": [
+          { "name": "Hybrid Search & Vector DBs" },
+          { "name": "LLM Engineering" },
+          { "name": "Real-Time Systems" },
           { "name": "ML Model Finetuning" },
           { "name": "AI Integration in Web Apps" },
-          { "name": "Building AI-Powered Platforms" },
           { "name": "AWS Cost Optimization" },
           { "name": "CI/CD" }
         ]
@@ -150,6 +154,13 @@
   "achievements": {
     "title": "Achievements & Awards",
     "items": [
+      {
+        "title": "Graduate Teaching Assistant, Indiana University",
+        "date": "August 2024",
+        "description": "Selected as a Graduate Teaching Assistant for Elements of AI (with Prof. David Leake) and Machine Learning in Signal Processing (with Prof. Jonathan Ponniah), supporting graduate students with lectures, assignments, and project mentorship.",
+        "companyIcon": "",
+        "link": ""
+      },
       {
         "title": "SIH 2022 Grand Finale Winner",
         "date": "August 2022",

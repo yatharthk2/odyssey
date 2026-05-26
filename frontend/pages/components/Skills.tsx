@@ -1,11 +1,13 @@
 import { motion, useAnimation } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { IconType } from 'react-icons';
-import { 
-  SiPython, SiGo, SiHtml5, SiCss3, SiJavascript, SiDash, SiMysql, 
-  SiGit, SiPytorch, SiTensorflow, SiDjango, SiNodedotjs, SiReact, SiTailwindcss,
-  SiFastapi, SiDocker, SiAmazon, SiGraphql, SiDatabricks, SiApachespark, SiApacheairflow,
-  SiGithubactions, SiMongodb, SiNeo4J, SiApachecassandra, SiAmazondynamodb,
+import {
+  SiPython, SiGo, SiHtml5, SiCss3, SiJavascript, SiTypescript, SiRust, SiCplusplus,
+  SiDash, SiMysql,
+  SiGit, SiPytorch, SiTensorflow, SiDjango, SiNodedotjs, SiExpress, SiReact, SiNextdotjs,
+  SiTailwindcss, SiFastapi, SiDocker, SiKubernetes, SiAmazon, SiApachekafka,
+  SiGraphql, SiDatabricks, SiApachespark, SiApacheairflow, SiGithubactions,
+  SiMongodb, SiNeo4J, SiApachecassandra, SiAmazondynamodb, SiRedis,
   SiGooglecloud, SiJenkins, SiPostgresql
 } from 'react-icons/si';
 import { FaCode, FaDatabase, FaTools, FaRocket, FaNetworkWired, FaServer } from 'react-icons/fa';
@@ -14,43 +16,47 @@ import config from '../index.json';
 // Icon mapping for skills
 const iconMapping = {
   // Languages
+  'Rust': SiRust,
   'Python': SiPython,
-  'GOLang': SiGo,
-  'HTML': SiHtml5,
-  'CSS': SiCss3,
+  'C++': SiCplusplus,
+  'Go': SiGo,
+  'TypeScript': SiTypescript,
   'JavaScript': SiJavascript,
-  'Java': FaCode, // Default icon for Java
-  'SLURM Scripting': SiDash,
   'SQL': SiMysql,
-  
+
   // Technologies
-  'GIT': SiGit,
   'PyTorch': SiPytorch,
   'Tensorflow': SiTensorflow,
   'Django': SiDjango,
   'NodeJS': SiNodedotjs,
+  'Express': SiExpress,
   'ReactJS': SiReact,
+  'Next.js': SiNextdotjs,
   'TailWind CSS': SiTailwindcss,
   'Fastapi': SiFastapi,
   'Docker': SiDocker,
+  'Kubernetes (EKS)': SiKubernetes,
   'AWS': SiAmazon,
+  'Kafka': SiApachekafka,
+  'GIT': SiGit,
   'GraphQL': SiGraphql,
   'Databricks': SiDatabricks,
   'Spark': SiApachespark,
   'Airflow': SiApacheairflow,
   'GitHub Actions': SiGithubactions,
-  
+
   // Databases
-  'MySQL': SiMysql,
   'MongoDB': SiMongodb,
   'Neo4j': SiNeo4J,
-  'CassandraDB': SiApachecassandra,
   'DynamoDB': SiAmazondynamodb,
-  
+  'Redis': SiRedis,
+
   // Default icons for core competencies and others
+  'Hybrid Search & Vector DBs': SiNeo4J,
+  'LLM Engineering': SiPytorch,
+  'Real-Time Systems': SiApachekafka,
   'ML Model Finetuning': SiPytorch,
   'AI Integration in Web Apps': SiReact,
-  'Building AI-Powered Platforms': SiAmazon,
   'AWS Cost Optimization': SiAmazon,
   'CI/CD': SiGithubactions
 };
