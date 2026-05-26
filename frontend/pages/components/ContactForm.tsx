@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+import { useState } from 'react';
 import { useForm, ValidationError } from '@formspree/react';
-import config from "../index.json";
+import config from '../../types/config';
 
-function ContactForm() {
-  const contact = config.contact;
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [message, setMessage] = useState("");
+export default function ContactForm() {
+  const { contact } = config;
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
 
   const [state, handleSubmit] = useForm(contact.formId);
 
@@ -119,5 +119,3 @@ function ContactForm() {
     </div>
   );
 }
-
-export default ContactForm;

@@ -1,8 +1,5 @@
-import React from 'react';
 import InpersonaChat from './components/InpersonaChat';
 
-const Inpersona = () => {
+export default function Inpersona() {
   return <InpersonaChat />;
-};
-
-export default Inpersona;
+}

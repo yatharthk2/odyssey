@@ -1,13 +1,11 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
-import { Send, Grape, Search, Info } from 'lucide-react';
+import { useEffect, useRef, useState, type FormEvent } from 'react';
 import Link from 'next/link';
+import { Info, Network, Search, Send } from 'lucide-react';
 import Tooltip from './Tooltip';
-// Remove TextRotator import since we're replacing it
-// import TextRotator from './TextRotator';
-import { useTheme } from '../../context/ThemeContext';
 import ThemeToggle from '../../components/ThemeToggle';
+import config from '../../types/config';
 
 interface Message {
   content: string;
@@ -16,255 +14,188 @@ interface Message {
   loading?: boolean;
 }
 
+interface ChatQuery {
+  question: string;
+  vector_store: 'KG' | 'vector';
+  query_transformation: 'HyDE' | null;
+}
+
+const RECONNECT_DELAY_MS = 3000;
+
 export default function InpersonaChat() {
-  const { theme } = useTheme();
-  const [message, setMessage] = useState('');
+  const [draftMessage, setDraftMessage] = useState('');
   const [messages, setMessages] = useState<Message[]>([]);
   const [useKnowledgeGraph, setUseKnowledgeGraph] = useState(false);
   const [useHydeQuery, setUseHydeQuery] = useState(false);
-  const [isConnecting, setIsConnecting] = useState(false);
+  const [isConnected, setIsConnected] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [showInfo, setShowInfo] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const wsRef = useRef<WebSocket | null>(null);
 
-  // Update suggestion questions - limit to top 4
-  const suggestionQuestions = [
-    "Tell me about your background",
-    "What are your technical skills?",
-    "What projects have you worked on?",
-    "What's your educational background?"
-  ];
-
-  // Function to handle suggestion tile clicks
-  const handleSuggestionClick = (question: string) => {
-    if (!wsRef.current || wsRef.current.readyState !== WebSocket.OPEN || isLoading) return;
-    
-    // Add user message
-    const userMessage: Message = { content: question, isUser: true, complete: true };
-    // Add initial AI message with loading state
-    const loadingMessage: Message = { content: "", isUser: false, loading: true };
-    setMessages(prev => [...prev, userMessage, loadingMessage]);
-    setIsLoading(true);
-
-    // Prepare and send the query
-    const query = {
-      question: question,
-      vector_store: useKnowledgeGraph ? "KG" : "vector",
-      query_transformation: useHydeQuery ? "HyDE" : null
-    };
-
-    wsRef.current.send(JSON.stringify(query));
-  };
-
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  };
+  const { inpersona } = config;
+  const { knowledgeGraph: kgToggle, hyde: hydeToggle } = inpersona.toggles;
 
   useEffect(() => {
-    scrollToBottom();
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-  // Initialize WebSocket connection
+  // Lock the visual viewport so the iOS keyboard doesn't trigger reflow that
+  // jumps the chat. Restore the default viewport on unmount so the rest of the
+  // site stays responsive.
   useEffect(() => {
-    const connectWebSocket = () => {
-      if (wsRef.current?.readyState === WebSocket.OPEN) return;
+    const meta = document.querySelector('meta[name=viewport]');
+    const original = meta?.getAttribute('content');
+    meta?.setAttribute(
+      'content',
+      `height=${window.innerHeight}px, width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0`
+    );
+    return () => {
+      meta?.setAttribute('content', original ?? 'width=device-width, initial-scale=1.0');
+    };
+  }, []);
 
-      setIsConnecting(true);
-      // Changed URL to use dynamic host instead of hardcoded localhost
-      const host = window.location.hostname;
-      const ws = new WebSocket(`wss://${host}:8000/chat`);
+  useEffect(() => {
+    let cancelled = false;
+    let reconnectTimer: ReturnType<typeof setTimeout> | null = null;
+
+    const connect = () => {
+      if (cancelled) return;
+
+      const url = `wss://${window.location.hostname}:${inpersona.websocketPort}${inpersona.websocketPath}`;
+      const ws = new WebSocket(url);
       wsRef.current = ws;
 
-      ws.onopen = () => {
-        console.log('Connected to WebSocket');
-        setIsConnecting(false);
-      };
-
+      ws.onopen = () => setIsConnected(true);
       ws.onclose = () => {
-        console.log('WebSocket connection closed');
+        setIsConnected(false);
         wsRef.current = null;
-        // Attempt to reconnect after a delay
-        setTimeout(connectWebSocket, 3000);
-      };
-
-      ws.onerror = (error) => {
-        console.error('WebSocket error:', error);
-        setIsConnecting(false);
-      };
-
-      ws.onmessage = (event) => {
-        const data = JSON.parse(event.data);
-        
-        if (data.error) {
-          setIsLoading(false);
-          setMessages(prev => {
-            const newMessages = prev.slice(0, -1); // Remove loading message
-            return [...newMessages, { content: `Error: ${data.error}`, isUser: false, complete: true }];
-          });
-          return;
-        }
-
-        if (data.type === 'chunk') {
-          setMessages(prev => {
-            const newMessages = [...prev];
-            const lastMessage = newMessages[newMessages.length - 1];
-            
-            if (!lastMessage || lastMessage.isUser || lastMessage.complete) {
-              return [...prev.slice(0, -1), { content: data.content, isUser: false, loading: true }];
-            } else {
-              newMessages[newMessages.length - 1] = {
-                ...lastMessage,
-                content: lastMessage.content + data.content,
-                loading: true
-              };
-              return newMessages;
-            }
-          });
-        } else if (data.type === 'complete') {
-          setIsLoading(false);
-          setMessages(prev => {
-            const newMessages = [...prev];
-            const lastMessage = newMessages[newMessages.length - 1];
-            if (lastMessage && !lastMessage.isUser) {
-              lastMessage.complete = true;
-              lastMessage.loading = false;
-            }
-            return newMessages;
-          });
+        if (!cancelled) {
+          reconnectTimer = setTimeout(connect, RECONNECT_DELAY_MS);
         }
       };
+      ws.onerror = (event) => {
+        // eslint-disable-next-line no-console
+        console.error('Inpersona WebSocket error', event);
+      };
+      ws.onmessage = handleMessage;
     };
 
-    connectWebSocket();
+    connect();
 
     return () => {
-      if (wsRef.current) {
-        wsRef.current.close();
-      }
+      cancelled = true;
+      if (reconnectTimer) clearTimeout(reconnectTimer);
+      wsRef.current?.close();
+      wsRef.current = null;
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Add useEffect to handle mobile viewport
-  useEffect(() => {
-    // Prevent viewport height changes when keyboard opens
-    const metaViewport = document.querySelector('meta[name=viewport]');
-    metaViewport?.setAttribute('content', 'height=' + window.innerHeight + 'px, width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0');
-    
-    return () => {
-      metaViewport?.setAttribute('content', 'width=device-width, initial-scale=1.0');
-    };
-  }, []);
+  const handleMessage = (event: MessageEvent<string>) => {
+    const data = JSON.parse(event.data);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (!message.trim() || !wsRef.current || wsRef.current.readyState !== WebSocket.OPEN) return;
+    if (data.error) {
+      setIsLoading(false);
+      setMessages((prev) => {
+        const withoutLoading = prev.slice(0, -1);
+        return [
+          ...withoutLoading,
+          { content: `Error: ${data.error}`, isUser: false, complete: true },
+        ];
+      });
+      return;
+    }
 
-    // Add user message
-    const userMessage: Message = { content: message, isUser: true, complete: true };
-    // Add initial AI message with loading state
-    const loadingMessage: Message = { content: "", isUser: false, loading: true };
-    setMessages(prev => [...prev, userMessage, loadingMessage]);
+    if (data.type === 'chunk') {
+      setMessages((prev) => {
+        const next = [...prev];
+        const last = next[next.length - 1];
+        if (!last || last.isUser || last.complete) {
+          return [...next.slice(0, -1), { content: data.content, isUser: false, loading: true }];
+        }
+        next[next.length - 1] = {
+          ...last,
+          content: last.content + data.content,
+          loading: true,
+        };
+        return next;
+      });
+    } else if (data.type === 'complete') {
+      setIsLoading(false);
+      setMessages((prev) => {
+        const next = [...prev];
+        const last = next[next.length - 1];
+        if (last && !last.isUser) {
+          next[next.length - 1] = { ...last, complete: true, loading: false };
+        }
+        return next;
+      });
+    }
+  };
+
+  const sendQuestion = (question: string) => {
+    const ws = wsRef.current;
+    if (!ws || ws.readyState !== WebSocket.OPEN || isLoading || !question.trim()) {
+      return;
+    }
+    const userMessage: Message = { content: question, isUser: true, complete: true };
+    const loadingMessage: Message = { content: '', isUser: false, loading: true };
+    setMessages((prev) => [...prev, userMessage, loadingMessage]);
     setIsLoading(true);
 
-    // Prepare and send the query
-    const query = {
-      question: message,
-      vector_store: useKnowledgeGraph ? "KG" : "vector",
-      query_transformation: useHydeQuery ? "HyDE" : null
+    const query: ChatQuery = {
+      question,
+      vector_store: useKnowledgeGraph ? 'KG' : 'vector',
+      query_transformation: useHydeQuery ? 'HyDE' : null,
     };
+    ws.send(JSON.stringify(query));
+  };
 
-    wsRef.current.send(JSON.stringify(query));
-    setMessage('');
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!draftMessage.trim()) return;
+    sendQuestion(draftMessage);
+    setDraftMessage('');
   };
 
   return (
-    <div className="relative flex flex-col w-full h-[100dvh] bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-blue-900 overflow-hidden">
-      {/* Navigation Area - Reorganized */}
-      <div className="fixed top-0 left-0 right-0 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm py-2 px-4 flex justify-between items-center z-50">
-        <Link 
-          href="/" 
-          className="text-sm sm:text-base whitespace-nowrap font-bold bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 bg-clip-text text-transparent"
+    <div className="relative flex h-[100dvh] w-full flex-col overflow-hidden bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-blue-900">
+      {/* Top bar */}
+      <div className="fixed inset-x-0 top-0 z-50 flex items-center justify-between bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm py-2 px-4">
+        <Link
+          href="/"
+          className="whitespace-nowrap text-sm sm:text-base font-bold bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 bg-clip-text text-transparent"
         >
-          Home
+          {inpersona.homeLink}
         </Link>
-        
-        {/* Status and Theme grouped together */}
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-2">
-            <div className={`w-2 h-2 rounded-full ${
-              wsRef.current?.readyState === WebSocket.OPEN ? 'bg-green-500' : 'bg-red-500'
-            }`}/>
+            <span
+              className={`block h-2 w-2 rounded-full ${
+                isConnected ? 'bg-green-500' : 'bg-red-500'
+              }`}
+            />
             <span className="text-xs text-gray-600 dark:text-gray-300">
-              {wsRef.current?.readyState === WebSocket.OPEN ? 'Connected' : 'Disconnected'}
+              {isConnected ? 'Connected' : 'Disconnected'}
             </span>
           </div>
           <ThemeToggle />
         </div>
       </div>
 
-      {/* Messages Display Area */}
-      <div className="flex-1 overflow-y-auto px-2 sm:px-4 pt-14 pb-32 w-full scrollbar">
+      {/* Messages */}
+      <div className="inpersona-scrollbar flex-1 w-full overflow-y-auto px-2 sm:px-4 pt-14 pb-32">
         <div className="max-w-3xl mx-auto">
           {messages.length === 0 ? (
-            <div className="flex flex-col items-center justify-center min-h-[calc(100vh-240px)] space-y-4 sm:space-y-6 px-4 mt-2 sm:mt-4">
-              <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-gradient-to-br from-purple-600 to-blue-600 p-1 shadow-lg animate-float">
-                <img
-                  src="/Newyork_Dumbo_300x300.jpg"
-                  alt="Yatharth"
-                  className="w-full h-full object-cover rounded-full"
-                />
-              </div>
-              <div className="text-center">
-                <p className="text-xl sm:text-2xl font-light text-gray-600 dark:text-gray-300 mb-4">
-                  How can I help you today?
-                </p>
-                {/* Display only 4 suggestion tiles */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-xl mx-auto">
-                  {suggestionQuestions.slice(0, 4).map((question, index) => (
-                    <button
-                      key={index}
-                      onClick={() => handleSuggestionClick(question)}
-                      className="bg-white dark:bg-gray-800 p-3 rounded-xl text-left text-sm sm:text-base text-gray-700 dark:text-gray-300 shadow-sm hover:shadow-md border border-gray-200 dark:border-gray-700 transition-all hover:border-purple-300 dark:hover:border-purple-600 hover:bg-gray-50 dark:hover:bg-gray-750"
-                    >
-                      {question}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </div>
+            <EmptyState
+              onSuggestionClick={sendQuestion}
+              isReady={isConnected && !isLoading}
+            />
           ) : (
             <div className="space-y-4 sm:space-y-6">
               {messages.map((msg, index) => (
-                <div 
-                  key={index} 
-                  className={`flex ${msg.isUser ? 'justify-end' : 'justify-start'} animate-fade-in`}
-                >
-                  <div 
-                    className={`max-w-[90%] sm:max-w-[85%] p-3 sm:p-4 rounded-2xl transition-all ${
-                      msg.isUser 
-                        ? 'bg-gradient-to-br from-purple-600 to-blue-600 text-white shadow-lg'
-                        : 'bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 shadow-md'
-                    }`}
-                  >
-                    {msg.isUser ? (
-                      <p className="text-sm sm:text-base leading-relaxed">{msg.content}</p>
-                    ) : (
-                      // Changed to use dangerouslySetInnerHTML for HTML content
-                      <div 
-                        className={`html-content text-sm sm:text-base leading-relaxed ${msg.loading ? 'typing-container' : ''}`}
-                        dangerouslySetInnerHTML={{ __html: msg.content || '&nbsp;' }}
-                      />
-                    )}
-                    {msg.loading && (
-                      <div className="typing-indicator">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                      </div>
-                    )}
-                  </div>
-                </div>
+                <MessageBubble key={index} message={msg} />
               ))}
               <div ref={messagesEndRef} />
             </div>
@@ -272,379 +203,232 @@ export default function InpersonaChat() {
         </div>
       </div>
 
-      {/* Message Input Form - Updated for better mobile handling */}
+      {/* Input + toggles */}
       <div className="fixed bottom-0 left-0 w-full bg-gradient-to-t from-white dark:from-gray-900 to-transparent pt-6 pb-4">
-        <form onSubmit={handleSubmit} className="max-w-3xl mx-auto px-2 sm:px-4 w-full">
+        <form onSubmit={handleSubmit} className="mx-auto max-w-3xl px-2 sm:px-4">
           <div className="flex flex-col gap-2">
-            {/* Toggle Buttons */}
-            <div className="flex flex-wrap gap-2 justify-end px-2 mb-2">
-              {/* Desktop Tooltip */}
-              <div className="hidden sm:block">
-                <Tooltip text="More accurate, Less detailed">
-                  <button
-                    type="button"
-                    onClick={() => setUseKnowledgeGraph(!useKnowledgeGraph)}
-                    className={`flex items-center gap-1 px-3 py-1 rounded-full text-sm transition-all ${
-                      useKnowledgeGraph
-                        ? 'bg-gradient-to-r from-purple-700 to-purple-500 text-white shadow-md'
-                        : 'bg-gradient-to-r from-white to-gray-100 dark:from-gray-800 dark:to-gray-700 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 hover:shadow-sm'
-                    }`}
-                  >
-                    <Grape size={16} />
-                    <span>Use Knowledge Graph</span>
-                  </button>
+            <div className="flex flex-wrap items-center justify-end gap-2 px-2 mb-2">
+              {/* Desktop toggles */}
+              <div className="hidden sm:flex sm:items-center sm:gap-2">
+                <Tooltip text={kgToggle.tooltip}>
+                  <ToggleButton
+                    active={useKnowledgeGraph}
+                    icon={<Network size={16} />}
+                    label={kgToggle.label}
+                    onToggle={() => setUseKnowledgeGraph((v) => !v)}
+                    activeClasses="bg-gradient-to-r from-purple-700 to-purple-500 text-white"
+                  />
+                </Tooltip>
+                <Tooltip text={hydeToggle.tooltip}>
+                  <ToggleButton
+                    active={useHydeQuery}
+                    icon={<Search size={16} />}
+                    label={hydeToggle.label}
+                    onToggle={() => setUseHydeQuery((v) => !v)}
+                    activeClasses="bg-gradient-to-r from-blue-700 to-blue-500 text-white"
+                  />
                 </Tooltip>
               </div>
 
-              {/* Mobile Version with Info Button */}
-              <div className="flex sm:hidden items-center gap-2">
+              {/* Mobile toggles */}
+              <div className="flex items-center gap-2 sm:hidden">
+                <ToggleButton
+                  active={useKnowledgeGraph}
+                  icon={<Network size={12} />}
+                  label={kgToggle.shortLabel}
+                  onToggle={() => setUseKnowledgeGraph((v) => !v)}
+                  activeClasses="bg-gradient-to-r from-purple-700 to-purple-500 text-white"
+                  compact
+                />
+                <ToggleButton
+                  active={useHydeQuery}
+                  icon={<Search size={12} />}
+                  label={hydeToggle.shortLabel}
+                  onToggle={() => setUseHydeQuery((v) => !v)}
+                  activeClasses="bg-gradient-to-r from-blue-700 to-blue-500 text-white"
+                  compact
+                />
                 <button
                   type="button"
-                  onClick={() => setUseKnowledgeGraph(!useKnowledgeGraph)}
-                  className={`flex items-center gap-1 px-2 py-1 rounded-full text-xs transition-all ${
-                    useKnowledgeGraph
-                      ? 'bg-gradient-to-r from-purple-700 to-purple-500 text-white shadow-md'
-                      : 'bg-gradient-to-r from-white to-gray-100 dark:from-gray-800 dark:to-gray-700 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 hover:shadow-sm'
-                  }`}
-                >
-                  <Grape size={12} />
-                  <span>Use KG</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setUseHydeQuery(!useHydeQuery)}
-                  className={`flex items-center gap-1 px-2 py-1 rounded-full text-xs transition-all ${
-                    useHydeQuery
-                      ? 'bg-gradient-to-r from-blue-700 to-blue-500 text-white shadow-md'
-                      : 'bg-gradient-to-r from-white to-gray-100 dark:from-gray-800 dark:to-gray-700 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 hover:shadow-sm'
-                  }`}
-                >
-                  <Search size={12} />
-                  <span>Use HyDE</span>
-                </button>
-                <button
-                  onClick={() => setShowInfo(!showInfo)}
-                  className="p-1 rounded-full bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700"
+                  onClick={() => setShowInfo(true)}
+                  aria-label="About these toggles"
+                  className="rounded-full border border-gray-200 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 p-1"
                 >
                   <Info size={14} className="text-gray-600 dark:text-gray-400" />
                 </button>
               </div>
-
-              {/* Info Modal for Mobile */}
-              {showInfo && (
-                <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 sm:hidden">
-                  <div className="bg-white dark:bg-gray-800 rounded-xl p-4 max-w-xs w-full shadow-lg border border-gray-200 dark:border-gray-700">
-                    <h3 className="font-semibold mb-2 text-gray-800 dark:text-gray-200">Search Options</h3>
-                    <div className="text-sm mb-4 space-y-3 text-gray-600 dark:text-gray-300">
-                      <div>
-                        <p className="font-medium mb-1">KG (Knowledge Graph):</p>
-                        <p>More accurate but less detailed results.</p>
-                        {/* Removing the Knowledge Graph link */}
-                      </div>
-                      <div>
-                        <p className="font-medium mb-1">HyDE:</p>
-                        <p>Friendly and detailed results, but may occasionally provide inaccurate information.</p>
-                      </div>
-                    </div>
-                    <button
-                      onClick={() => setShowInfo(false)}
-                      className="w-full py-2 bg-gray-100 dark:bg-gray-700 rounded-lg text-sm text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
-                    >
-                      Close
-                    </button>
-                  </div>
-                </div>
-              )}
-
-              {/* Similar pattern for HyDE button... */}
-              {/* Desktop Tooltip */}
-              <div className="hidden sm:block">
-                <Tooltip text="Friendly, Detailed, Prone to Hallucination">
-                  <button
-                    type="button"
-                    onClick={() => setUseHydeQuery(!useHydeQuery)}
-                    className={`flex items-center gap-1 px-3 py-1 rounded-full text-sm transition-all ${
-                      useHydeQuery
-                        ? 'bg-gradient-to-r from-blue-700 to-blue-500 text-white shadow-md'
-                        : 'bg-gradient-to-r from-white to-gray-100 dark:from-gray-800 dark:to-gray-700 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 hover:shadow-sm'
-                    }`}
-                  >
-                    <Search size={16} />
-                    <span>Use Hyde Query</span>
-                  </button>
-                </Tooltip>
-              </div>
             </div>
 
-            {/* Input Bar - Added touch-action-manipulation for better mobile handling */}
-            <div className="flex items-center bg-white dark:bg-gray-800 rounded-xl px-3 py-2 shadow-lg ring-1 ring-gray-100 dark:ring-gray-700 touch-action-manipulation">
+            <div className="flex items-center rounded-xl bg-white dark:bg-gray-800 px-3 py-2 shadow-lg ring-1 ring-gray-100 dark:ring-gray-700 touch-action-manipulation">
               <input
                 type="text"
-                placeholder="Ask me anything..."
-                className="flex-1 bg-transparent outline-none text-gray-800 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500 text-base py-1"
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' && !e.shiftKey) {
-                    e.preventDefault();
-                    handleSubmit(e as any);
-                  }
-                }}
+                placeholder={inpersona.inputPlaceholder}
+                value={draftMessage}
+                onChange={(e) => setDraftMessage(e.target.value)}
+                className="flex-1 bg-transparent py-1 text-base text-gray-800 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500 outline-none"
               />
-              <button 
+              <button
                 type="submit"
-                className="ml-2 p-1.5 rounded-xl bg-gradient-to-br from-purple-600 to-blue-600 hover:opacity-90 transition-opacity shadow-md"
-                disabled={!wsRef.current || wsRef.current.readyState !== WebSocket.OPEN || isLoading || !message.trim()}
+                disabled={!isConnected || isLoading || !draftMessage.trim()}
+                className="ml-2 rounded-xl bg-gradient-to-br from-purple-600 to-blue-600 p-1.5 shadow-md transition-opacity hover:opacity-90 disabled:opacity-50"
+                aria-label="Send"
               >
                 <Send size={20} className="text-white" />
               </button>
             </div>
           </div>
-          <p className="text-center text-xs sm:text-sm text-gray-400 mt-2 sm:mt-3">
-            InPersona AI · Designed by Yatharth Kapadia
+          <p className="mt-2 sm:mt-3 text-center text-xs sm:text-sm text-gray-400">
+            {inpersona.footerCredit}
           </p>
         </form>
       </div>
 
-      {/* Custom Scrollbar Styling */}
-      <style jsx>{`
-        .scrollbar {
-          scrollbar-width: thin;
-          scrollbar-color: #9CA3AF transparent;
-        }
+      {showInfo && (
+        <InfoModal
+          onClose={() => setShowInfo(false)}
+          knowledgeGraphDescription={kgToggle.description}
+          hydeDescription={hydeToggle.description}
+        />
+      )}
+    </div>
+  );
+}
 
-        .scrollbar::-webkit-scrollbar {
-          width: 8px;
-        }
+function EmptyState({
+  onSuggestionClick,
+  isReady,
+}: {
+  onSuggestionClick: (question: string) => void;
+  isReady: boolean;
+}) {
+  const { inpersona } = config;
+  return (
+    <div className="flex min-h-[calc(100vh-240px)] flex-col items-center justify-center space-y-4 sm:space-y-6 px-4 mt-2 sm:mt-4">
+      <div className="h-24 w-24 sm:h-32 sm:w-32 animate-float rounded-full bg-gradient-to-br from-purple-600 to-blue-600 p-1 shadow-lg">
+        <img
+          src={inpersona.avatar}
+          alt="Yatharth"
+          className="h-full w-full rounded-full object-cover"
+        />
+      </div>
+      <div className="text-center">
+        <p className="mb-4 text-xl sm:text-2xl font-light text-gray-600 dark:text-gray-300">
+          {inpersona.emptyStatePrompt}
+        </p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-xl mx-auto">
+          {inpersona.suggestions.slice(0, 4).map((question) => (
+            <button
+              key={question}
+              onClick={() => onSuggestionClick(question)}
+              disabled={!isReady}
+              className="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-3 text-left text-sm sm:text-base text-gray-700 dark:text-gray-300 shadow-sm transition-all hover:border-purple-300 dark:hover:border-purple-600 hover:bg-gray-50 dark:hover:bg-gray-700 hover:shadow-md disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              {question}
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
 
-        .scrollbar::-webkit-scrollbar-track {
-          background: transparent;
-        }
+function MessageBubble({ message }: { message: Message }) {
+  return (
+    <div className={`flex animate-fade-in ${message.isUser ? 'justify-end' : 'justify-start'}`}>
+      <div
+        className={`max-w-[90%] sm:max-w-[85%] rounded-2xl p-3 sm:p-4 transition-all ${
+          message.isUser
+            ? 'bg-gradient-to-br from-purple-600 to-blue-600 text-white shadow-lg'
+            : 'bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 shadow-md'
+        }`}
+      >
+        {message.isUser ? (
+          <p className="text-sm sm:text-base leading-relaxed">{message.content}</p>
+        ) : (
+          <div
+            className={`html-content text-sm sm:text-base leading-relaxed ${
+              message.loading ? 'typing-container' : ''
+            }`}
+            dangerouslySetInnerHTML={{ __html: message.content || '&nbsp;' }}
+          />
+        )}
+        {message.loading && (
+          <div className="typing-indicator">
+            <span />
+            <span />
+            <span />
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
 
-        .scrollbar::-webkit-scrollbar-thumb {
-          background-color: #9CA3AF;
-          border-radius: 4px;
-        }
+function ToggleButton({
+  active,
+  icon,
+  label,
+  onToggle,
+  activeClasses,
+  compact = false,
+}: {
+  active: boolean;
+  icon: React.ReactNode;
+  label: string;
+  onToggle: () => void;
+  activeClasses: string;
+  compact?: boolean;
+}) {
+  const sizeClasses = compact ? 'px-2 py-1 text-xs' : 'px-3 py-1 text-sm';
+  const idleClasses =
+    'bg-gradient-to-r from-white to-gray-100 dark:from-gray-800 dark:to-gray-700 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600';
 
-        .scrollbar::-webkit-scrollbar-thumb:hover {
-          background-color: #6B7280;
-        }
+  return (
+    <button
+      type="button"
+      onClick={onToggle}
+      aria-pressed={active}
+      className={`flex items-center gap-1 rounded-full transition-all ${sizeClasses} ${
+        active ? `${activeClasses} shadow-md` : `${idleClasses} hover:shadow-sm`
+      }`}
+    >
+      {icon}
+      <span>{label}</span>
+    </button>
+  );
+}
 
-        @keyframes float {
-          0% {
-            transform: translateY(0px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-          }
-          50% {
-            transform: translateY(-20px);
-            box-shadow: 0 25px 30px rgba(0, 0, 0, 0.1);
-          }
-          100% {
-            transform: translateY(0px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-          }
-        }
-
-        .animate-float {
-          animation: float 3s ease-in-out infinite;
-        }
-        
-        /* Button hover effects */
-        button {
-          transition: all 0.2s ease;
-        }
-        
-        button:hover {
-          transform: translateY(-1px);
-        }
-        
-        button:active {
-          transform: translateY(0);
-        }
-      `}</style>
-
-      {/* Global CSS for mobile input zoom prevention and HTML content styling */}
-      <style jsx global>{`
-        @supports (-webkit-touch-callout: none) {
-          .h-screen {
-            height: -webkit-fill-available;
-          }
-        }
-        
-        body {
-          overscroll-behavior: none;
-        }
-        
-        @media screen and (max-width: 640px) {
-          input, textarea, select {
-            font-size: 16px;
-          }
-        }
-        
-        /* New typing indicator animation (three dots) */
-        .typing-indicator {
-          display: inline-flex;
-          align-items: center;
-          margin-top: 4px;
-          min-height: 18px;
-        }
-        
-        .typing-indicator span {
-          height: 8px;
-          width: 8px;
-          margin: 0 2px;
-          background-color: rgba(107, 114, 128, 0.7);
-          border-radius: 50%;
-          display: inline-block;
-          opacity: 0.4;
-        }
-        
-        .dark .typing-indicator span {
-          background-color: rgba(156, 163, 175, 0.7);
-        }
-        
-        .typing-indicator span:nth-child(1) {
-          animation: bounce 1s infinite 0.2s;
-        }
-        
-        .typing-indicator span:nth-child(2) {
-          animation: bounce 1s infinite 0.4s;
-        }
-        
-        .typing-indicator span:nth-child(3) {
-          animation: bounce 1s infinite 0.6s;
-        }
-        
-        @keyframes bounce {
-          0%, 60%, 100% {
-            transform: translateY(0);
-          }
-          30% {
-            transform: translateY(-4px);
-          }
-        }
-        
-        /* Shimmer effect for loading content */
-        .typing-container {
-          position: relative;
-          overflow: hidden;
-        }
-        
-        .typing-container::after {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          height: 100%;
-          width: 100%;
-          background: linear-gradient(
-            90deg,
-            rgba(255, 255, 255, 0) 0%,
-            rgba(255, 255, 255, 0.2) 50%,
-            rgba(255, 255, 255, 0) 100%
-          );
-          animation: shimmer 1.5s infinite;
-        }
-        
-        .dark .typing-container::after {
-          background: linear-gradient(
-            90deg,
-            rgba(30, 41, 59, 0) 0%,
-            rgba(30, 41, 59, 0.2) 50%,
-            rgba(30, 41, 59, 0) 100%
-          );
-        }
-        
-        @keyframes shimmer {
-          0% {
-            transform: translateX(-100%);
-          }
-          100% {
-            transform: translateX(100%);
-          }
-        }
-        
-        /* New character appear animation */
-        .html-content {
-          position: relative;
-        }
-        
-        .html-content p, .html-content li, .html-content h3 {
-          animation: slide-up-fade 0.4s ease forwards;
-          opacity: 0;
-          transform: translateY(8px);
-        }
-        
-        .html-content p:nth-child(1) { animation-delay: 0.1s; }
-        .html-content p:nth-child(2) { animation-delay: 0.2s; }
-        .html-content p:nth-child(3) { animation-delay: 0.3s; }
-        .html-content p:nth-child(n+4) { animation-delay: 0.4s; }
-        
-        .html-content li:nth-child(odd) { animation-delay: 0.15s; }
-        .html-content li:nth-child(even) { animation-delay: 0.25s; }
-        
-        @keyframes slide-up-fade {
-          0% {
-            opacity: 0;
-            transform: translateY(8px);
-          }
-          100% {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-        
-        /* HTML content styling */
-        .html-content p {
-          margin-bottom: 0.75rem;
-        }
-        
-        .html-content p:last-child {
-          margin-bottom: 0;
-        }
-        
-        .html-content ul, .html-content ol {
-          margin: 0.75rem 0;
-          padding-left: 1.5rem;
-        }
-        
-        .html-content li {
-          margin-bottom: 0.5rem;
-        }
-        
-        .html-content h3 {
-          font-weight: 600;
-          margin: 1.25rem 0 0.75rem 0;
-          font-size: 1.1em;
-        }
-        
-        .html-content strong {
-          font-weight: 600;
-        }
-        
-        .html-content a {
-          color: #3b82f6;
-          text-decoration: underline;
-        }
-        
-        .dark .html-content a {
-          color: #60a5fa;
-        }
-        
-        .html-content hr {
-          margin: 1.5rem 0;
-          border-color: rgba(209, 213, 219, 0.3);
-        }
-        
-        .dark .html-content hr {
-          border-color: rgba(75, 85, 99, 0.5);
-        }
-
-        /* Add style for dark hover state */
-        .dark .dark\\:hover\\:bg-gray-750:hover {
-          background-color: #2d3748;
-        }
-      `}</style>
+function InfoModal({
+  onClose,
+  knowledgeGraphDescription,
+  hydeDescription,
+}: {
+  onClose: () => void;
+  knowledgeGraphDescription: string;
+  hydeDescription: string;
+}) {
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 sm:hidden">
+      <div className="w-full max-w-xs rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-4 shadow-lg">
+        <h3 className="mb-2 font-semibold text-gray-800 dark:text-gray-200">Search Options</h3>
+        <div className="mb-4 space-y-3 text-sm text-gray-600 dark:text-gray-300">
+          <div>
+            <p className="mb-1 font-medium">KG (Knowledge Graph):</p>
+            <p>{knowledgeGraphDescription}</p>
+          </div>
+          <div>
+            <p className="mb-1 font-medium">HyDE:</p>
+            <p>{hydeDescription}</p>
+          </div>
+        </div>
+        <button
+          type="button"
+          onClick={onClose}
+          className="w-full rounded-lg bg-gray-100 dark:bg-gray-700 py-2 text-sm text-gray-800 dark:text-gray-200 transition-colors hover:bg-gray-200 dark:hover:bg-gray-600"
+        >
+          Close
+        </button>
+      </div>
     </div>
   );
 }

@@ -39,7 +39,6 @@ const InpersonaButton: React.FC<InpersonaButtonProps> = ({
         }}
       />
 
-      {/* Changed the Link href from "/inpersona" to "/loading" */}
       <Link href="/loading">
         <motion.button
           className="relative flex items-center gap-2 sm:gap-3 px-4 sm:px-6 py-2.5 sm:py-3.5 rounded-full bg-gradient-to-r from-violet-600 via-fuchsia-600 to-indigo-600 text-white shadow-lg hover:shadow-xl shadow-indigo-500/30 hover:shadow-indigo-500/40"
@@ -52,10 +51,7 @@ const InpersonaButton: React.FC<InpersonaButtonProps> = ({
           onMouseLeave={() => setIsHovered(false)}
           // Add touch events to trigger hover effect on mobile
           onTouchStart={() => setIsHovered(true)}
-          onTouchEnd={() => {
-            // Delay the hover state removal slightly for better visual feedback on touch
-            setTimeout(() => setIsHovered(false), 150);
-          }}
+          onTouchEnd={() => setTimeout(() => setIsHovered(false), 150)}
         >
           {/* Animated icon container */}
           <motion.div

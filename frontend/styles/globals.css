@@ -2,33 +2,41 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
-}
-
 @layer base {
   body {
     @apply bg-white dark:bg-gray-900 transition-colors duration-200;
+    overscroll-behavior: none;
   }
-  
+
   main {
     @apply min-h-screen flex flex-col;
   }
-  
+
+  /* Drop the bottom margin on the final section so the footer hugs the content. */
   section:last-child {
-    @apply mb-0; /* Remove margin from last section */
+    @apply mb-0;
+  }
+
+  /* iOS Safari treats `100vh` as the dynamic viewport height including
+     browser chrome. `100dvh` covers most modern browsers; this fallback
+     keeps older WebKit honest. */
+  @supports (-webkit-touch-callout: none) {
+    .h-screen {
+      height: -webkit-fill-available;
+    }
+  }
+
+  /* Prevent iOS Safari from zooming into the input when focused. */
+  @media screen and (max-width: 640px) {
+    input,
+    textarea,
+    select {
+      font-size: 16px;
+    }
   }
 }
+
+/* ----- Generic animation utilities ------------------------------------------------ */
 
 @keyframes fade-in {
   from {
@@ -61,6 +69,18 @@
   }
 }
 
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  }
+  50% {
+    transform: translateY(-20px);
+    box-shadow: 0 25px 30px rgba(0, 0, 0, 0.1);
+  }
+}
+
 .animate-fade-in {
   animation: fade-in 0.5s ease-out;
 }
@@ -73,16 +93,204 @@
   animation: spin-slow 20s linear infinite;
 }
 
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
 .bg-gradient-conic {
   background-image: conic-gradient(var(--tw-gradient-stops));
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
+/* ----- Inpersona chat: scrollbar, typing indicator, streamed HTML --------------- */
+
+.inpersona-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #9ca3af transparent;
+}
+
+.inpersona-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.inpersona-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.inpersona-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #9ca3af;
+  border-radius: 4px;
+}
+
+.inpersona-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: #6b7280;
+}
+
+.typing-indicator {
+  display: inline-flex;
+  align-items: center;
+  margin-top: 4px;
+  min-height: 18px;
+}
+
+.typing-indicator span {
+  display: inline-block;
+  height: 8px;
+  width: 8px;
+  margin: 0 2px;
+  background-color: rgba(107, 114, 128, 0.7);
+  border-radius: 50%;
+  opacity: 0.4;
+}
+
+.dark .typing-indicator span {
+  background-color: rgba(156, 163, 175, 0.7);
+}
+
+.typing-indicator span:nth-child(1) {
+  animation: typing-bounce 1s infinite 0.2s;
+}
+
+.typing-indicator span:nth-child(2) {
+  animation: typing-bounce 1s infinite 0.4s;
+}
+
+.typing-indicator span:nth-child(3) {
+  animation: typing-bounce 1s infinite 0.6s;
+}
+
+@keyframes typing-bounce {
+  0%,
+  60%,
+  100% {
+    transform: translateY(0);
+  }
+  30% {
+    transform: translateY(-4px);
+  }
+}
+
+.typing-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.typing-container::after {
+  content: '';
+  position: absolute;
+  inset: 0;
   background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.2) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  animation: shimmer 1.5s infinite;
+}
+
+.dark .typing-container::after {
+  background: linear-gradient(
+    90deg,
+    rgba(30, 41, 59, 0) 0%,
+    rgba(30, 41, 59, 0.2) 50%,
+    rgba(30, 41, 59, 0) 100%
+  );
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Streamed assistant responses arrive as raw HTML (`dangerouslySetInnerHTML`); the
+   prompt in backend/chat/prompt.py guarantees the markup is one of these tags. */
+.html-content {
+  position: relative;
+}
+
+.html-content p,
+.html-content li,
+.html-content h3 {
+  animation: html-slide-up-fade 0.4s ease forwards;
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+.html-content p:nth-child(1) {
+  animation-delay: 0.1s;
+}
+.html-content p:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.html-content p:nth-child(3) {
+  animation-delay: 0.3s;
+}
+.html-content p:nth-child(n + 4) {
+  animation-delay: 0.4s;
+}
+.html-content li:nth-child(odd) {
+  animation-delay: 0.15s;
+}
+.html-content li:nth-child(even) {
+  animation-delay: 0.25s;
+}
+
+@keyframes html-slide-up-fade {
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.html-content p {
+  margin-bottom: 0.75rem;
+}
+
+.html-content p:last-child {
+  margin-bottom: 0;
+}
+
+.html-content ul,
+.html-content ol {
+  margin: 0.75rem 0;
+  padding-left: 1.5rem;
+}
+
+.html-content li {
+  margin-bottom: 0.5rem;
+}
+
+.html-content h3 {
+  font-weight: 600;
+  margin: 1.25rem 0 0.75rem 0;
+  font-size: 1.1em;
+}
+
+.html-content strong {
+  font-weight: 600;
+}
+
+.html-content a {
+  color: #3b82f6;
+  text-decoration: underline;
+}
+
+.dark .html-content a {
+  color: #60a5fa;
+}
+
+.html-content hr {
+  margin: 1.5rem 0;
+  border-color: rgba(209, 213, 219, 0.3);
+}
+
+.dark .html-content hr {
+  border-color: rgba(75, 85, 99, 0.5);
 }

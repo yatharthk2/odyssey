@@ -1,26 +1,14 @@
 {
+  "site": {
+    "name": "Yatharth Kapadia",
+    "developerUrl": "https://github.com/yatharthk2"
+  },
   "navigation": [
-    {
-      "title": "About",
-      "url": "#about"
-    },
-    {
-      "title": "Projects",
-      "url": "#projects"
-    },
-    {
-      "title": "Contact",
-      "url": "#contact"
-    },
-    {
-      "title": "Resume",
-      "url": "/Yatharth-Kapadia-Resume.pdf",
-      "isDownload": true
-    },
-    {
-      "title": "Inpersona",
-      "url": "/inpersona"
-    }
+    { "title": "About", "url": "#about" },
+    { "title": "Projects", "url": "#projects" },
+    { "title": "Contact", "url": "#contact" },
+    { "title": "Resume", "url": "/Yatharth-Kapadia-Resume.pdf", "isDownload": true },
+    { "title": "Inpersona", "url": "/inpersona" }
   ],
   "hero": {
     "name": "I am Yatharth",
@@ -31,58 +19,6 @@
     "primary": "I'm a passionate software engineer and machine learning enthusiast, focused on building intelligent systems that solve real-world problems.",
     "secondary": "With a background in computer science and years of industry experience, I blend technical expertise with creative problem-solving to deliver innovative solutions.",
     "image": "/Newyork_Dumbo_300x300.jpg"
-  },
-  "projects": {
-    "title": "Projects",
-    "projects": [
-      {
-        "title": "Image Inpainting",
-        "description": "Harnessing segmentation-aware partial convolutions for ultra-precise image reconstruction.",
-        "github": "https://github.com/yatharthk2/FaceInpainting",
-        "image": "Projects/Inpainting_img.png"
-      },
-
-      {
-        "title": "Inpersona",
-        "description": "AI-powered avatar, to inpersonate as if you are talking to me in person.",
-        "url": "/loading",
-        "github": "https://github.com/yatharthk2/odyssey",
-        "image": "Projects/inpersona_img.png"
-      },
-
-      {
-        "title": "Sprechen",
-        "description": "Implementing Transformer-based architecture to convert text between languages with precision.",
-        "github": "https://github.com/yatharthk2/SPRECHEN",
-        "image": "Projects/Sprechen.png"
-      },
-
-      {
-        "title": "Highway Agent",
-        "description": "Developed a reinforcement learning agent for autonomous highway navigation using actor-critic architecture and policy gradient framework.",
-        "github": "https://github.com/yatharthk2/autopilot",
-        "image": "Projects/dqn_.gif"
-      },
-
-      {
-        "title": "PixTOPix",
-        "description": "Engineered a Conditional GANs framework achieving 87% accuracy in satellite-to-map image translation with 100K Google Maps dataset.",
-        "github": "https://github.com/yatharthk2/PixToPix",
-        "image": "Projects/PixtoPix.png"
-      },
-
-      {
-        "title": "Open-Notif",
-        "description": "CLI for user-company connectivity with AWS (Lambda, SNS, SQS), MongoDB and Twilio. Achieved sub-3-second notification delivery using AWS Chalice for Infrastructure as Code.",
-        "github": "https://github.com/yatharthk2/notifications",
-        "image": "Projects/OpenNotif.png"
-      }
-    ]
-  },
-  "contact": {
-    "title": "Get In Touch",
-    "description": "Have a project in mind or want to discuss potential opportunities? I'd love to hear from you!",
-    "formId": "xkgovpaz"
   },
   "skills": {
     "title": "Skills & Expertise",
@@ -151,6 +87,60 @@
       }
     }
   },
+  "experience": {
+    "title": "Experience",
+    "items": [
+      {
+        "title": "Founding Engineer (Core Team)",
+        "company": "Moss",
+        "companyUrl": "https://www.usemoss.dev/",
+        "period": "10/2025 – Present",
+        "location": "San Francisco, CA",
+        "image": "/companyLogo/Moss.png",
+        "iconOnly": true
+      },
+      {
+        "title": "Research Assistant",
+        "company": "DSAIL, Kelley School of Business",
+        "companyUrl": "https://dsail.kelley.iu.edu/",
+        "period": "03/2024 – 12/2024",
+        "location": "Bloomington, IN",
+        "image": "/companyLogo/DSAIL.jpg"
+      },
+      {
+        "title": "Software Engineer Intern",
+        "company": "Outspeed",
+        "companyUrl": "https://www.outspeed.com/",
+        "period": "06/2024 – 08/2024",
+        "location": "San Francisco, CA",
+        "image": "/companyLogo/Outspeed_2.png"
+      },
+      {
+        "title": "Software Developer Intern",
+        "company": "IDeaS",
+        "companyUrl": "https://ideas.com/",
+        "period": "07/2022 – 01/2023",
+        "location": "Pune, India",
+        "image": "/companyLogo/Ideas_final.png"
+      },
+      {
+        "title": "Software Engineer Intern",
+        "company": "Quidich Innovation Labs",
+        "companyUrl": "https://www.quidich.com/",
+        "period": "05/2022 – 06/2022",
+        "location": "Mumbai, India",
+        "image": "/companyLogo/Quidich.png"
+      },
+      {
+        "title": "Software Developer Intern",
+        "company": "Azodha",
+        "companyUrl": "https://www.azodha.com/",
+        "period": "09/2021 – 04/2022",
+        "location": "New York",
+        "image": "/companyLogo/Azodha.png"
+      }
+    ]
+  },
   "achievements": {
     "title": "Achievements & Awards",
     "items": [
@@ -184,24 +174,68 @@
       }
     ]
   },
+  "projects": {
+    "title": "Projects",
+    "items": [
+      {
+        "title": "Image Inpainting",
+        "description": "Harnessing segmentation-aware partial convolutions for ultra-precise image reconstruction.",
+        "github": "https://github.com/yatharthk2/FaceInpainting",
+        "image": "/Projects/Inpainting_img.png"
+      },
+      {
+        "title": "Inpersona",
+        "description": "AI-powered avatar, to inpersonate as if you are talking to me in person.",
+        "url": "/loading",
+        "github": "https://github.com/yatharthk2/odyssey",
+        "image": "/Projects/inpersona_img.png"
+      },
+      {
+        "title": "Sprechen",
+        "description": "Implementing Transformer-based architecture to convert text between languages with precision.",
+        "github": "https://github.com/yatharthk2/SPRECHEN",
+        "image": "/Projects/Sprechen.png"
+      },
+      {
+        "title": "Highway Agent",
+        "description": "Developed a reinforcement learning agent for autonomous highway navigation using actor-critic architecture and policy gradient framework.",
+        "github": "https://github.com/yatharthk2/autopilot",
+        "image": "/Projects/dqn_.gif"
+      },
+      {
+        "title": "PixTOPix",
+        "description": "Engineered a Conditional GANs framework achieving 87% accuracy in satellite-to-map image translation with 100K Google Maps dataset.",
+        "github": "https://github.com/yatharthk2/PixToPix",
+        "image": "/Projects/PixtoPix.png"
+      },
+      {
+        "title": "Open-Notif",
+        "description": "CLI for user-company connectivity with AWS (Lambda, SNS, SQS), MongoDB and Twilio. Achieved sub-3-second notification delivery using AWS Chalice for Infrastructure as Code.",
+        "github": "https://github.com/yatharthk2/notifications",
+        "media": "openNotifAnimation"
+      }
+    ]
+  },
   "testimonials": {
     "title": "Testimonials",
     "subtitle": "",
+    "rotationIntervalMs": 7000,
+    "truncationLength": 150,
     "items": [
       {
         "name": "Yogesh Shinde",
         "role": "Sr. Project Manager, Tools and Automation",
         "company": "IDeaS Revenue Solutions",
         "content": "I am pleased to recommend Yatharth Kapadia for his contributions during his time at IDeaS. He distinguished himself not only through his technical expertise but also through his collaborative approach to teamwork. Yatharth consistently demonstrated thoughtfulness, a willingness to assist others, and a commitment to delivering high-quality work. He is the type of individual who makes a meaningful impact, and I am confident he will bring the same dedication and professionalism to his future endeavors.",
-        "imageUrl": "Testimonial/yogi.jpeg",
+        "imageUrl": "/Testimonial/yogi.jpeg",
         "linkedinUrl": "https://www.linkedin.com/in/yogesh-shinde-154057143/"
       },
       {
         "name": "Janak Agrawal",
         "role": "Co-founder",
         "company": "Outspeed | IIT JEE Rank 2",
-        "content": "I had the privilege of working with Yatharth at Outspeed, where he quickly became an invaluable member of our team. Yatharth is knowledgeable and meticulous in understanding and modeling machine learning problems. His eagerness to contribute was evident when he swiftly took on a complex project and provided a solution that significantly increased productivity within just one month of joining my team.\n\nYatharth's hands-on experience with machine learning and generative AI allows him to solve problems effectively and efficiently. He is never shy about sharing innovative ideas and consistently delivers elegant solutions. I am also impressed by his business acumen at such an early stage in his career.\n\nAny AI and machine learning team would greatly benefit from Yatharth’s proficiency, adaptability, and problem-solving mindset. I highly recommend him for any opportunity that requires technical expertise and a commitment to excellence.",
-        "imageUrl": "Testimonial/janak.jpeg",
+        "content": "I had the privilege of working with Yatharth at Outspeed, where he quickly became an invaluable member of our team. Yatharth is knowledgeable and meticulous in understanding and modeling machine learning problems. His eagerness to contribute was evident when he swiftly took on a complex project and provided a solution that significantly increased productivity within just one month of joining my team.\n\nYatharth's hands-on experience with machine learning and generative AI allows him to solve problems effectively and efficiently. He is never shy about sharing innovative ideas and consistently delivers elegant solutions. I am also impressed by his business acumen at such an early stage in his career.\n\nAny AI and machine learning team would greatly benefit from Yatharth's proficiency, adaptability, and problem-solving mindset. I highly recommend him for any opportunity that requires technical expertise and a commitment to excellence.",
+        "imageUrl": "/Testimonial/janak.jpeg",
         "linkedinUrl": "https://www.linkedin.com/in/janakagrawal/"
       },
       {
@@ -209,14 +243,57 @@
         "role": "Software Developer 2",
         "company": "Amazon",
         "content": "I've had the chance to work with Yatharth in several different settings, and he's consistently impressed me. We first collaborated on a research project tackling 3D image reconstruction with multiple GANs architectures - not an easy problem, but he had this knack for breaking it down into manageable parts when the rest of us were getting stuck. We later teamed up for a hackathon where his quick thinking saved us countless hours. Most recently, we were colleagues at Quidich Innovation Labs, where I got to see his work ethic day-to-day. What stands out about Yatharth isn't just his technical skills but he takes an extra mile to make things better - whether it's streamlining a workflow or pushing a project to the next level. Great teammate, sharp mind, and someone I'd gladly work with again.",
-        "imageUrl": "Testimonial/vignesh.jpeg",
+        "imageUrl": "/Testimonial/vignesh.jpeg",
         "linkedinUrl": "https://www.linkedin.com/in/vignesh-charan/"
       }
     ]
+  },
+  "contact": {
+    "title": "Get In Touch",
+    "description": "Have a project in mind or want to discuss potential opportunities? I'd love to hear from you!",
+    "ctaLabel": "Get in Touch",
+    "formId": "xkgovpaz"
   },
   "footer": {
     "linkedin": "https://www.linkedin.com/in/yatharthkapadia/",
     "twitter": "https://x.com/yatharthk2",
     "github": "https://github.com/yatharthk2"
+  },
+  "inpersona": {
+    "homeLink": "Home",
+    "loadingTitle": "Initializing Inpersona",
+    "emptyStatePrompt": "How can I help you today?",
+    "inputPlaceholder": "Ask me anything...",
+    "readyButton": "Ready when you are",
+    "footerCredit": "InPersona AI · Designed by Yatharth Kapadia",
+    "avatar": "/Newyork_Dumbo_300x300.jpg",
+    "websocketPath": "/chat",
+    "websocketPort": 8000,
+    "features": [
+      { "icon": "MessageSquare", "title": "Real-time Streaming", "description": "Lightning-fast responses" },
+      { "icon": "Brain", "title": "Smart Context", "description": "Remembers conversations" },
+      { "icon": "Sparkles", "title": "Knowledge Graph", "description": "Enhanced understanding" },
+      { "icon": "Zap", "title": "Query Processing", "description": "Intelligent transformations" }
+    ],
+    "suggestions": [
+      "Tell me about your background",
+      "What are your technical skills?",
+      "What projects have you worked on?",
+      "What's your educational background?"
+    ],
+    "toggles": {
+      "knowledgeGraph": {
+        "label": "Use Knowledge Graph",
+        "shortLabel": "Use KG",
+        "tooltip": "More accurate, Less detailed",
+        "description": "More accurate but less detailed results."
+      },
+      "hyde": {
+        "label": "Use Hyde Query",
+        "shortLabel": "Use HyDE",
+        "tooltip": "Friendly, Detailed, Prone to Hallucination",
+        "description": "Friendly and detailed results, but may occasionally provide inaccurate information."
+      }
+    }
   }
 }
