@@ -55,6 +55,60 @@ export default function InpersonaChat() {
     };
   }, []);
 
+  // Declared before the connect effect so the assignment to ws.onmessage
+  // sees a defined function (avoids TDZ + closure issues across HMR reloads).
+  const handleMessage = (event: MessageEvent<string>) => {
+    let data: { type?: string; content?: string; error?: string };
+    try {
+      data = JSON.parse(event.data);
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.error('Inpersona: bad message payload', event.data, err);
+      return;
+    }
+
+    if (data.error) {
+      setIsLoading(false);
+      setMessages((prev) => {
+        const withoutLoading = prev.slice(0, -1);
+        return [
+          ...withoutLoading,
+          { content: `Error: ${data.error}`, isUser: false, complete: true },
+        ];
+      });
+      return;
+    }
+
+    if (data.type === 'chunk') {
+      setMessages((prev) => {
+        const next = [...prev];
+        const last = next[next.length - 1];
+        if (!last || last.isUser || last.complete) {
+          return [
+            ...next.slice(0, -1),
+            { content: data.content ?? '', isUser: false, loading: true },
+          ];
+        }
+        next[next.length - 1] = {
+          ...last,
+          content: last.content + (data.content ?? ''),
+          loading: true,
+        };
+        return next;
+      });
+    } else if (data.type === 'complete') {
+      setIsLoading(false);
+      setMessages((prev) => {
+        const next = [...prev];
+        const last = next[next.length - 1];
+        if (last && !last.isUser) {
+          next[next.length - 1] = { ...last, complete: true, loading: false };
+        }
+        return next;
+      });
+    }
+  };
+
   useEffect(() => {
     let cancelled = false;
     let reconnectTimer: ReturnType<typeof setTimeout> | null = null;
@@ -62,12 +116,23 @@ export default function InpersonaChat() {
     const connect = () => {
       if (cancelled) return;
 
-      const url = `wss://${window.location.hostname}:${inpersona.websocketPort}${inpersona.websocketPath}`;
+      // Match the page's protocol so dev (http) gets ws and prod (https) gets wss.
+      // Browsers block mixed-content wss from an http origin anyway.
+      const scheme = window.location.protocol === 'https:' ? 'wss' : 'ws';
+      const url = `${scheme}://${window.location.hostname}:${inpersona.websocketPort}${inpersona.websocketPath}`;
+      // eslint-disable-next-line no-console
+      console.info('Inpersona: connecting to', url);
       const ws = new WebSocket(url);
       wsRef.current = ws;
 
-      ws.onopen = () => setIsConnected(true);
-      ws.onclose = () => {
+      ws.onopen = () => {
+        // eslint-disable-next-line no-console
+        console.info('Inpersona: connected');
+        setIsConnected(true);
+      };
+      ws.onclose = (event) => {
+        // eslint-disable-next-line no-console
+        console.info('Inpersona: disconnected', event.code, event.reason);
         setIsConnected(false);
         wsRef.current = null;
         if (!cancelled) {
@@ -92,53 +157,25 @@ export default function InpersonaChat() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleMessage = (event: MessageEvent<string>) => {
-    const data = JSON.parse(event.data);
-
-    if (data.error) {
-      setIsLoading(false);
-      setMessages((prev) => {
-        const withoutLoading = prev.slice(0, -1);
-        return [
-          ...withoutLoading,
-          { content: `Error: ${data.error}`, isUser: false, complete: true },
-        ];
-      });
-      return;
-    }
-
-    if (data.type === 'chunk') {
-      setMessages((prev) => {
-        const next = [...prev];
-        const last = next[next.length - 1];
-        if (!last || last.isUser || last.complete) {
-          return [...next.slice(0, -1), { content: data.content, isUser: false, loading: true }];
-        }
-        next[next.length - 1] = {
-          ...last,
-          content: last.content + data.content,
-          loading: true,
-        };
-        return next;
-      });
-    } else if (data.type === 'complete') {
-      setIsLoading(false);
-      setMessages((prev) => {
-        const next = [...prev];
-        const last = next[next.length - 1];
-        if (last && !last.isUser) {
-          next[next.length - 1] = { ...last, complete: true, loading: false };
-        }
-        return next;
-      });
-    }
-  };
-
   const sendQuestion = (question: string) => {
     const ws = wsRef.current;
-    if (!ws || ws.readyState !== WebSocket.OPEN || isLoading || !question.trim()) {
+    if (!question.trim()) return;
+    if (!ws) {
+      // eslint-disable-next-line no-console
+      console.warn('Inpersona: send blocked, no WebSocket');
       return;
     }
+    if (ws.readyState !== WebSocket.OPEN) {
+      // eslint-disable-next-line no-console
+      console.warn('Inpersona: send blocked, readyState =', ws.readyState);
+      return;
+    }
+    if (isLoading) {
+      // eslint-disable-next-line no-console
+      console.warn('Inpersona: send blocked, still loading previous response');
+      return;
+    }
+
     const userMessage: Message = { content: question, isUser: true, complete: true };
     const loadingMessage: Message = { content: '', isUser: false, loading: true };
     setMessages((prev) => [...prev, userMessage, loadingMessage]);

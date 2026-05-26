@@ -1,11 +1,15 @@
+import logging
+
 import chromadb
 from llama_index.vector_stores.chroma import ChromaVectorStore
-import logging
 
 logger = logging.getLogger(__name__)
 
+
 class ChromaStoreManager:
-    """Manages ChromaDB vector store operations."""
+    """Owns the persistent ChromaDB client + the single shared collection used by both indices."""
+
+    COLLECTION_NAME = "property_graph_store"
 
     def __init__(self, settings):
         self.settings = settings
@@ -15,11 +19,11 @@ class ChromaStoreManager:
     def initialize(self) -> bool:
         try:
             self.chroma_client = chromadb.PersistentClient(path=self.settings.chroma_db_path)
-            self.collection = self.chroma_client.get_or_create_collection("property_graph_store")
+            self.collection = self.chroma_client.get_or_create_collection(self.COLLECTION_NAME)
             return True
         except Exception as e:
-            logger.error(f"Error initializing vector store: {str(e)}", exc_info=True)
+            logger.error(f"Error initializing Chroma vector store: {e}", exc_info=True)
             return False
 
-    def get_vector_store(self):
-        return ChromaVectorStore(chroma_collection=self.collection) 
+    def get_vector_store(self) -> ChromaVectorStore:
+        return ChromaVectorStore(chroma_collection=self.collection)

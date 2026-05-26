@@ -1,8 +1,15 @@
-backend/chroma_db/*
-backend/lib/*
-backend/chroma_db/*
-backend/__pycache__/*
-backend/chat/__pycache__/*
-backend/storage/*
+# Secrets — match any .env anywhere in the tree
+**/.env
+**/.env.*
+!**/.env.example
+
+# Python caches
+__pycache__/
+*.pyc
+.venv/
+
+# Backend runtime artifacts
+backend/chroma_db/
+backend/lib/
+backend/storage/
 backend/kg.html
-backend/.env
