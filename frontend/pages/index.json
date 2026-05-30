@@ -145,10 +145,17 @@
     "title": "Achievements & Awards",
     "items": [
       {
+        "title": "Co-led & judged two 200-person hackathons at Y Combinator HQ",
+        "date": "2025 & 2026",
+        "description": "Co-led and judged two 200-person hackathons hosted at Y Combinator headquarters in San Francisco, evaluating startup demos and mentoring builders across both cohorts.",
+        "companyIcon": "ycombinator",
+        "link": ""
+      },
+      {
         "title": "Graduate Teaching Assistant, Indiana University",
         "date": "August 2024",
         "description": "Selected as a Graduate Teaching Assistant for Elements of AI (with Prof. David Leake) and Machine Learning in Signal Processing (with Prof. Jonathan Ponniah), supporting graduate students with lectures, assignments, and project mentorship.",
-        "companyIcon": "",
+        "companyIcon": "kelley",
         "link": ""
       },
       {

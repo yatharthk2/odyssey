@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
-import { SiAmazon, SiDell, SiNvidia } from 'react-icons/si';
+import { SiAmazon, SiDell, SiNvidia, SiYcombinator } from 'react-icons/si';
+import { FaGraduationCap } from 'react-icons/fa';
 import SectionCard from '../../components/primitives/SectionCard';
 import GradientHeading from '../../components/primitives/GradientHeading';
 import config from '../../types/config';
@@ -9,6 +10,10 @@ const companyIcons: Record<string, { Icon: Icon; className: string }> = {
   dell: { Icon: asIcon(SiDell), className: 'text-blue-700 dark:text-blue-400' },
   nvidia: { Icon: asIcon(SiNvidia), className: 'text-green-600 dark:text-green-400' },
   amazon: { Icon: asIcon(SiAmazon), className: 'text-orange-500 dark:text-orange-400' },
+  // Kelley School of Business — there's no university brand icon in react-icons,
+  // so we use a graduation cap in IU crimson as a recognizable stand-in.
+  kelley: { Icon: asIcon(FaGraduationCap), className: 'text-red-700 dark:text-red-400' },
+  ycombinator: { Icon: asIcon(SiYcombinator), className: 'text-orange-500 dark:text-orange-400' },
 };
 
 export default function Achievements() {
