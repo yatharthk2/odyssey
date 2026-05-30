@@ -13,3 +13,7 @@ backend/chroma_db/
 backend/lib/
 backend/storage/
 backend/kg.html
+
+# Claude Code machine-local config (skills/ and commands/ ARE tracked — they're project-wide playbooks)
+.claude/settings.local.json
+.claude/transcripts/
