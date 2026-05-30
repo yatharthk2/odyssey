@@ -1,5 +1,11 @@
 # Odyssey
 
+<p align="center">
+  <a href="https://www.yatharthk.com">
+    <img src="ivg/inpersona_img.png" alt="Inpersona AI banner" width="1080">
+  </a>
+</p>
+
 Odyssey is the source for **[yatharthk.com](https://www.yatharthk.com)** — Yatharth Kapadia's personal site — plus **Inpersona AI**, an in-browser chat agent that answers questions about Yatharth in first person, grounded in a private RAG index over his resume, projects, and notes. The repo is a two-package monorepo: a Next.js frontend on Vercel and a FastAPI + LlamaIndex backend on a Hetzner box, talking to each other over a single WebSocket.
 
 ## Live
@@ -115,6 +121,28 @@ The `.claude/skills/` directory holds the operational playbooks. They're written
 | Boot frontend + backend together locally | [`start-local-stack.md`](.claude/skills/start-local-stack.md) |
 
 For deeper architectural context — composition order, the load-bearing system prompt, the frontend/backend WebSocket contract — see [`CLAUDE.md`](CLAUDE.md).
+
+## How Inpersona retrieves
+
+Inpersona supports two retrieval paths over the same indexed corpus, plus a query-rewrite layer that can be applied to either. The UI exposes both as toggles; the backend picks the matching `QueryEngine` per request.
+
+### Knowledge Graph search
+
+The KG path is extremely accurate and handles multi-hop reasoning well. On ingest, the LLM extracts entities and their relations from each document and stores them as a JSON-formatted property graph (persisted in ChromaDB locally). At query time we walk the graph from the question's entities and return their connected properties. Slower than vector search but much more precise for relational questions.
+
+<p align="center">
+  <img src="ivg/kg_im.png" alt="Knowledge Graph retrieval diagram" width="1080">
+</p>
+
+### HyDE query transformation
+
+HyDE ("Hypothetical Document Embeddings", from [*Precise Zero-Shot Dense Retrieval without Relevance Labels*](https://arxiv.org/abs/2212.10496)) flips retrieval on its head: instead of embedding the user's question and searching the index for similar chunks, we first ask the LLM to *generate a hypothetical answer*, embed THAT, and search for chunks similar to the generated answer. Tends to produce more fluid, natural responses with higher confidence on phrasing — but is also more prone to over-sharing or hallucinating, since the hypothetical answer biases retrieval.
+
+<p align="center">
+  <img src="ivg/hyde.png" alt="HyDE query transformation diagram" width="1080">
+</p>
+
+The two paths are orthogonal — the frontend's two toggles (`Use Knowledge Graph`, `Use HyDE Query`) produce all four combinations: plain-vector, plain-KG, HyDE-vector, HyDE-KG. See [`.claude/skills/tune-rag-quality.md`](.claude/skills/tune-rag-quality.md) for when each is the right tool.
 
 ## Tech stack
 

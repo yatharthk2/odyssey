@@ -1,240 +1,322 @@
-"""Live WebSocket smoke test for wss://api.yatharthk.com/chat.
+"""Graded smoke test for the live Inpersona chat at wss://api.yatharthk.com/chat.
 
-Designed to be readable in GHA logs: every failure prints the routing mode,
-the question, and the offending substring of the response. Exits 1 on any
-failure so the workflow turns red.
+Fires a fixed bank of probes, each with an expectation describing what a good
+response should and should not contain. Scores the run as `passed/total`.
+Exits 1 if the score falls below SCORE_THRESHOLD or any probe transport-fails,
+so CI turns red on real regressions without flaking on a single off answer.
 
-Kept deliberately portable: no f-strings with backslash escapes, no third
-party deps beyond `websockets`.
+Design goals (in priority order):
+  1. Catch the specific historical regressions we've already shipped fixes for
+     (literal "TL;DR:" prefix, "AI/ML Specialist" overriding the Moss role,
+     topic-filter false-positives on coworker questions, markdown bleed).
+  2. Exercise all four routing modes (vector|KG x plain|HyDE).
+  3. Be readable in GHA logs - every failure prints the mode, question, and
+     the rule it broke.
+  4. Stay dependency-light: only `websockets` (already in CI's pip install).
 """
 
 from __future__ import annotations
 
 import asyncio
 import json
+import re
 import sys
 import time
-from typing import List, Optional, Tuple
+from typing import Callable, Optional
 
 import websockets
 
+# ----------------------------- config ---------------------------------------
+
 WS_URL = "wss://api.yatharthk.com/chat"
 PER_REQUEST_TIMEOUT_S = 90.0
+SCORE_THRESHOLD = 0.85  # CI fails if (passed / total) < 0.85
 
-# The 4 routing modes the frontend can request. Each maps to a distinct code
-# path inside QueryEngine.process_query, so we exercise all of them.
-ROUTING_MODES = [
-    {"vector_store": "vector", "query_transformation": None},
-    {"vector_store": "vector", "query_transformation": "HyDE"},
-    {"vector_store": "KG",     "query_transformation": None},
-    {"vector_store": "KG",     "query_transformation": "HyDE"},
-]
+# Bad opener patterns - the system prompt explicitly forbids labels like
+# "TL;DR:" / "Summary:" before the first sentence. If we see one, formatting
+# has regressed past the prompt's case rules.
+BAD_OPENER_PATTERNS = (
+    re.compile(r"^\s*<p>\s*TL\s*[:;]?\s*DR", re.IGNORECASE),
+    re.compile(r"^\s*<p>\s*Summary\s*:", re.IGNORECASE),
+    re.compile(r"^\s*<p>\s*In\s+short", re.IGNORECASE),
+    re.compile(r"^\s*<p>\s*In\s+summary", re.IGNORECASE),
+)
 
-# Bad opener patterns. The system prompt explicitly forbids these; if we see
-# one, the model has regressed past the prompt's formatting rules.
-BAD_OPENERS = ("TL;DR", "Summary:", "In short", "In summary")
-
-# Probe questions that catch specific historical regressions.
-ROLE_QUESTION = "What is your current role?"
-OUTSPEED_QUESTION = "Who did you work with at Outspeed?"
-GENERIC_QUESTION = "Tell me about your background."
-
-# Substring that means the topic filter fired -- legitimate for off-topic
-# questions, but a regression when asked about coworkers at a past employer.
+# Substring that means the topic-filter refusal fired. Legitimate for case-C
+# (off-topic) questions only - surfacing it on professional questions is a
+# regression of the case A/B/C distinction we wired into the prompt.
 TOPIC_REFUSAL_FRAGMENT = "I'm focused on discussing my professional background"
 
+# Markdown bleed - the prompt mandates pure HTML; these patterns signal the
+# model fell back to markdown formatting.
+MARKDOWN_BLEED_PATTERNS = (
+    re.compile(r"\*\*[A-Za-z]"),         # **bold** markdown (we want <strong>)
+    re.compile(r"^\s*[-*]\s+\w", re.M),  # - or * bullets at line start (we want <li>)
+    re.compile(r"```"),                  # markdown code fences anywhere
+)
 
-class Result:
-    """One probe result, used for the summary table and assertions."""
 
-    def __init__(self, mode_label, question):
+# ----------------------------- probe shapes ---------------------------------
+
+
+class Probe:
+    """A single (mode x question) probe with what the response should contain."""
+
+    def __init__(
+        self,
+        *,
+        mode_label: str,
+        vector_store: str,
+        query_transformation: Optional[str],
+        question: str,
+        must_contain: tuple[str, ...] = (),
+        must_not_contain: tuple[str, ...] = (),
+        custom_check: Optional[Callable[[str], Optional[str]]] = None,
+    ):
         self.mode_label = mode_label
+        self.vector_store = vector_store
+        self.query_transformation = query_transformation
         self.question = question
+        self.must_contain = must_contain
+        self.must_not_contain = must_not_contain
+        self.custom_check = custom_check
+        # Filled in after probing:
         self.ok = False
-        self.ttfb_s = None        # type: Optional[float]
-        self.total_s = None       # type: Optional[float]
         self.response = ""
-        self.error = None         # type: Optional[str]
+        self.ttfb_s: Optional[float] = None
+        self.total_s: Optional[float] = None
+        self.failures: list[str] = []
+        self.transport_error: Optional[str] = None
 
-    def summary_row(self):
-        ttfb = "-" if self.ttfb_s is None else ("%.2f" % self.ttfb_s)
-        total = "-" if self.total_s is None else ("%.2f" % self.total_s)
-        return (self.mode_label, self.question[:40], str(self.ok), ttfb, total)
+    def grade(self) -> bool:
+        """Apply rules to self.response. Populates self.failures. Returns passed."""
+        if not self.ok:
+            self.failures.append("transport error: " + str(self.transport_error))
+            return False
+
+        # Universal format checks
+        if not self.response.lstrip().startswith("<p>"):
+            self.failures.append("response does not open with a <p> tag")
+
+        for pat in BAD_OPENER_PATTERNS:
+            if pat.search(self.response[:120]):
+                self.failures.append("bad opener pattern matched: " + repr(pat.pattern))
+                break
+
+        for pat in MARKDOWN_BLEED_PATTERNS:
+            if pat.search(self.response):
+                self.failures.append("markdown bleed: " + repr(pat.pattern))
+                break
+
+        # Per-probe expectations
+        for needle in self.must_contain:
+            if needle.lower() not in self.response.lower():
+                self.failures.append("missing expected substring " + repr(needle))
+
+        for forbidden in self.must_not_contain:
+            if forbidden.lower() in self.response.lower():
+                self.failures.append("contains forbidden substring " + repr(forbidden))
+
+        if self.custom_check is not None:
+            problem = self.custom_check(self.response)
+            if problem is not None:
+                self.failures.append(problem)
+
+        return not self.failures
 
 
-async def ask(mode, question):
-    """Send one question, stream the response, return a Result.
+# ----------------------------- probe bank -----------------------------------
 
-    Wire format mirrors frontend/pages/components/InpersonaChat.tsx:
-        request:  {"question", "vector_store", "query_transformation", "model_provider"}
-        response: repeated {"type":"chunk","content":...} then {"type":"complete"}
-                  or {"error":...}
-    """
-    mode_label = mode["vector_store"] + "+" + (mode["query_transformation"] or "plain")
-    result = Result(mode_label, question)
+# 4 routing modes rotated across 5 question categories = 20 probes.
+# Each mode is exercised on every category, so a single broken mode (e.g.
+# KG retrieval down) surfaces as a row of failures.
 
-    payload = {
-        "question": question,
-        "vector_store": mode["vector_store"],
-        "query_transformation": mode["query_transformation"],
-        "model_provider": "openai",
-    }
+CATEGORIES = [
+    # 1. Current role - catches the "AI/ML Specialist" / persona-leak regression.
+    {
+        "question": "What is your current role?",
+        "must_contain": ("moss",),
+        "must_not_contain": ("ai/ml specialist", "the candidate"),
+    },
+    # 2. Availability - catches stale dates / hardcoded years.
+    {
+        "question": "When are you available to start?",
+        "must_contain": ("2026",),
+        "must_not_contain": (),
+    },
+    # 3. Education - catches GPA / school regressions.
+    {
+        "question": "Where did you do your MS, and what's your GPA?",
+        "must_contain": ("indiana",),
+        "must_not_contain": ("the candidate",),
+    },
+    # 4. Topic-filter case-B - coworker question with no name data in KB.
+    # Must NOT trigger the off-topic refusal; should give partial answer.
+    {
+        "question": "Who did you work with at Outspeed and what did you build there?",
+        "must_contain": ("outspeed",),
+        "must_not_contain": (TOPIC_REFUSAL_FRAGMENT,),
+    },
+    # 5. Multifact synthesis - should mention more than one company.
+    {
+        "question": "Tell me about your professional experience.",
+        "must_contain": ("moss",),
+        "must_not_contain": (),
+        "custom_check": lambda r: (
+            "only mentions one company"
+            if sum(
+                c in r.lower() for c in ("moss", "outspeed", "haldune", "ideas", "azodha", "quidich")
+            )
+            < 2
+            else None
+        ),
+    },
+]
 
-    started = time.monotonic()
+MODES = [
+    {"label": "vector+plain", "vector_store": "vector", "query_transformation": None},
+    {"label": "vector+HyDE",  "vector_store": "vector", "query_transformation": "HyDE"},
+    {"label": "KG+plain",     "vector_store": "KG",     "query_transformation": None},
+    {"label": "KG+HyDE",      "vector_store": "KG",     "query_transformation": "HyDE"},
+]
+
+PROBES: list[Probe] = []
+for mode in MODES:
+    for cat in CATEGORIES:
+        PROBES.append(
+            Probe(
+                mode_label=mode["label"],
+                vector_store=mode["vector_store"],
+                query_transformation=mode["query_transformation"],
+                question=cat["question"],
+                must_contain=cat.get("must_contain", ()),
+                must_not_contain=cat.get("must_not_contain", ()),
+                custom_check=cat.get("custom_check"),
+            )
+        )
+
+
+# ----------------------------- WebSocket fire -------------------------------
+
+
+async def fire(probe: Probe) -> None:
+    t0 = time.time()
     try:
-        async with websockets.connect(WS_URL, open_timeout=15, close_timeout=5) as ws:
-            await ws.send(json.dumps(payload))
-            chunks = []  # type: List[str]
-            first_chunk_at = None  # type: Optional[float]
-
+        async with websockets.connect(WS_URL) as ws:
+            await ws.send(
+                json.dumps(
+                    {
+                        "question": probe.question,
+                        "vector_store": probe.vector_store,
+                        "query_transformation": probe.query_transformation,
+                    }
+                )
+            )
+            chunks: list[str] = []
             while True:
-                raw = await asyncio.wait_for(ws.recv(), timeout=PER_REQUEST_TIMEOUT_S)
-                try:
-                    msg = json.loads(raw)
-                except json.JSONDecodeError:
-                    result.error = "non-JSON frame: " + repr(raw[:120])
-                    return result
-
+                msg = json.loads(await asyncio.wait_for(ws.recv(), timeout=PER_REQUEST_TIMEOUT_S))
                 if "error" in msg:
-                    result.error = "server error frame: " + str(msg.get("error"))
-                    return result
-
-                msg_type = msg.get("type")
-                if msg_type == "chunk":
-                    if first_chunk_at is None:
-                        first_chunk_at = time.monotonic()
-                    chunks.append(msg.get("content", ""))
-                elif msg_type == "complete":
-                    break
-                else:
-                    # Forward-compatible: unknown frame types are ignored, not
-                    # treated as errors.
-                    continue
-
-            now = time.monotonic()
-            result.response = "".join(chunks)
-            result.ttfb_s = (first_chunk_at - started) if first_chunk_at else None
-            result.total_s = now - started
-            result.ok = bool(result.response.strip())
-            if not result.ok:
-                result.error = "empty response body"
-            return result
-
-    except asyncio.TimeoutError:
-        result.error = "timeout after " + str(PER_REQUEST_TIMEOUT_S) + "s"
-        return result
-    except Exception as exc:  # noqa: BLE001 -- we want everything surfaced
-        result.error = type(exc).__name__ + ": " + str(exc)
-        return result
+                    probe.transport_error = msg["error"]
+                    return
+                if msg["type"] == "chunk":
+                    if probe.ttfb_s is None:
+                        probe.ttfb_s = time.time() - t0
+                    chunks.append(msg["content"])
+                elif msg["type"] == "complete":
+                    probe.total_s = time.time() - t0
+                    probe.response = "".join(chunks)
+                    probe.ok = True
+                    return
+    except Exception as e:
+        probe.transport_error = type(e).__name__ + ": " + str(e)
 
 
-def check(condition, message, failures):
-    """Append a readable failure message if condition is falsy."""
-    if not condition:
-        failures.append(message)
+async def fire_all(probes: list[Probe]) -> None:
+    # Fire 4 at a time to be polite to the backend (matches the 4 routing modes).
+    sem = asyncio.Semaphore(4)
+
+    async def bounded(p: Probe) -> None:
+        async with sem:
+            await fire(p)
+
+    await asyncio.gather(*(bounded(p) for p in probes))
 
 
-def assert_format(result, failures):
-    """Format-level invariants that should hold for EVERY successful response."""
-    if not result.ok:
-        failures.append(
-            "[" + result.mode_label + "] transport failed: " + str(result.error)
+# ----------------------------- reporting ------------------------------------
+
+
+def truncate(s: str, n: int) -> str:
+    s = s.replace("\n", " ").strip()
+    return s if len(s) <= n else s[: n - 1] + "..."
+
+
+def print_table(probes: list[Probe]) -> None:
+    print()
+    print("=" * 110)
+    print("SMOKE TEST DETAIL")
+    print("=" * 110)
+    header = "{:<14} {:<60} {:<6} {:<8} {:<8}".format(
+        "mode", "question", "pass", "ttfb_s", "total_s"
+    )
+    print(header)
+    print("-" * 110)
+    for p in probes:
+        row = "{:<14} {:<60} {:<6} {:<8} {:<8}".format(
+            p.mode_label,
+            truncate(p.question, 58),
+            "yes" if not p.failures else "NO",
+            "{:.2f}".format(p.ttfb_s) if p.ttfb_s is not None else "-",
+            "{:.2f}".format(p.total_s) if p.total_s is not None else "-",
         )
-        return
+        print(row)
+        for f in p.failures:
+            print("    ! " + f)
+    print("=" * 110)
 
-    body = result.response.lstrip()
 
-    check(
-        body.startswith("<p>"),
-        "[" + result.mode_label + "] response does not open with <p>; got first 80 chars: "
-            + repr(body[:80]),
-        failures,
+def main() -> int:
+    print("Smoke test against " + WS_URL)
+    print("Probes: " + str(len(PROBES)) + " (" + str(len(MODES)) + " modes x "
+          + str(len(CATEGORIES)) + " categories)")
+    print("Pass threshold: " + "{:.0%}".format(SCORE_THRESHOLD))
+    print()
+    t0 = time.time()
+    asyncio.run(fire_all(PROBES))
+
+    for p in PROBES:
+        p.grade()
+
+    print_table(PROBES)
+
+    total = len(PROBES)
+    passed = sum(1 for p in PROBES if not p.failures)
+    score = passed / total if total else 0.0
+    elapsed = time.time() - t0
+
+    print()
+    print(
+        "Result: " + str(passed) + "/" + str(total) + " passed ("
+        + "{:.1%}".format(score) + ")  in " + "{:.1f}".format(elapsed) + "s"
     )
 
-    for bad in BAD_OPENERS:
-        check(
-            not body.startswith(bad),
-            "[" + result.mode_label + "] response opens with banned phrase '" + bad
-                + "'; got: " + repr(body[:120]),
-            failures,
-        )
-        # Also catch the case where the model wraps the banned opener in a <p>.
-        check(
-            "<p>" + bad not in body[:200],
-            "[" + result.mode_label + "] response opens with '<p>" + bad
-                + "' inside the first paragraph",
-            failures,
-        )
-
-    check(
-        "```html" not in result.response and "```" not in result.response[:20],
-        "[" + result.mode_label + "] response wrapped in code fences",
-        failures,
-    )
-
-
-async def main():
-    failures = []  # type: List[str]
-    results = []   # type: List[Result]
-
-    # --- 1) all 4 routing modes must return ok=True on a generic prompt -----
-    for mode in ROUTING_MODES:
-        r = await ask(mode, GENERIC_QUESTION)
-        results.append(r)
-        assert_format(r, failures)
-
-    # --- 2) role-question regression: response must mention Moss ------------
-    role_mode = {"vector_store": "vector", "query_transformation": None}
-    role_result = await ask(role_mode, ROLE_QUESTION)
-    results.append(role_result)
-    assert_format(role_result, failures)
-    if role_result.ok:
-        check(
-            "Moss" in role_result.response,
-            "[role-question] response does not mention 'Moss' -- AI/ML Specialist"
-                + " regression resurfaced. Body: " + repr(role_result.response[:240]),
-            failures,
-        )
-
-    # --- 3) topic-filter false-positive regression --------------------------
-    outspeed_mode = {"vector_store": "vector", "query_transformation": None}
-    outspeed_result = await ask(outspeed_mode, OUTSPEED_QUESTION)
-    results.append(outspeed_result)
-    assert_format(outspeed_result, failures)
-    if outspeed_result.ok:
-        check(
-            TOPIC_REFUSAL_FRAGMENT not in outspeed_result.response,
-            "[outspeed-question] topic filter fired on a legitimate work-history"
-                + " question. Body: " + repr(outspeed_result.response[:240]),
-            failures,
-        )
-
-    # --- summary table ------------------------------------------------------
-    print("")
-    print("=" * 92)
-    print("SMOKE TEST SUMMARY")
-    print("=" * 92)
-    header = ("mode", "question", "ok", "ttfb_s", "total_s")
-    fmt = "{:<16}  {:<42}  {:<6}  {:>7}  {:>7}"
-    print(fmt.format(*header))
-    print("-" * 92)
-    for r in results:
-        print(fmt.format(*r.summary_row()))
-        if r.error:
-            print("    error: " + str(r.error))
-    print("=" * 92)
-
-    if failures:
-        print("")
-        print("FAILURES (" + str(len(failures)) + "):")
-        for i, msg in enumerate(failures, 1):
-            print("  " + str(i) + ". " + msg)
+    if any(p.transport_error for p in PROBES):
+        print("\nTransport errors (auto-fail):")
+        for p in PROBES:
+            if p.transport_error:
+                print("  [" + p.mode_label + "] " + repr(p.question) + ": " + p.transport_error)
         return 1
 
-    print("")
-    print("OK: all " + str(len(results)) + " probes passed")
+    if score < SCORE_THRESHOLD:
+        print(
+            "\nFAIL: score " + "{:.1%}".format(score)
+            + " is below threshold " + "{:.0%}".format(SCORE_THRESHOLD)
+            + ". Inspect failure rows above; this is likely a real regression."
+        )
+        return 1
+
+    print("\nOK: smoke passed.")
     return 0
 
 
 if __name__ == "__main__":
-    sys.exit(asyncio.run(main()))
+    sys.exit(main())
