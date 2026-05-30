@@ -10,7 +10,7 @@ authors = [
 
 dependencies = [
     # Web layer
-    "fastapi>=0.115.8,<0.116.0",
+    "fastapi>=0.115.8,<0.137.0",
     "uvicorn[standard]>=0.30.0,<1.0.0",
     # websockets 14+ removed transfer_data_task from the legacy protocol that
     # uvicorn's websockets_impl still uses, so close() raises AttributeError on
