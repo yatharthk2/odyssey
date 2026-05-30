@@ -1,0 +1,79 @@
+# Production stack for the Inpersona backend.
+#
+# Layout:
+#   caddy   -> terminates TLS for api.yatharthk.com, reverse-proxies to backend
+#              with WebSocket upgrade pass-through. Auto-fetches Let's Encrypt
+#              certs on first start (just make sure the A record is live).
+#   backend -> FastAPI / Uvicorn. Lives on an internal network, never exposed
+#              to the public directly.
+#   redis   -> Cache for the LLM responses. Optional but cheap.
+#
+# Run from the deploy/ directory:
+#   docker compose up -d
+#   docker compose logs -f backend
+
+services:
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"   # HTTP/3
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - backend
+    networks:
+      - inpersona
+
+  backend:
+    build:
+      context: ../backend
+      dockerfile: Dockerfile
+    image: inpersona-backend:latest
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      # Override the few defaults that differ in production from the local
+      # PropertyGraphSettings defaults. Everything else comes from .env or the
+      # dataclass defaults.
+      REDIS_URL: redis://redis:6379
+      HOST: 0.0.0.0
+      PORT: 8000
+    volumes:
+      # Persistent storage so the indices survive container restarts.
+      - backend_storage:/app/storage
+      - backend_chroma:/app/chroma_db
+      - backend_hfcache:/app/.cache/huggingface
+      # Source documents — read-only mount so you can update resume.txt etc.
+      # on the host and `docker compose restart backend` to re-index.
+      - ./documents:/app/documents:ro
+    depends_on:
+      - redis
+    networks:
+      - inpersona
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    command: ["redis-server", "--appendonly", "yes", "--maxmemory", "128mb", "--maxmemory-policy", "allkeys-lru"]
+    volumes:
+      - redis_data:/data
+    networks:
+      - inpersona
+
+networks:
+  inpersona:
+    driver: bridge
+
+volumes:
+  caddy_data:
+  caddy_config:
+  backend_storage:
+  backend_chroma:
+  backend_hfcache:
+  redis_data:

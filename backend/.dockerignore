@@ -1,0 +1,30 @@
+# Local dev artifacts
+.venv/
+__pycache__/
+**/__pycache__/
+*.pyc
+
+# Built indices — these get rebuilt inside the container on first start so the
+# image stays clean and we don't accidentally ship stale embeddings.
+storage/
+chroma_db/
+kg.html
+
+# Local caches
+.cache/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Secrets must never be baked into the image — env comes from the runtime.
+.env
+.env.*
+!.env.example
+
+# Editor / OS noise
+.DS_Store
+.idea/
+.vscode/
+
+# Poetry leftovers (we use uv now)
+poetry.lock

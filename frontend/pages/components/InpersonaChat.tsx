@@ -116,10 +116,17 @@ export default function InpersonaChat() {
     const connect = () => {
       if (cancelled) return;
 
-      // Match the page's protocol so dev (http) gets ws and prod (https) gets wss.
-      // Browsers block mixed-content wss from an http origin anyway.
+      // Production sets NEXT_PUBLIC_INPERSONA_WS_URL to the full backend URL
+      // (e.g. wss://api.yatharthk.com/chat). In dev we fall back to building
+      // it from window.location, so `npm run dev` against a local backend on
+      // :8000 keeps working. Protocol auto-derives from the page so http
+      // origin -> ws (browsers block mixed-content wss from http).
+      const envUrl = process.env.NEXT_PUBLIC_INPERSONA_WS_URL;
       const scheme = window.location.protocol === 'https:' ? 'wss' : 'ws';
-      const url = `${scheme}://${window.location.hostname}:${inpersona.websocketPort}${inpersona.websocketPath}`;
+      const url =
+        envUrl && envUrl.trim().length > 0
+          ? envUrl
+          : `${scheme}://${window.location.hostname}:${inpersona.websocketPort}${inpersona.websocketPath}`;
       // eslint-disable-next-line no-console
       console.info('Inpersona: connecting to', url);
       const ws = new WebSocket(url);

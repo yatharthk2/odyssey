@@ -1,0 +1,25 @@
+# Caddy will fetch and renew Let's Encrypt certs automatically as long as
+# api.yatharthk.com's A record points at this server's public IP and ports
+# 80 + 443 are open in the firewall.
+
+api.yatharthk.com {
+    encode zstd gzip
+
+    # WebSocket support is automatic — Caddy passes through Upgrade: websocket
+    # headers without extra config (unlike nginx). The /chat endpoint just works.
+    reverse_proxy backend:8000 {
+        # Keep WS connections alive even when the chat is idle for a while.
+        transport http {
+            keepalive 5m
+            keepalive_idle_conns 10
+        }
+    }
+
+    # Light-touch logging — Caddy's structured logs go to stdout, picked up by
+    # `docker compose logs caddy`.
+    log {
+        output stdout
+        format console
+        level INFO
+    }
+}

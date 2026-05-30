@@ -1,0 +1,5 @@
+# Runtime artifacts live under named volumes; only the source documents go
+# under deploy/documents/ on the server (mounted read-only into the container).
+# Don't commit those — they're the user's actual RAG knowledge base.
+documents/
+.env
