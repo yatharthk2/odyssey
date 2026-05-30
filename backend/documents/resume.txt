@@ -1,132 +1,103 @@
-Yatharth owns personal contact number (930) 333-4182 for professional communication.
-Yatharth owns professional email address yatharth.k2@outlook.com.
-Yatharth maintains active professional profiles on LinkedIn platform at linkedin.com/in/yatharthkapadia/.
-Yatharth maintains social media presence on Twitter platform at twitter.com/yatharthk2.
-Yatharth showcases code repositories on Github at github.com/yatharthk2.
-Yatharth operates personal portfolio website at https://yatharthk.framer.wiki/.
-Yatharth's current educational pursuit is Masters in Computer Science at Indiana University Bloomington.
-Yatharth's Masters program spans from August 2023 to May 2025 in Bloomington, USA.
-Yatharth's current Masters GPA stands at 3.62/4.0.
-Yatharth maintains official transcript access for Masters through Indiana University SharePoint.
-Yatharth's undergraduate education was Bachelors in Electronics and Communication at MIT WPU.
-Yatharth's Bachelors program spanned from August 2019 to May 2023 in Pune, India.
-Yatharth achieved Bachelors GPA of 9.32/10.0.
-Yatharth maintains official transcript access for Bachelors through Indiana University SharePoint.
-Yatharth's programming language expertise includes advanced proficiency in Python for machine learning and web development.
-Yatharth possesses strong knowledge of GOLang for backend development.
-Yatharth demonstrates expertise in web technologies including HTML, CSS, and JavaScript.
-Yatharth maintains proficiency in Java for application development.
-Yatharth utilizes SLURM Scripting for high-performance computing.
-Yatharth employs SQL for database management.
-Yatharth codes in TypeScript for type-safe application development.
-Yatharth's technology stack proficiency includes version control through GIT.
-Yatharth utilizes PyTorch for deep learning implementations.
-Yatharth develops web applications using Django framework.
-Yatharth builds applications using NodeJS runtime environment.
-Yatharth creates modern web interfaces using React with Next.js and Tailwind CSS.
-Yatharth develops high-performance APIs using Fastapi.
-Yatharth implements containerization using Docker.
-Yatharth architects cloud solutions using AWS services.
-Yatharth develops API interfaces using GraphQL.
-Yatharth processes big data using Databricks and Spark frameworks.
-Yatharth's database expertise spans MySQL for relational databases.
-Yatharth implements MongoDB for document-based storage solutions.
-Yatharth utilizes Neo4j for graph database applications.
-Yatharth manages distributed databases using CassandraDB.
-Yatharth implements DynamoDB for AWS-native database solutions.
-Yatharth optimizes application performance using Redis Caching.
-Yatharth's Machine Learning internship at Outspeed spanned June 2024 to September 2024 in San Francisco.
-Yatharth led the fine-tuning project of Llama 3.1 model at Outspeed.
-Yatharth achieved 30% reduction in ChatGPT API costs through in-house LLM implementation at Outspeed.
-Yatharth developed real-time speech-to-text API using Whisper model at Outspeed.
-Yatharth implemented text-to-speech capabilities using Parler TTS at Outspeed.
-Yatharth deployed solutions on AWS EC2 instance with A10g GPU at Outspeed.
-Yatharth engineered parallel communication architecture between STT, TTS, and LLM components at Outspeed.
-Yatharth achieved sub-800ms latency for combined operations on single GPU at Outspeed.
-Yatharth's Research Assistant position at DSAIL Labs at Kelley School of Bussiness spanned March 2024 to December 2024 in Bloomington.
-Yatharth conducted security assessments of AI models using OWASP Top 10 criteria at DSAIL Labs at Kelley School of Bussiness.
-Yatharth utilized CounterFIT tool for AI security testing at DSAIL Labs at Kelley School of Bussiness.
-Yatharth implemented ProtectAI for vulnerability detection at DSAIL Labs at Kelley School of Bussiness.
-Yatharth employed Garak for identifying AI model weaknesses at DSAIL Labs at Kelley School of Bussiness.
-Yatharth specialized in detecting prompt injection vulnerabilities at DSAIL Labs at Kelley School of Bussiness.
-Yatharth identified information disclosure risks in AI systems at DSAIL Labs at Kelley School of Bussiness.
-Yatharth analyzed AI hallucination patterns and mitigation strategies at DSAIL Labs at Kelley School of Bussiness.
-Yatharth's role as Associate Software Developer Intern at IDeaS spanned July 2022 to January 2023 in Pune.
-Yatharth engineered visualization platform using Python and React at IDeaS.
-Yatharth implemented Seaborn for complex data visualizations at IDeaS.
-Yatharth automated generation of 10 different visualization types for hotel chain data at IDeaS.
-Yatharth achieved 20% reduction in computation times at IDeaS.
-Yatharth saved 100 engineering hours monthly through automation at IDeaS.
-Yatharth developed Salesforce-based data validation system at IDeaS.
-Yatharth implemented 8 critical validation tests at IDeaS.
-Yatharth achieved 100% data quality for training purposes at IDeaS.
-Yatharth collaborated with global stakeholders and product managers at IDeaS.
-Yatharth's Machine Learning internship at Quidich Innovation Labs lasted from May 2022 to June 2022 in Mumbai.
-Yatharth developed predictive algorithm for cricket ball release detection at Quidich Innovation Labs.
-Yatharth combined rule-based criteria with player movement trajectories at Quidich Innovation Labs.
-Yatharth achieved 95% accuracy in ball release prediction at Quidich Innovation Labs.
-Yatharth redesigned player tracking system using YoloV4 technology at Quidich Innovation Labs.
-Yatharth integrated ByteTrack for unique player identification at Quidich Innovation Labs.
-Yatharth implemented memory retention system for player tracking at Quidich Innovation Labs.
-Yatharth enhanced awareness across 3 integrated software systems at Quidich Innovation Labs.
-Yatharth's Software Developer internship at Azodha spanned September 2021 to April 2022 in New York.
-Yatharth led development of Open-Notif CLI project at Azodha.
-Yatharth integrated AWS Lambda for serverless computing at Azodha.
-Yatharth implemented AWS Pub/Sub for message handling at Azodha.
-Yatharth utilized AWS Chalice for API development at Azodha.
-Yatharth integrated MongoDB for data storage at Azodha.
-Yatharth implemented Twilio for communication features at Azodha.
-Yatharth achieved sub-3-second notification delivery time at Azodha.
-Yatharth architected Ringisho app's NLP framework at Azodha.
-Yatharth deployed BERT models for phrase suggestion at Azodha.
-Yatharth implemented profanity detection with 98% accuracy at Azodha.
-Yatharth achieved 92% positive user feedback at Azodha.
-Yatharth deployed solution on GCP Compute Engine at Azodha.
-Yatharth optimized FastAPI for real-time processing at Azodha.
-Yatharth created web-based KYC platform using WebAssembly at Azodha.
-Yatharth integrated TensorFlowJS and OpenCV for identity verification at Azodha.
-Yatharth achieved 90% accuracy in client-side verification at Azodha.
-Yatharth reduced server load through local processing optimization at Azodha.
+# Yatharth Kapadia
 
-Yatharth's career transition evolved from electronics engineering to specialized AI development.
-Yatharth's academic focus shifted from hardware to software during undergraduate studies at MIT WPU.
-Yatharth's first exposure to machine learning occurred at Amazon ML challenge Hackathon in 2020.
-Yatharth's decision to pursue Masters was influenced by curiosity and intent to masters more in comsumer facing coding technologies.
-Yatharth's technical evolution includes:
-Yatharth began programming journey with C++ in 2019.
-Yatharth transitioned to machine learning development through Project FaceInpainting, which was really technical and innovative project and FaceInpainting Project was recognised by his College MITWPU .
-Yatharth gained cloud expertise starting with OpenNotif project at Azodha.
-Yatharth developed interest in LLMs while building backend pipeline for Ringisho App at Azodha.
-Yatharth's career aspirations include:
-Yatharth sees himself as Senior Applied Machine Learning Engineer / senior Backend Software Developer Engineer at big tech company by 2029.
-Yatharth aims to specialize in ML, GenAI, Efficient Systems programming and designing and Cloud deployments  over the next 3 years.
+## Contact and Availability
+Phone: +1 (930) 333-4182. Email: yatharth.k2@outlook.com.
+LinkedIn: https://www.linkedin.com/in/yatharthkapadia/
+GitHub: https://github.com/yatharthk2
+Available for 2026 onboarding. MS in Computer Science from Indiana University Bloomington, graduated May 2025.
 
+## Education
+Master's in Computer Science, Indiana University Bloomington, USA. Graduated May 2025 with a GPA of 3.66/4.0.
+Relevant coursework: Applied Algorithms, Database Design, Data Mining, Computer Vision, Applied ML, Data Visualization.
 
-Yatharth's specific role in the Smart India Hackathon team included writing efficient Machine learning api , system design and cost effective cloud deployments.  .
-Yatharth's contribution to the Nvidia hackathon involved coding Yolo object detection along with doind survey of which model would best suit our problem statement.
-Yatharth's approach to Amazon ML challenge focused on using TFIDF vectoring to efficiently calculate project category.
-Yatharth's teaching philosophy as a Graduate Teaching Assistant emphasizes on Talking with empathy and respect the listner.
+## Skills
 
-Yatharth's soft skills include Perseverence, Communication, self-reliant, listner, Self-motivated, Porblem-solving , critical-thinking.
-Yatharth's project management experience involves leading teams of 3 people.
-Yatharth's cross-cultural collaboration experience includes working with teams in United States and India.
+**Languages and Databases:** Python, Rust, C++, Go, SQL, TypeScript, ChromaDB, Redis, DynamoDB, MongoDB, Neo4j.
 
-Technical Deep Dives:
-Yatharth's expertise in PyTorch developed through project Face-Inpainting, Sprechen, Pix-to-Pix.
-Yatharth's proficiency in AWS services focuses on AWS Cost Optimization, AWS EKS, S3 bucket, Dynamo-DB, AWS EC2, AWS Lambda, AWS Chalice, and AWS Pub/Sub for deploying, optimizing, and integrating AI, machine learning, and real-time applications.
-Yatharth's database optimization skills were honed during the development of a Python and Salesforce-based data validation system at IDeaS, where he implemented critical tests ensuring 100% data quality for training purposes.
-Yatharth's full-stack development capabilities were demonstrated at Azodha through the development of the Open-Notif project, where he built a CLI for user-company connectivity using AWS Lambda, AWS Pub/Sub, AWS Chalice, MongoDB, and Twilio.
-Research Interests:
-Yatharth's research at DSAIL Labs at Kelley School of Bussiness focuses specifically on security assessments of AI models, detecting and addressing vulnerabilities such as prompt injection, information disclosure, and hallucinations using tools like CounterFIT, ProtectAI, and Garak.
+**ML and Search:** BM25 keyword ranking, NDCG and MRR ranking metrics, learning-to-rank, NLP, computer vision, PyTorch, BERT, YOLOv4, vLLM, TensorRT, LangChain, LlamaIndex.
 
-Industry Impact:
-Yatharth's work at IDeaS impacted 50+ hotel chains globally by developing a workflow platform that automated 10 complex visualizations, reducing computation times by 20% and saving 100+ engineering hours monthly.
-Yatharth's cricket analytics at Quidich improved decision-making for professional cricket teams and tournaments, achieving 95% accuracy in predicting bowler release moments and significantly enhancing situational awareness across 3 integrated software systems.
-Yatharth's contribution to Open-Notif affected 2000+ users, enabling sub-3-second event-triggered notifications through AWS Lambda, AWS Pub/Sub, and AWS Chalice.
+**Frameworks and Tools:** Docker, Kubernetes (EKS), FastAPI, Kafka, Spark, Airflow, React, NodeJS, AWS, GCP, Azure.
 
-Work Preferences and Authorization:
-Yatharth prefers a hybrid work model, balancing in-office collaboration with remote flexibility.
-Yatharth is open to relocation and remote work opportunities in the USA.
-Yatharth is authorized to work in the USA.
-Yatharth is willing to travel for work assignments.
-Yatharth is currently on an F-1 stem visa in the USA, which allows for 3 years of work authorization post-graduation.
+## Experience
+
+### Founding Engineer (Core Team) at Moss
+San Francisco, USA. October 2025 to present. Website: https://www.usemoss.dev/
+
+Key skills: hybrid search, ranking, BM25, semantic retrieval, real-time systems, vector databases.
+
+- Built Moss from zero-to-one as the first hire, driving the technical vision for the search core algorithm and owning the end-to-end engineering lifecycle from architecture to client onboarding.
+- Engineered the Hybrid Search engine by authoring the core keyword ranking algorithm (BM25) and fusing it with semantic retrieval via alpha blending. Shipped this Rust-to-Python core to production with a 4ms P99 latency, now powering over 300k+ SDK downloads.
+- Optimized the Rust core's semantic search with SIMD vectorization and Rayon parallelization, scaling vector similarity scoring across multi-core machines.
+- Built a comprehensive benchmarking suite to standardize ranking quality metrics (NDCG, MRR) across Python and TypeScript SDKs, automating regression testing via GitHub Actions.
+- Engineered Rust-to-JavaScript bindings for the core SDK, accelerating search execution speeds by 3x compared to the legacy pure-JS implementation.
+- Authored the moss-vitepress plugin delivering sub-millisecond document semantic search; built @moss-tools/md-indexer with a novel chunking strategy based on breadcrumbs and section types.
+- Designed and deployed a "Bring Your Own Embedding" (BYOE) architecture, decoupling core ranking logic from specific embedding model providers to enable on-device, vendor-agnostic retrieval.
+- Pioneered a unified scaling algorithm within the Rust core to standardize keyword, embedding, and hybrid search score distributions, enabling tunable fusion via alpha blending parameters.
+- Led the core Moss open-source project as primary maintainer (https://github.com/usemoss), reviewing and guiding 60+ PRs across the Rust, Python and TypeScript SDK repos.
+
+### Software Developer at Haldune
+Chicago, USA. June 2025 to October 2025. Website: https://www.haldune.com/
+
+Key skills: retrieval systems, LLM orchestration, distributed systems, Azure, Kubernetes.
+
+- Deployed a ChromaDB retrieval and re-ranking system (sub-100ms) as a FastAPI microservice on Kubernetes over a 1,000-document corpus.
+- Led the "Deep Research Agentic Action" project to synthesize complex data from documents, conversations, and the web into a single, cited report.
+- Architected a multi-agent workflow on Azure AI Foundry using AutoGen, implementing a fan-out/fan-in model for parallel processing.
+- Cut report generation time by over 70% (from 10 minutes to under 3) by architecting a parallelized "society of minds" agent philosophy.
+
+### Research Assistant at Kelley School of Business
+Bloomington, USA. March 2024 to December 2024. Lab: DSAIL, https://dsail.kelley.iu.edu/
+
+Key skills: LLM safety, NLP, adversarial testing, Nvidia NeMo, Purple Llama.
+
+- Assessed LLM robustness using Nvidia Garak, Microsoft Counterfit, and Purple Llama, surfacing over 5 prompt-injection and content-safety vulnerabilities.
+- Implemented Nvidia NeMo guardrails for 5 key AI safety risks, cutting attack success rate by 60% across the Garak, Counterfit, and Purple Llama suites via prompt filtering and response validation.
+
+### Software Engineer Intern at Outspeed
+San Francisco, USA. June 2024 to August 2024. Website: https://www.outspeed.com/
+
+Key skills: LLM serving, multi-modal pipeline, distributed systems, AWS, performance optimization.
+
+- Architected a GPU-backed multi-modal speech-to-speech stack (Whisper to Llama 3.1 to Parler) on AWS EKS; load-tested to 50 connections/min.
+- Optimized system performance through multithreading, data queues, and streaming for inter-service communication, bringing latency to p95 800ms.
+- Slashed inference costs by approximately 30% with at most 6% quality degradation by replacing API calls with a self-hosted vLLM + TensorRT serving stack on A10G GPUs.
+
+### Software Developer Intern at IDeaS
+Pune, India. July 2022 to January 2023. Website: https://ideas.com/
+
+Key skills: distributed data pipelines, ETL, Spark, Airflow, AWS.
+
+- Slashed analytics processing time to 33% by architecting a Python multiprocessing data pipeline with a fan-out model.
+- Developed a Spark/Airflow-based ETL pipeline using AWS S3 Event Notifications and SQS triggers, feeding 15+ KPIs into a Plotly/FastAPI analytics platform for 5 multi-billion-dollar hospitality clients.
+
+### Software Engineer Intern at Quidich Innovation Labs
+Mumbai, India. May 2022 to June 2022. Website: https://www.quidich.com/
+
+Key skills: computer vision, video understanding, object detection, tracking.
+
+- Developed a scikit-learn pose estimation algorithm from drone-captured video coordinates with rule-based criteria, predicting bowler release points at 97% accuracy on annotated test footage, powering live broadcast analytics on Sony Liv (130M-viewer platform).
+- Designed the player tracking system in YOLOv4 by integrating unique ID assignment and memory retention for detected players using ByteTrack, deployed on AWS Lambda at 70-100ms inference latency for live sports analytics.
+
+### Software Developer Intern at Azodha
+New York, USA. September 2021 to April 2022. Website: https://www.azodha.com/
+
+Key skills: NLP, BERT, MLOps, computer vision, cloud.
+
+- Built the Ringisho app's NLP layer with BERT models for phrase suggestion and profanity detection, evaluated at 98% on the internal test set.
+- Deployed the NLP models on GCP Compute Engine with Docker and optimized REST APIs for low-latency inference under ad-hoc query load.
+
+## Technical Projects
+
+### INpersona LLM
+Skills: NLP, LLM, retrieval, query expansion. GitHub: https://github.com/yatharthk2/odyssey
+
+- Built an AI assistant using LLaMA 3.2 11B with LlamaIndex, LangChain and ChromaDB, served through a React (TypeScript, Next.js) frontend.
+- Optimized retrieval with Knowledge Graph augmentation and HyDE query expansion, improving grounding on multi-hop follow-up questions.
+- Implemented Redis caching for frequent queries, cutting response latency from 2000ms to 50ms and LLM inference calls by 40%.
+
+## Leadership and Honors
+
+- Co-led and judged two 200-person hackathons at Y Combinator headquarters (2025 and 2026).
+- Graduate Teaching Assistant at Indiana University Bloomington, August 2024. Courses: Elements of AI (with Prof. David Leake) and Machine Learning in Signal Processing (with Prof. Jonathan Ponniah).
+- First prize at Smart India Hackathon by Dell, August 2022.
+- Ranked 87th out of 3,300 teams in the Amazon ML Challenge by Amazon, August 2021.

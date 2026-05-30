@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState, type FormEvent } from 'react';
+import { useEffect, useRef, useState, type KeyboardEvent } from 'react';
 import Link from 'next/link';
 import { Info, Network, Search, Send } from 'lucide-react';
 import Tooltip from './Tooltip';
@@ -126,6 +126,10 @@ export default function InpersonaChat() {
       wsRef.current = ws;
 
       ws.onopen = () => {
+        // Guard: only mark connected if this is still the active socket
+        // (Strict Mode / HMR can have an in-flight handshake complete after
+        // we've already moved on to a newer connection).
+        if (wsRef.current !== ws) return;
         // eslint-disable-next-line no-console
         console.info('Inpersona: connected');
         setIsConnected(true);
@@ -133,6 +137,9 @@ export default function InpersonaChat() {
       ws.onclose = (event) => {
         // eslint-disable-next-line no-console
         console.info('Inpersona: disconnected', event.code, event.reason);
+        // Don't clobber wsRef/state if a newer connection has already taken
+        // over (Strict Mode double-mount, HMR reload, manual close on cleanup).
+        if (wsRef.current !== ws) return;
         setIsConnected(false);
         wsRef.current = null;
         if (!cancelled) {
@@ -186,14 +193,22 @@ export default function InpersonaChat() {
       vector_store: useKnowledgeGraph ? 'KG' : 'vector',
       query_transformation: useHydeQuery ? 'HyDE' : null,
     };
+    // eslint-disable-next-line no-console
+    console.info('Inpersona: sending', query);
     ws.send(JSON.stringify(query));
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const submitDraft = () => {
     if (!draftMessage.trim()) return;
     sendQuestion(draftMessage);
     setDraftMessage('');
+  };
+
+  const handleInputKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      submitDraft();
+    }
   };
 
   return (
@@ -242,7 +257,7 @@ export default function InpersonaChat() {
 
       {/* Input + toggles */}
       <div className="fixed bottom-0 left-0 w-full bg-gradient-to-t from-white dark:from-gray-900 to-transparent pt-6 pb-4">
-        <form onSubmit={handleSubmit} className="mx-auto max-w-3xl px-2 sm:px-4">
+        <div className="mx-auto max-w-3xl px-2 sm:px-4">
           <div className="flex flex-col gap-2">
             <div className="flex flex-wrap items-center justify-end gap-2 px-2 mb-2">
               {/* Desktop toggles */}
@@ -252,7 +267,13 @@ export default function InpersonaChat() {
                     active={useKnowledgeGraph}
                     icon={<Network size={16} />}
                     label={kgToggle.label}
-                    onToggle={() => setUseKnowledgeGraph((v) => !v)}
+                    onToggle={() => {
+                      setUseKnowledgeGraph((v) => {
+                        // eslint-disable-next-line no-console
+                        console.info('Inpersona: KG toggle ->', !v);
+                        return !v;
+                      });
+                    }}
                     activeClasses="bg-gradient-to-r from-purple-700 to-purple-500 text-white"
                   />
                 </Tooltip>
@@ -261,7 +282,13 @@ export default function InpersonaChat() {
                     active={useHydeQuery}
                     icon={<Search size={16} />}
                     label={hydeToggle.label}
-                    onToggle={() => setUseHydeQuery((v) => !v)}
+                    onToggle={() => {
+                      setUseHydeQuery((v) => {
+                        // eslint-disable-next-line no-console
+                        console.info('Inpersona: HyDE toggle ->', !v);
+                        return !v;
+                      });
+                    }}
                     activeClasses="bg-gradient-to-r from-blue-700 to-blue-500 text-white"
                   />
                 </Tooltip>
@@ -302,10 +329,12 @@ export default function InpersonaChat() {
                 placeholder={inpersona.inputPlaceholder}
                 value={draftMessage}
                 onChange={(e) => setDraftMessage(e.target.value)}
+                onKeyDown={handleInputKeyDown}
                 className="flex-1 bg-transparent py-1 text-base text-gray-800 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500 outline-none"
               />
               <button
-                type="submit"
+                type="button"
+                onClick={submitDraft}
                 disabled={!isConnected || isLoading || !draftMessage.trim()}
                 className="ml-2 rounded-xl bg-gradient-to-br from-purple-600 to-blue-600 p-1.5 shadow-md transition-opacity hover:opacity-90 disabled:opacity-50"
                 aria-label="Send"
@@ -317,7 +346,7 @@ export default function InpersonaChat() {
           <p className="mt-2 sm:mt-3 text-center text-xs sm:text-sm text-gray-400">
             {inpersona.footerCredit}
           </p>
-        </form>
+        </div>
       </div>
 
       {showInfo && (

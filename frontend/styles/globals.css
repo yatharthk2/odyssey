@@ -211,44 +211,6 @@
   position: relative;
 }
 
-.html-content p,
-.html-content li,
-.html-content h3 {
-  animation: html-slide-up-fade 0.4s ease forwards;
-  opacity: 0;
-  transform: translateY(8px);
-}
-
-.html-content p:nth-child(1) {
-  animation-delay: 0.1s;
-}
-.html-content p:nth-child(2) {
-  animation-delay: 0.2s;
-}
-.html-content p:nth-child(3) {
-  animation-delay: 0.3s;
-}
-.html-content p:nth-child(n + 4) {
-  animation-delay: 0.4s;
-}
-.html-content li:nth-child(odd) {
-  animation-delay: 0.15s;
-}
-.html-content li:nth-child(even) {
-  animation-delay: 0.25s;
-}
-
-@keyframes html-slide-up-fade {
-  0% {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 .html-content p {
   margin-bottom: 0.75rem;
 }

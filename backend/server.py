@@ -117,8 +117,9 @@ async def websocket_endpoint(websocket: WebSocket):
     finally:
         try:
             await websocket.close()
-        except RuntimeError:
-            # already closed
+        except (RuntimeError, AttributeError):
+            # Already closed, or hit the uvicorn/websockets legacy-protocol mismatch
+            # on disconnect (uvicorn calls a method removed in websockets >= 14).
             pass
 
 

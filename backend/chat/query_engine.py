@@ -60,10 +60,13 @@ class QueryEngine:
                     return
 
             self.chat.append({"role": "user", "content": question})
-            chat_history = self.chat.to_list()
+            # Only the last 4 turns (8 messages) are dumped into the prompt.
+            # Older history dilutes both retrieval and synthesis without adding
+            # signal — the Chat deque still preserves them for future reference.
+            recent_history = self.chat.to_list()[-8:]
 
             query_context = contextualized_query + "\n".join(
-                f"{msg['role'].capitalize()}: {msg['content']}" for msg in chat_history
+                f"{msg['role'].capitalize()}: {msg['content']}" for msg in recent_history
             ) + f"\nCurrent question: {question}\n"
 
             # Bridge the sync streaming iterator from LlamaIndex into our generator

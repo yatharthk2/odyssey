@@ -34,15 +34,20 @@ class PropertyGraphSettings:
     graph_file: str = "./kg.html"
 
     # --- chunking + embedding ----------------------------------------------
-    chunk_size: int = 256
-    chunk_overlap: int = 50
+    # chunk_size=800 keeps a whole job/project (and its sub-bullets) together
+    # in one retrieval unit; smaller sizes (256) shred resume content into
+    # half-bullets and tank retrieval precision.
+    chunk_size: int = 800
+    chunk_overlap: int = 100
     embedding_model: str = "BAAI/bge-base-en-v1.5"
-    similarity_top_k: int = 4
+    # top_k=6 — small KB, more context fits without overwhelming the LLM.
+    similarity_top_k: int = 6
 
     # --- LLM providers ------------------------------------------------------
     default_model_provider: str = "groq"
-    groq_model: str = "llama-3.3-70b-versatile"
-    google_model: str = "models/gemini-2.0-pro-exp-02-05"
+    groq_model: str = "llama-3.1-8b-instant"
+    # gemini-2.0-pro-exp-02-05 was the retired experimental snapshot.
+    google_model: str = "models/gemini-2.5-pro"
     max_tokens: int = 4096
 
     # --- chat state ---------------------------------------------------------
