@@ -1,0 +1,99 @@
+name: Backend
+
+on:
+  pull_request:
+    paths:
+      - 'backend/**'
+      - '.github/workflows/backend.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'backend/**'
+      - '.github/workflows/backend.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  import-smoke:
+    name: uv sync + import smoke test
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup uv 0.9.26
+        uses: astral-sh/setup-uv@v3
+        with:
+          version: '0.9.26'
+          enable-cache: true
+          cache-dependency-glob: backend/uv.lock
+
+      - name: Install Python deps (frozen)
+        run: uv sync --frozen
+
+      - name: Import smoke test
+        # Dummy keys satisfy the required-env checks in settings.from_env().
+        # No network calls are made at import time; LLM clients construct
+        # lazily inside ChatManager.initialize_system, which we do NOT call.
+        env:
+          GROQ_API_KEY: dummy
+          Google_Gemini_API_KEY: dummy
+        run: |
+          uv run python - <<'PY'
+          import importlib
+
+          MODULES = [
+              "settings",
+              "chat.prompt",
+              "chat.CacheManager",
+              "chat.ChromaClient",
+              "chat.ModelsManager",
+              "chat.vector_store_manager",
+              "chat.query_engine",
+              "chat.ChatManager",
+              "server",
+          ]
+
+          loaded = {}
+          for name in MODULES:
+              loaded[name] = importlib.import_module(name)
+              print("imported:", name)
+
+          # --- contract: providers tuple is the source of truth for the WS API
+          from chat.ModelsManager import SUPPORTED_PROVIDERS
+          assert SUPPORTED_PROVIDERS == ("groq", "gemini", "openai"), (
+              "SUPPORTED_PROVIDERS changed: " + repr(SUPPORTED_PROVIDERS)
+          )
+
+          # --- contract: the load-bearing system prompt is present
+          from chat.prompt import contextualized_query
+          assert isinstance(contextualized_query, str), \
+              "contextualized_query is not a string"
+          assert len(contextualized_query) > 500, (
+              "contextualized_query suspiciously short ("
+              + str(len(contextualized_query)) + " chars) -- prompt likely truncated"
+          )
+
+          # --- contract: settings construct from env with just the two required keys
+          from settings import PropertyGraphSettings
+          s = PropertyGraphSettings.from_env()
+          assert s.groq_api_key == "dummy"
+          assert s.google_api_key == "dummy"
+
+          # --- contract: openai_model defaults to gpt-4o-mini if OPENAI_MODEL unset
+          import os
+          assert "OPENAI_MODEL" not in os.environ, \
+              "test invariant violated: OPENAI_MODEL leaked into env"
+          assert s.openai_model == "gpt-4o-mini", (
+              "openai_model default changed to " + repr(s.openai_model)
+          )
+
+          print("OK: all backend imports + contract assertions passed")
+          PY
