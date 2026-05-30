@@ -4,8 +4,11 @@ from llama_index.core import Settings
 from llama_index.embeddings.huggingface import HuggingFaceEmbedding
 from llama_index.llms.gemini import Gemini
 from llama_index.llms.groq import Groq
+from llama_index.llms.openai import OpenAI
 
 logger = logging.getLogger(__name__)
+
+SUPPORTED_PROVIDERS = ("groq", "gemini", "openai")
 
 
 class ModelManager:
@@ -14,6 +17,11 @@ class ModelManager:
     def __init__(self, settings, model_provider: str = "gemini"):
         self.settings = settings
         self.model_provider = model_provider.lower()
+        if self.model_provider not in SUPPORTED_PROVIDERS:
+            raise ValueError(
+                f"Unsupported model_provider {self.model_provider!r}. "
+                f"Expected one of: {', '.join(SUPPORTED_PROVIDERS)}"
+            )
         self.llm = None
         self.embed_model = None
 
@@ -22,7 +30,19 @@ class ModelManager:
             if self.model_provider == "groq":
                 logger.info(f"Initializing Groq model: {self.settings.groq_model}")
                 self.llm = Groq(model=self.settings.groq_model, api_key=self.settings.groq_api_key)
-            else:
+            elif self.model_provider == "openai":
+                if not self.settings.openai_api_key:
+                    raise ValueError(
+                        "OPENAI_API_KEY is required when model_provider=openai. "
+                        "Set it in the environment or via settings.openai_api_key."
+                    )
+                logger.info(f"Initializing OpenAI model: {self.settings.openai_model}")
+                self.llm = OpenAI(
+                    model=self.settings.openai_model,
+                    api_key=self.settings.openai_api_key,
+                    max_tokens=self.settings.max_tokens,
+                )
+            else:  # gemini
                 logger.info(f"Initializing Gemini model: {self.settings.google_model}")
                 self.llm = Gemini(model=self.settings.google_model, api_key=self.settings.google_api_key)
 

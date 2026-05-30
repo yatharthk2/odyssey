@@ -55,7 +55,9 @@ Required env vars in `backend/.env` (file is gitignored, copy from `.env.example
 - `Google_Gemini_API_KEY` — required (note the unusual mixed-case env-var name; kept for backward compat)
 
 Optional env vars (all default to sensible values in `backend/settings.py:PropertyGraphSettings.from_env()`):
-- `REDIS_URL`, `DEFAULT_MODEL_PROVIDER`, `ALLOWED_ORIGINS`, `HOST`, `PORT`, `WEBSOCKET_PATH`, `PDF_DIRECTORY`, `SSL_CERT_PATH`, `SSL_KEY_PATH`, `SSL_CA_PATH`
+- `OPENAI_API_KEY` — only required if `DEFAULT_MODEL_PROVIDER=openai` or a client requests `model_provider=openai` at runtime
+- `OPENAI_MODEL` — defaults to `gpt-4o-mini`
+- `REDIS_URL`, `DEFAULT_MODEL_PROVIDER` (`groq`|`gemini`|`openai`), `ALLOWED_ORIGINS`, `HOST`, `PORT`, `WEBSOCKET_PATH`, `PDF_DIRECTORY`, `SSL_CERT_PATH`, `SSL_KEY_PATH`, `SSL_CA_PATH`
 
 ### Backend — production (Hetzner)
 ```bash
@@ -76,7 +78,7 @@ There is no test runner. The only smoke tests are interactive CLI scripts (`back
 The backend is a **single WebSocket endpoint** (`/chat`) backed by a layered RAG pipeline. `ChatManager` is the composition root — everything else is wired through it. `server.py` holds a single global `ChatManager` instance behind a lock; if a client requests a different `model_provider`, the singleton is swapped under that lock so concurrent clients can't tear it down mid-query.
 
 Initialization order (in `ChatManager.initialize_system`):
-1. `ModelManager` — selects Groq (default `llama-3.1-8b-instant`) or Gemini (`gemini-2.5-pro`) for the LLM. Embeddings always use HuggingFace `BAAI/bge-base-en-v1.5`. Writes both into LlamaIndex global `Settings`.
+1. `ModelManager` — selects one of three LLM providers: Groq (default `llama-3.1-8b-instant`), Gemini (`gemini-2.5-pro`), or OpenAI (`gpt-4o-mini`). Provider is set per-instance via the `model_provider` constructor arg; clients can also swap at runtime via the WebSocket request's `model_provider` field. Embeddings always use HuggingFace `BAAI/bge-base-en-v1.5`. Writes both into LlamaIndex global `Settings`.
 2. `ChromaStoreManager` — opens persistent ChromaDB at `./chroma_db` with one shared collection (`property_graph_store`) used by **both** the KG and the plain vector index.
 3. `VectorStoreManager` — builds two indices **in parallel threads**: a `PropertyGraphIndex` (KG, persisted as `./storage/docstore.json` + `graph_store.json` + an HTML viz at `./kg.html`) and a `VectorStoreIndex` (pickled to `./storage/vector_store.pkl`). Both ingest documents from `./documents/` via `SimpleDirectoryReader`. If the on-disk artifacts exist, they're loaded instead of rebuilt; corrupt KG files are auto-removed and recreated.
 4. `QueryEngine` — wraps each index as a streaming `as_query_engine`, plus a HyDE-transformed variant. Four engines total: `{KG, vector} × {plain, HyDE}`.

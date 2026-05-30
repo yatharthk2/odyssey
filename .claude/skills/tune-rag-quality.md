@@ -38,21 +38,25 @@ How many chunks the retriever feeds to the LLM per query. Small KBs (single-digi
 
 For our current ~10-chunk KB, `top_k=6-8` is the right zone.
 
-## Lever 4: Model selection (`groq_model`, `default_model_provider`)
+## Lever 4: Model selection (`default_model_provider`, `groq_model`, `openai_model`, `google_model`)
+
+Three providers are supported: `groq`, `openai`, `gemini`. Switch via `DEFAULT_MODEL_PROVIDER=...` at startup, or per-request via the WebSocket's `model_provider` field. The frontend doesn't expose a UI toggle today — the backend chooses based on the env-var default unless a client explicitly overrides.
 
 ```python
 groq_model: str = "llama-3.1-8b-instant"   # current — fast, generous rate limit
-# Alternatives:
-# "llama-3.3-70b-versatile"  — smarter, but 3-4x stricter rate limit; 429s become the dominant latency
+openai_model: str = "gpt-4o-mini"          # cheap, fast, reliable — no rate-limit anxiety
+google_model: str = "models/gemini-2.5-pro"
 ```
 
-| Model | Quality | Speed | Free rate limit | When to use |
+| Model | Quality | Speed | Pricing / rate limit | When to use |
 |---|---|---|---|---|
-| `llama-3.1-8b-instant` | Solid for short factual answers | ~500 tok/s | High (~30 req/min) | Default. Personal portfolio scale. |
-| `llama-3.3-70b-versatile` | Noticeably better reasoning | ~300 tok/s | Tight (~10 req/min) | Only if quality > speed AND you stay under low request rates |
-| Gemini `gemini-2.5-pro` | Strong, but cold-start is slower | ~200 tok/s | Separate Google quota | Backup if Groq is down |
+| `llama-3.1-8b-instant` (Groq) | Solid for short factual answers | ~500 tok/s | Free tier ~30 req/min | Default. Personal portfolio scale. |
+| `llama-3.3-70b-versatile` (Groq) | Noticeably better reasoning | ~300 tok/s | Free tier ~10 req/min — 429s become dominant latency | Only if quality > speed AND you stay under low request rates |
+| `gpt-4o-mini` (OpenAI) | Comparable to llama-3.1-8b, less drift | ~150 tok/s | Pay-as-you-go: ~$0.15 / $0.60 per M tokens. No rate-limit headaches at this scale (~$0.01 per chat session). | When you're tired of Groq's free-tier 429s and want a reliable backup |
+| `gpt-4o` (OpenAI) | Notably better at reasoning + format adherence | ~80 tok/s | ~$2.50 / $10 per M tokens — 15-20x mini | Quality > cost. Probably overkill for resume Q&A. |
+| `gemini-2.5-pro` (Google) | Strong, cold-start slower | ~200 tok/s | Separate Google quota | Backup if Groq is down |
 
-If Groq starts 429-ing constantly, the fix is either: switch to 8b-instant, or pay for a Groq tier (~$50/mo for the smallest paid tier — overkill for this site).
+If Groq starts 429-ing constantly, the easiest fix is to set `DEFAULT_MODEL_PROVIDER=openai` and add `OPENAI_API_KEY` — gpt-4o-mini at this traffic scale costs <$1/month. Or pay for a Groq tier (~$50/mo for the smallest — overkill).
 
 ## Lever 5: HyDE on/off
 

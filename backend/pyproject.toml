@@ -17,7 +17,6 @@ dependencies = [
     # every disconnect. Pin <14 until uvicorn moves off the legacy API.
     "websockets>=12.0,<14.0",
     "python-dotenv>=1.0.1,<2.0.0",
-
     # LlamaIndex stack — pinned hard. The 0.11.x API was reshuffled across
     # minor releases; bumping any of these usually requires code changes in
     # ModelsManager / vector_store_manager / query_engine.
@@ -27,19 +26,18 @@ dependencies = [
     "llama-index-llms-gemini==0.3.7",
     "llama-index-vector-stores-chroma==0.2.1",
     "llama-index-readers-file==0.2.2",
-
     # Vector store + embeddings runtime
     "chromadb==0.5.15",
     "transformers==4.45.2",
     # sentence-transformers 5.x removed .device from SentenceTransformer, which
     # the pinned llama-index-embeddings-huggingface still relies on.
     "sentence-transformers>=3.0,<4.0",
-
     # Cache + visualization + CLI
     "redis>=5.0.0,<6.0.0",
     "pyvis>=0.3.2,<0.4.0",
     "ipython>=8.32.0,<9.0.0",
     "colorama>=0.4.6,<0.5.0",
+    "llama-index-llms-openai>=0.2.0,<0.3.0",
 ]
 
 [tool.uv]

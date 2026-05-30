@@ -9,6 +9,9 @@ Required env vars (no defaults):
   - Google_Gemini_API_KEY
 
 Optional env vars (override the defaults below):
+  - OPENAI_API_KEY        — only required if DEFAULT_MODEL_PROVIDER=openai or a
+                            client requests model_provider=openai at runtime
+  - OPENAI_MODEL          — defaults to "gpt-4o-mini" when openai is selected
   - REDIS_URL, DEFAULT_MODEL_PROVIDER, ALLOWED_ORIGINS (comma-separated),
   - HOST, PORT, WEBSOCKET_PATH, PDF_DIRECTORY,
   - SSL_CERT_PATH, SSL_KEY_PATH, SSL_CA_PATH.
@@ -18,7 +21,7 @@ from __future__ import annotations
 
 import os
 from dataclasses import dataclass, field
-from typing import List
+from typing import List, Optional
 
 
 @dataclass
@@ -26,6 +29,11 @@ class PropertyGraphSettings:
     # --- secrets (required, must come from env) -----------------------------
     groq_api_key: str
     google_api_key: str
+
+    # --- optional secrets ---------------------------------------------------
+    # OpenAI key is optional — the server only fails if a request actually
+    # targets the openai provider without it set.
+    openai_api_key: Optional[str] = None
 
     # --- documents + storage -----------------------------------------------
     pdf_directory: str = "./documents"
@@ -44,10 +52,14 @@ class PropertyGraphSettings:
     similarity_top_k: int = 6
 
     # --- LLM providers ------------------------------------------------------
-    default_model_provider: str = "groq"
+    default_model_provider: str = "groq"  # "groq" | "gemini" | "openai"
     groq_model: str = "llama-3.1-8b-instant"
     # gemini-2.0-pro-exp-02-05 was the retired experimental snapshot.
     google_model: str = "models/gemini-2.5-pro"
+    # gpt-4o-mini is the cost-effective default for chat (~$0.15 / $0.60 per
+    # million tokens). Bump to "gpt-4o" or "gpt-4.1" for higher reasoning at
+    # ~20x the cost.
+    openai_model: str = "gpt-4o-mini"
     max_tokens: int = 4096
 
     # --- chat state ---------------------------------------------------------
@@ -104,6 +116,8 @@ class PropertyGraphSettings:
         _str("SSL_CERT_PATH", "ssl_cert_path")
         _str("SSL_KEY_PATH", "ssl_key_path")
         _str("SSL_CA_PATH", "ssl_ca_path")
+        _str("OPENAI_API_KEY", "openai_api_key")
+        _str("OPENAI_MODEL", "openai_model")
 
         origins_raw = os.getenv("ALLOWED_ORIGINS")
         if origins_raw:
