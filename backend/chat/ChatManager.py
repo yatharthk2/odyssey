@@ -1,9 +1,9 @@
 import logging
 import threading
+from collections.abc import Iterator
 from concurrent.futures import ThreadPoolExecutor
 from contextlib import contextmanager
 from pathlib import Path
-from typing import Iterator, Optional
 
 from .CacheManager import CacheManager
 from .chatdata import Chat
@@ -18,19 +18,22 @@ logger = logging.getLogger(__name__)
 class ChatManager:
     """Coordinates the document analysis and query system components."""
 
-    def __init__(self, settings, model_provider: Optional[str] = None):
+    def __init__(self, settings, model_provider: str | None = None):
         self.settings = settings
         provider = model_provider or settings.default_model_provider
         self.model_manager = ModelManager(settings, provider)
         self.chroma_store_manager = ChromaStoreManager(settings)
         self.chat = Chat(settings.chat_size)
         self.vector_store_manager = VectorStoreManager(
-            settings, self.model_manager, self.chroma_store_manager,
+            settings,
+            self.model_manager,
+            self.chroma_store_manager,
         )
-        self.cache_manager: Optional[CacheManager] = None
+        self.cache_manager: CacheManager | None = None
         if settings.redis_url:
             self.cache_manager = CacheManager(
-                redis_url=settings.redis_url, max_cached_items=settings.cache_size,
+                redis_url=settings.redis_url,
+                max_cached_items=settings.cache_size,
             )
             logger.info(f"Initialized cache manager with Redis at {settings.redis_url}")
         else:
@@ -51,9 +54,7 @@ class ChatManager:
                 return False
             if not self.vector_store_manager.run():
                 return False
-            if not self.query_engine.initialize():
-                return False
-            return True
+            return self.query_engine.initialize()
         except Exception as e:
             logger.error(f"Error initializing system: {e}", exc_info=True)
             return False
@@ -61,10 +62,12 @@ class ChatManager:
     def query(
         self,
         question: str,
-        query_transformation: Optional[str] = None,
-        choice_of_vector_store: Optional[str] = None,
+        query_transformation: str | None = None,
+        choice_of_vector_store: str | None = None,
     ) -> Iterator[str]:
-        return self.query_engine.process_query(question, query_transformation, choice_of_vector_store)
+        return self.query_engine.process_query(
+            question, query_transformation, choice_of_vector_store
+        )
 
     @contextmanager
     def managed_resources(self):

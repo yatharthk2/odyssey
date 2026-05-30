@@ -2,7 +2,7 @@ import json
 import logging
 import ssl
 import threading
-from contextlib import asynccontextmanager
+from contextlib import asynccontextmanager, suppress
 
 from dotenv import load_dotenv
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
@@ -54,6 +54,7 @@ app.add_middleware(
 
 # --- websocket --------------------------------------------------------------
 
+
 @app.websocket(SETTINGS.websocket_path)
 async def websocket_endpoint(websocket: WebSocket):
     global chat_manager
@@ -75,7 +76,10 @@ async def websocket_endpoint(websocket: WebSocket):
 
             # If the client asked for a different provider, swap the singleton
             # under a lock so concurrent clients can't tear it down mid-query.
-            if requested_provider and requested_provider.lower() != chat_manager.model_manager.model_provider:
+            if (
+                requested_provider
+                and requested_provider.lower() != chat_manager.model_manager.model_provider
+            ):
                 new_provider = requested_provider.lower()
                 swap_error: str | None = None
                 with _chat_manager_lock:
@@ -115,12 +119,10 @@ async def websocket_endpoint(websocket: WebSocket):
     except Exception as e:
         logger.error(f"WebSocket error: {e}", exc_info=True)
     finally:
-        try:
+        # Already closed, or hit the uvicorn/websockets legacy-protocol mismatch
+        # on disconnect (uvicorn calls a method removed in websockets >= 14).
+        with suppress(RuntimeError, AttributeError):
             await websocket.close()
-        except (RuntimeError, AttributeError):
-            # Already closed, or hit the uvicorn/websockets legacy-protocol mismatch
-            # on disconnect (uvicorn calls a method removed in websockets >= 14).
-            pass
 
 
 # --- entrypoint -------------------------------------------------------------

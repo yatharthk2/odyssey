@@ -44,7 +44,9 @@ class ModelManager:
                 )
             else:  # gemini
                 logger.info(f"Initializing Gemini model: {self.settings.google_model}")
-                self.llm = Gemini(model=self.settings.google_model, api_key=self.settings.google_api_key)
+                self.llm = Gemini(
+                    model=self.settings.google_model, api_key=self.settings.google_api_key
+                )
 
             Settings.llm = self.llm
             Settings.chunk_overlap = self.settings.chunk_overlap

@@ -1,7 +1,7 @@
 import logging
 import threading
+from collections.abc import Iterator
 from queue import Queue
-from typing import Iterator, Optional
 
 from llama_index.core.indices.query.query_transform import HyDEQueryTransform
 from llama_index.core.query_engine import TransformQueryEngine
@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 class QueryEngine:
     """Manages query processing and streaming responses."""
 
-    def __init__(self, graph_manager, chat, cache_manager: Optional[CacheManager] = None):
+    def __init__(self, graph_manager, chat, cache_manager: CacheManager | None = None):
         self.graph_manager = graph_manager
         self.chat = chat
         self.cache_manager = cache_manager
@@ -28,15 +28,19 @@ class QueryEngine:
         """Initialize query engines after indexes are ready."""
         try:
             self.query_engine_KG = self.graph_manager.index_KG.as_query_engine(
-                include_text=True, streaming=True,
+                include_text=True,
+                streaming=True,
             )
             self.query_engine_vector = self.graph_manager.index_vector.as_query_engine(
-                include_text=True, streaming=True,
+                include_text=True,
+                streaming=True,
             )
 
             hyde = HyDEQueryTransform()
             self.hyde_engine_KG = TransformQueryEngine(self.query_engine_KG, query_transform=hyde)
-            self.hyde_engine_vector = TransformQueryEngine(self.query_engine_vector, query_transform=hyde)
+            self.hyde_engine_vector = TransformQueryEngine(
+                self.query_engine_vector, query_transform=hyde
+            )
             return True
         except Exception as e:
             logger.error(f"Error setting up query engine: {e}", exc_info=True)
@@ -45,8 +49,8 @@ class QueryEngine:
     def process_query(
         self,
         question: str,
-        query_transformation: Optional[str] = None,
-        vector_store: Optional[str] = None,
+        query_transformation: str | None = None,
+        vector_store: str | None = None,
     ) -> Iterator[str]:
         """Process a query and yield streaming response chunks."""
         try:
@@ -65,9 +69,13 @@ class QueryEngine:
             # signal — the Chat deque still preserves them for future reference.
             recent_history = self.chat.to_list()[-8:]
 
-            query_context = contextualized_query + "\n".join(
-                f"{msg['role'].capitalize()}: {msg['content']}" for msg in recent_history
-            ) + f"\nCurrent question: {question}\n"
+            query_context = (
+                contextualized_query
+                + "\n".join(
+                    f"{msg['role'].capitalize()}: {msg['content']}" for msg in recent_history
+                )
+                + f"\nCurrent question: {question}\n"
+            )
 
             # Bridge the sync streaming iterator from LlamaIndex into our generator
             # via a thread + queue so the WebSocket handler can await chunks.
@@ -76,7 +84,9 @@ class QueryEngine:
 
             def produce() -> None:
                 try:
-                    for chunk in self._stream_chunks(query_context, query_transformation, vector_store):
+                    for chunk in self._stream_chunks(
+                        query_context, query_transformation, vector_store
+                    ):
                         response_queue.put(("chunk", chunk))
                         response_text.append(chunk)
                 except Exception as e:
@@ -116,8 +126,8 @@ class QueryEngine:
     def _stream_chunks(
         self,
         query_context: str,
-        transformation: Optional[str],
-        vector_store: Optional[str],
+        transformation: str | None,
+        vector_store: str | None,
     ) -> Iterator[str]:
         """Pick the right engine and yield non-empty response chunks."""
         if not self.query_engine_KG or not self.query_engine_vector:

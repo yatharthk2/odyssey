@@ -1,6 +1,5 @@
 import json
 import logging
-from typing import List, Optional, Tuple
 
 import redis
 
@@ -38,7 +37,7 @@ class CacheManager:
         except Exception:
             return False
 
-    def get_cached_response(self, question: str) -> Optional[str]:
+    def get_cached_response(self, question: str) -> str | None:
         if not self.is_available():
             return None
         try:
@@ -80,13 +79,17 @@ class CacheManager:
             logger.error(f"Error clearing cache: {e}")
             return False
 
-    def get_top_questions(self, count: Optional[int] = None) -> List[Tuple[str, int]]:
+    def get_top_questions(self, count: int | None = None) -> list[tuple[str, int]]:
         if not self.is_available():
             return []
         try:
             limit = count or self.max_cached_items
             entries = self.redis_client.zrange(
-                self.FREQUENCY_KEY, 0, limit - 1, desc=True, withscores=True,
+                self.FREQUENCY_KEY,
+                0,
+                limit - 1,
+                desc=True,
+                withscores=True,
             )
             return [(q.decode("utf-8"), int(score)) for q, score in entries]
         except Exception as e:
@@ -100,11 +103,15 @@ class CacheManager:
             return
         try:
             all_questions = self.redis_client.zrange(
-                self.FREQUENCY_KEY, 0, -1, desc=True, withscores=True,
+                self.FREQUENCY_KEY,
+                0,
+                -1,
+                desc=True,
+                withscores=True,
             )
             if len(all_questions) <= self.max_cached_items:
                 return
-            for question, _ in all_questions[self.max_cached_items:]:
+            for question, _ in all_questions[self.max_cached_items :]:
                 key = question.decode("utf-8")
                 self.redis_client.delete(self.CACHE_KEY_PREFIX + key)
                 self.redis_client.zrem(self.FREQUENCY_KEY, question)

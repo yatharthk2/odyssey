@@ -35,8 +35,14 @@ jobs:
           enable-cache: true
           cache-dependency-glob: backend/uv.lock
 
-      - name: Install Python deps (frozen)
+      - name: Install Python deps (frozen, with dev group for ruff)
         run: uv sync --frozen
+
+      - name: Lint (ruff check)
+        run: uv run ruff check .
+
+      - name: Format check (ruff format --check)
+        run: uv run ruff format --check .
 
       - name: Import smoke test
         # Dummy keys satisfy the required-env checks in settings.from_env().

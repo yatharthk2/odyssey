@@ -1,11 +1,12 @@
 import asyncio
-import websockets
 import json
 import logging
-from typing import Optional
+
+import websockets
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
 
 class ChatClient:
     def __init__(self, websocket_url: str = "ws://localhost:8000/chat"):
@@ -19,13 +20,12 @@ class ChatClient:
             logger.info("Connected to WebSocket server")
             return True
         except Exception as e:
-            logger.error(f"Failed to connect to WebSocket server: {str(e)}")
+            logger.error(f"Failed to connect to WebSocket server: {e!s}")
             return False
 
-    async def send_query(self, 
-                        question: str, 
-                        vector_store: str = "KG", 
-                        query_transformation: Optional[str] = None):
+    async def send_query(
+        self, question: str, vector_store: str = "KG", query_transformation: str | None = None
+    ):
         """Send a query to the server and receive streaming responses."""
         if not self.websocket:
             logger.error("Not connected to server")
@@ -36,9 +36,9 @@ class ChatClient:
             message = {
                 "question": question,
                 "vector_store": vector_store,
-                "query_transformation": query_transformation
+                "query_transformation": query_transformation,
             }
-            
+
             # Send the query
             await self.websocket.send(json.dumps(message))
             logger.info(f"Sent query: {question}")
@@ -61,13 +61,14 @@ class ChatClient:
         except websockets.exceptions.ConnectionClosed:
             logger.error("Connection closed unexpectedly")
         except Exception as e:
-            logger.error(f"Error during query: {str(e)}")
+            logger.error(f"Error during query: {e!s}")
 
     async def close(self):
         """Close the WebSocket connection."""
         if self.websocket:
             await self.websocket.close()
             logger.info("Connection closed")
+
 
 async def main():
     # Create client instance
@@ -82,8 +83,8 @@ async def main():
             # Get user input
             print("\nEnter your question (or 'quit' to exit):")
             question = input().strip()
-            
-            if question.lower() == 'quit':
+
+            if question.lower() == "quit":
                 break
 
             print("\nSelect vector store (1: KG, 2: vector):")
@@ -98,7 +99,7 @@ async def main():
             await client.send_query(
                 question=question,
                 vector_store=vector_store,
-                query_transformation=query_transformation
+                query_transformation=query_transformation,
             )
 
     except KeyboardInterrupt:
@@ -106,5 +107,6 @@ async def main():
     finally:
         await client.close()
 
+
 if __name__ == "__main__":
-    asyncio.run(main()) 
+    asyncio.run(main())

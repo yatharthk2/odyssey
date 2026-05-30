@@ -42,3 +42,53 @@ dependencies = [
 
 [tool.uv]
 package = false
+
+[dependency-groups]
+dev = [
+    "ruff>=0.7,<1.0",
+]
+
+# ----------------------------------------------------------------------------
+# ruff — lint + format. Sensible defaults; opt into a few extra rule sets but
+# nothing too opinionated. Format is black-equivalent. Run via:
+#   uv run ruff format .            # reformat
+#   uv run ruff check . --fix       # autofix what's safe
+#   uv run ruff check .             # CI mode (no autofix)
+# ----------------------------------------------------------------------------
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+exclude = [".venv", "storage", "chroma_db", "lib", "documents", "kg.html"]
+
+[tool.ruff.lint]
+# Curated rule sets. Keep additions justified — over-strict ruff is noise.
+select = [
+    "E",    # pycodestyle errors
+    "F",    # pyflakes (unused imports, undefined names — high signal)
+    "W",    # pycodestyle warnings
+    "I",    # isort (import ordering)
+    "UP",   # pyupgrade (modern Python idioms)
+    "B",    # flake8-bugbear (common gotchas — mutable default args, etc.)
+    "SIM",  # flake8-simplify
+    "RUF",  # ruff-native rules
+]
+ignore = [
+    "E501",   # line-too-long — format handles long strings reasonably; don't double-warn
+    "B008",   # function calls in defaults — FastAPI Depends() pattern uses this
+    "SIM112", # env var capitalization — Google_Gemini_API_KEY is intentional for backward compat
+]
+
+[tool.ruff.lint.per-file-ignores]
+# Snake-case mismatch: kept for backward compat with existing import callers.
+"chat/ChatManager.py"     = ["N802", "N803"]
+"chat/ChromaClient.py"    = ["N802"]
+"chat/ModelsManager.py"   = ["N802"]
+"server.py"               = ["N802"]
+# The system prompt is load-bearing prose — don't let ruff "fix" whitespace,
+# en-dashes, or other typography that the model may be sensitive to.
+"chat/prompt.py"          = ["W291", "W293", "RUF001", "RUF002", "RUF003"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "auto"

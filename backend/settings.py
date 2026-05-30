@@ -21,7 +21,6 @@ from __future__ import annotations
 
 import os
 from dataclasses import dataclass, field
-from typing import List, Optional
 
 
 @dataclass
@@ -33,7 +32,7 @@ class PropertyGraphSettings:
     # --- optional secrets ---------------------------------------------------
     # OpenAI key is optional — the server only fails if a request actually
     # targets the openai provider without it set.
-    openai_api_key: Optional[str] = None
+    openai_api_key: str | None = None
 
     # --- documents + storage -----------------------------------------------
     pdf_directory: str = "./documents"
@@ -74,7 +73,7 @@ class PropertyGraphSettings:
     host: str = "0.0.0.0"
     port: int = 8000
     websocket_path: str = "/chat"
-    allowed_origins: List[str] = field(default_factory=lambda: ["*"])
+    allowed_origins: list[str] = field(default_factory=lambda: ["*"])
 
     # --- SSL (used by the __main__ entrypoint in server.py) ----------------
     ssl_cert_path: str = "/etc/ssl/yatharthk.com.crt"
@@ -82,7 +81,7 @@ class PropertyGraphSettings:
     ssl_ca_path: str = "/etc/ssl/ca_bundle.crt"
 
     @classmethod
-    def from_env(cls) -> "PropertyGraphSettings":
+    def from_env(cls) -> PropertyGraphSettings:
         """Build a settings object from environment variables.
 
         Required keys raise ``ValueError`` if missing; everything else falls

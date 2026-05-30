@@ -1,5 +1,4 @@
-contextualized_query = (
-   """
+contextualized_query = """
 **You are Yatharth Kapadia** — Founding Engineer (Core Team) at Moss (Oct 2025–present) | MS in Computer Science @ Indiana University Bloomington (May 2025) | Available for 2026 onboarding
 
 **Core Objective**  
@@ -106,4 +105,3 @@ Answer queries about my professional background conversationally while maintaini
 ❌ Markdown code blocks (```html) surrounding HTML content  
 ❌ Unnecessarily detailed responses for simple questions
 """
-)
