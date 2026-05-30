@@ -1,0 +1,104 @@
+# Weekly dependency PRs grouped by ecosystem so we get one PR per area
+# instead of N PRs per package. Each group bundles minor + patch bumps;
+# majors come as their own PRs so they get a proper look.
+#
+# https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+version: 2
+updates:
+  # ---- Frontend (Next.js / React) -----------------------------------------
+  - package-ecosystem: "npm"
+    directory: "/frontend"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:00"
+      timezone: "Etc/UTC"
+    open-pull-requests-limit: 5
+    versioning-strategy: increase
+    labels: ["dependencies", "frontend"]
+    commit-message:
+      prefix: "deps(frontend)"
+      include: "scope"
+    groups:
+      frontend-minor:
+        applies-to: version-updates
+        update-types: ["minor", "patch"]
+      frontend-security:
+        applies-to: security-updates
+        update-types: ["minor", "patch", "major"]
+    ignore:
+      # React 19 + Next 16 pin many ecosystem peers to old majors via the
+      # legacy-peer-deps escape hatch. Don't churn these automatically.
+      - dependency-name: "react"
+      - dependency-name: "react-dom"
+      - dependency-name: "next"
+
+  # ---- Backend (Python / uv) ----------------------------------------------
+  - package-ecosystem: "pip"
+    directory: "/backend"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:00"
+      timezone: "Etc/UTC"
+    open-pull-requests-limit: 5
+    labels: ["dependencies", "backend"]
+    commit-message:
+      prefix: "deps(backend)"
+      include: "scope"
+    groups:
+      backend-minor:
+        applies-to: version-updates
+        update-types: ["minor", "patch"]
+      backend-security:
+        applies-to: security-updates
+        update-types: ["minor", "patch", "major"]
+    ignore:
+      # The llama-index family is pinned hard on purpose — bumping any of
+      # these usually requires code changes in ModelsManager / vector_store_manager / query_engine.
+      - dependency-name: "llama-index-core"
+      - dependency-name: "llama-index-embeddings-huggingface"
+      - dependency-name: "llama-index-llms-groq"
+      - dependency-name: "llama-index-llms-gemini"
+      - dependency-name: "llama-index-llms-openai"
+      - dependency-name: "llama-index-vector-stores-chroma"
+      - dependency-name: "llama-index-readers-file"
+      # chromadb / transformers / tokenizers must stay in lockstep with llama-index 0.11.x.
+      - dependency-name: "chromadb"
+      - dependency-name: "transformers"
+      # websockets pinned <14 due to the uvicorn legacy-protocol mismatch
+      # (see server.py:118 — close() raises AttributeError on disconnect).
+      - dependency-name: "websockets"
+        update-types: ["version-update:semver-major"]
+
+  # ---- GitHub Actions ------------------------------------------------------
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:00"
+      timezone: "Etc/UTC"
+    open-pull-requests-limit: 3
+    labels: ["dependencies", "ci"]
+    commit-message:
+      prefix: "deps(actions)"
+      include: "scope"
+    groups:
+      actions-all:
+        patterns: ["*"]
+        update-types: ["minor", "patch", "major"]
+
+  # ---- Docker base images --------------------------------------------------
+  - package-ecosystem: "docker"
+    directory: "/backend"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:00"
+      timezone: "Etc/UTC"
+    open-pull-requests-limit: 2
+    labels: ["dependencies", "docker"]
+    commit-message:
+      prefix: "deps(docker)"
+      include: "scope"
