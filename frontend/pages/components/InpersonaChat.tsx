@@ -219,12 +219,12 @@ export default function InpersonaChat() {
   };
 
   return (
-    <div className="relative flex h-[100dvh] w-full flex-col overflow-hidden bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-blue-900">
+    <div className="relative flex h-[100dvh] w-full flex-col overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-black">
       {/* Top bar */}
       <div className="fixed inset-x-0 top-0 z-50 flex items-center justify-between bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm py-2 px-4">
         <Link
           href="/"
-          className="whitespace-nowrap text-sm sm:text-base font-bold bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 bg-clip-text text-transparent"
+          className="whitespace-nowrap text-sm sm:text-base font-bold bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-400 bg-clip-text text-transparent"
         >
           {inpersona.homeLink}
         </Link>
@@ -232,7 +232,7 @@ export default function InpersonaChat() {
           <div className="flex items-center gap-2">
             <span
               className={`block h-2 w-2 rounded-full ${
-                isConnected ? 'bg-green-500' : 'bg-red-500'
+                isConnected ? 'bg-gray-900 dark:bg-white' : 'bg-gray-300 dark:bg-gray-600'
               }`}
             />
             <span className="text-xs text-gray-600 dark:text-gray-300">
@@ -281,7 +281,7 @@ export default function InpersonaChat() {
                         return !v;
                       });
                     }}
-                    activeClasses="bg-gradient-to-r from-purple-700 to-purple-500 text-white"
+                    activeClasses="bg-gray-900 text-white dark:bg-white dark:text-gray-900"
                   />
                 </Tooltip>
                 <Tooltip text={hydeToggle.tooltip}>
@@ -296,7 +296,7 @@ export default function InpersonaChat() {
                         return !v;
                       });
                     }}
-                    activeClasses="bg-gradient-to-r from-blue-700 to-blue-500 text-white"
+                    activeClasses="bg-gray-900 text-white dark:bg-white dark:text-gray-900"
                   />
                 </Tooltip>
               </div>
@@ -308,7 +308,7 @@ export default function InpersonaChat() {
                   icon={<Network size={12} />}
                   label={kgToggle.shortLabel}
                   onToggle={() => setUseKnowledgeGraph((v) => !v)}
-                  activeClasses="bg-gradient-to-r from-purple-700 to-purple-500 text-white"
+                  activeClasses="bg-gray-900 text-white dark:bg-white dark:text-gray-900"
                   compact
                 />
                 <ToggleButton
@@ -316,7 +316,7 @@ export default function InpersonaChat() {
                   icon={<Search size={12} />}
                   label={hydeToggle.shortLabel}
                   onToggle={() => setUseHydeQuery((v) => !v)}
-                  activeClasses="bg-gradient-to-r from-blue-700 to-blue-500 text-white"
+                  activeClasses="bg-gray-900 text-white dark:bg-white dark:text-gray-900"
                   compact
                 />
                 <button
@@ -343,10 +343,10 @@ export default function InpersonaChat() {
                 type="button"
                 onClick={submitDraft}
                 disabled={!isConnected || isLoading || !draftMessage.trim()}
-                className="ml-2 rounded-xl bg-gradient-to-br from-purple-600 to-blue-600 p-1.5 shadow-md transition-opacity hover:opacity-90 disabled:opacity-50"
+                className="ml-2 rounded-xl bg-gray-900 dark:bg-white p-1.5 shadow-md transition-opacity hover:opacity-90 disabled:opacity-50"
                 aria-label="Send"
               >
-                <Send size={20} className="text-white" />
+                <Send size={20} className="text-white dark:text-gray-900" />
               </button>
             </div>
           </div>
@@ -377,7 +377,7 @@ function EmptyState({
   const { inpersona } = config;
   return (
     <div className="flex min-h-[calc(100vh-240px)] flex-col items-center justify-center space-y-4 sm:space-y-6 px-4 mt-2 sm:mt-4">
-      <div className="h-24 w-24 sm:h-32 sm:w-32 animate-float rounded-full bg-gradient-to-br from-purple-600 to-blue-600 p-1 shadow-lg">
+      <div className="h-24 w-24 sm:h-32 sm:w-32 animate-float rounded-full bg-gradient-to-br from-gray-700 to-gray-900 dark:from-gray-300 dark:to-white p-1 shadow-lg">
         <img
           src={inpersona.avatar}
           alt="Yatharth"
@@ -394,7 +394,7 @@ function EmptyState({
               key={question}
               onClick={() => onSuggestionClick(question)}
               disabled={!isReady}
-              className="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-3 text-left text-sm sm:text-base text-gray-700 dark:text-gray-300 shadow-sm transition-all hover:border-purple-300 dark:hover:border-purple-600 hover:bg-gray-50 dark:hover:bg-gray-700 hover:shadow-md disabled:cursor-not-allowed disabled:opacity-50"
+              className="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-3 text-left text-sm sm:text-base text-gray-700 dark:text-gray-300 shadow-sm transition-all hover:border-gray-400 dark:hover:border-gray-500 hover:bg-gray-50 dark:hover:bg-gray-700 hover:shadow-md disabled:cursor-not-allowed disabled:opacity-50"
             >
               {question}
             </button>
@@ -411,7 +411,7 @@ function MessageBubble({ message }: { message: Message }) {
       <div
         className={`max-w-[90%] sm:max-w-[85%] rounded-2xl p-3 sm:p-4 transition-all ${
           message.isUser
-            ? 'bg-gradient-to-br from-purple-600 to-blue-600 text-white shadow-lg'
+            ? 'bg-gray-900 text-white dark:bg-white dark:text-gray-900 shadow-lg'
             : 'bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 shadow-md'
         }`}
       >

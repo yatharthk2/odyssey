@@ -26,7 +26,7 @@ const InpersonaButton: React.FC<InpersonaButtonProps> = ({
     <div className={`relative group ${className}`}>
       {/* Outer glow effect */}
       <motion.div
-        className="absolute inset-0 rounded-full bg-gradient-to-r from-violet-500/50 via-fuchsia-500/50 to-indigo-500/50 blur-lg opacity-75"
+        className="absolute inset-0 rounded-full bg-gradient-to-r from-gray-400/40 via-gray-500/40 to-gray-400/40 dark:from-white/20 dark:via-gray-300/20 dark:to-white/20 blur-lg opacity-75"
         initial={{ scale: 0.8, opacity: 0 }}
         animate={{ 
           scale: isPulsing ? [0.8, 1.1, 0.9] : 1,
@@ -41,7 +41,7 @@ const InpersonaButton: React.FC<InpersonaButtonProps> = ({
 
       <Link href="/loading">
         <motion.button
-          className="relative flex items-center gap-2 sm:gap-3 px-4 sm:px-6 py-2.5 sm:py-3.5 rounded-full bg-gradient-to-r from-violet-600 via-fuchsia-600 to-indigo-600 text-white shadow-lg hover:shadow-xl shadow-indigo-500/30 hover:shadow-indigo-500/40"
+          className="relative flex items-center gap-2 sm:gap-3 px-4 sm:px-6 py-2.5 sm:py-3.5 rounded-full bg-gray-900 text-white hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-gray-100 shadow-lg hover:shadow-xl shadow-black/20 dark:shadow-white/20"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.98 }}
           initial={{ opacity: 0, y: 20 }}
@@ -55,7 +55,7 @@ const InpersonaButton: React.FC<InpersonaButtonProps> = ({
         >
           {/* Animated icon container */}
           <motion.div
-            className="relative flex items-center justify-center bg-white/20 rounded-full p-1.5"
+            className="relative flex items-center justify-center bg-white/20 dark:bg-black/10 rounded-full p-1.5"
             animate={{ 
               rotate: isPulsing ? [0, 15, -15, 0] : 0,
             }}
@@ -65,8 +65,8 @@ const InpersonaButton: React.FC<InpersonaButtonProps> = ({
               ease: "easeInOut"
             }}
           >
-            <Bot size={16} className="text-white sm:hidden" />
-            <Bot size={18} className="text-white hidden sm:block" />
+            <Bot size={16} className="text-white dark:text-gray-900 sm:hidden" />
+            <Bot size={18} className="text-white dark:text-gray-900 hidden sm:block" />
             
             {/* Sparkle icon */}
             <motion.div 
@@ -82,8 +82,8 @@ const InpersonaButton: React.FC<InpersonaButtonProps> = ({
                 ease: "easeInOut"
               }}
             >
-              <Sparkles size={8} className="text-yellow-300 sm:hidden" />
-              <Sparkles size={10} className="text-yellow-300 hidden sm:block" />
+              <Sparkles size={8} className="text-white dark:text-gray-900 sm:hidden" />
+              <Sparkles size={10} className="text-white dark:text-gray-900 hidden sm:block" />
             </motion.div>
           </motion.div>
           
@@ -95,8 +95,8 @@ const InpersonaButton: React.FC<InpersonaButtonProps> = ({
             transition={{ type: "spring", stiffness: 300 }}
             className="ml-auto"
           >
-            <ArrowRight size={14} className="text-white/80 sm:hidden" />
-            <ArrowRight size={16} className="text-white/80 hidden sm:block" />
+            <ArrowRight size={14} className="text-white/80 dark:text-gray-900/80 sm:hidden" />
+            <ArrowRight size={16} className="text-white/80 dark:text-gray-900/80 hidden sm:block" />
           </motion.div>
         </motion.button>
       </Link>
@@ -107,7 +107,7 @@ const InpersonaButton: React.FC<InpersonaButtonProps> = ({
           {[...Array(5)].map((_, i) => (
             <motion.div
               key={i}
-              className="absolute h-1 w-1 sm:h-1.5 sm:w-1.5 rounded-full bg-indigo-300"
+              className="absolute h-1 w-1 sm:h-1.5 sm:w-1.5 rounded-full bg-gray-400 dark:bg-gray-500"
               initial={{ 
                 opacity: 0,
                 scale: 0,

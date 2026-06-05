@@ -240,12 +240,12 @@
 }
 
 .html-content a {
-  color: #3b82f6;
+  color: #111827;
   text-decoration: underline;
 }
 
 .dark .html-content a {
-  color: #60a5fa;
+  color: #e5e7eb;
 }
 
 .html-content hr {

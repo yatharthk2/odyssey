@@ -6,14 +6,17 @@ import GradientHeading from '../../components/primitives/GradientHeading';
 import config from '../../types/config';
 import { asIcon, type Icon } from '../../types/icons';
 
+// All company marks render in a single grayscale tone to keep the section monochrome;
+// the icon shapes themselves stay recognizable.
+const ICON_TONE = 'text-gray-700 dark:text-gray-300';
 const companyIcons: Record<string, { Icon: Icon; className: string }> = {
-  dell: { Icon: asIcon(SiDell), className: 'text-blue-700 dark:text-blue-400' },
-  nvidia: { Icon: asIcon(SiNvidia), className: 'text-green-600 dark:text-green-400' },
-  amazon: { Icon: asIcon(SiAmazon), className: 'text-orange-500 dark:text-orange-400' },
+  dell: { Icon: asIcon(SiDell), className: ICON_TONE },
+  nvidia: { Icon: asIcon(SiNvidia), className: ICON_TONE },
+  amazon: { Icon: asIcon(SiAmazon), className: ICON_TONE },
   // Kelley School of Business — there's no university brand icon in react-icons,
-  // so we use a graduation cap in IU crimson as a recognizable stand-in.
-  kelley: { Icon: asIcon(FaGraduationCap), className: 'text-red-700 dark:text-red-400' },
-  ycombinator: { Icon: asIcon(SiYcombinator), className: 'text-orange-500 dark:text-orange-400' },
+  // so we use a graduation cap as a recognizable stand-in.
+  kelley: { Icon: asIcon(FaGraduationCap), className: ICON_TONE },
+  ycombinator: { Icon: asIcon(SiYcombinator), className: ICON_TONE },
 };
 
 export default function Achievements() {
@@ -37,7 +40,7 @@ export default function Achievements() {
                 transition={{ delay: index * 0.08 }}
                 className="group relative flex h-full flex-col bg-white dark:bg-gray-700 rounded-xl shadow-md hover:shadow-xl transition-shadow p-6 overflow-hidden"
               >
-                <div className="pointer-events-none absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-purple-400/20 to-blue-500/20 rounded-bl-full translate-x-5 -translate-y-5" />
+                <div className="pointer-events-none absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-gray-400/20 to-gray-600/20 dark:from-white/10 dark:to-white/5 rounded-bl-full translate-x-5 -translate-y-5" />
 
                 <div className="flex items-start mb-4">
                   {iconConfig && (
@@ -46,7 +49,7 @@ export default function Achievements() {
                     </div>
                   )}
                   <div>
-                    <h3 className="font-bold text-lg text-gray-800 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
+                    <h3 className="font-bold text-lg text-gray-800 dark:text-white group-hover:text-gray-900 dark:group-hover:text-gray-300 transition-colors">
                       {item.title}
                     </h3>
                     <p className="text-sm text-gray-500 dark:text-gray-300">{item.date}</p>
@@ -63,7 +66,7 @@ export default function Achievements() {
                       href={item.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center text-sm font-medium text-purple-600 dark:text-purple-400 hover:text-purple-800 dark:hover:text-purple-300"
+                      className="inline-flex items-center text-sm font-medium text-gray-900 dark:text-gray-100 hover:text-gray-600 dark:hover:text-gray-300"
                     >
                       Learn more
                       <svg

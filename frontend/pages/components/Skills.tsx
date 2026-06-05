@@ -99,35 +99,21 @@ interface CategoryStyle {
   pattern: string;
 }
 
+// One shared monochrome scheme for every category — the emoji icon and title carry
+// the per-category identity, so the cards stay visually unified in black & white.
+const monochromeStyle: CategoryStyle = {
+  bg: 'bg-gradient-to-r from-gray-200/50 via-gray-100/20 to-gray-200/50 dark:from-gray-700/40 dark:via-gray-800/20 dark:to-gray-700/40',
+  border: 'border-gray-200 dark:border-gray-700',
+  textColor: 'text-gray-900 dark:text-gray-100',
+  glowOverlay: 'bg-gradient-to-r from-gray-400 to-gray-600 dark:from-gray-300 dark:to-gray-500',
+  pattern: 'bg-gray-500',
+};
+
 const categoryStyles: Record<SkillCategoryKey, CategoryStyle> = {
-  languages: {
-    bg: 'bg-gradient-to-r from-purple-600/10 via-purple-500/5 to-blue-600/10',
-    border: 'border-purple-200 dark:border-purple-800/50',
-    textColor: 'text-purple-600 dark:text-purple-400',
-    glowOverlay: 'bg-gradient-to-r from-purple-500 to-blue-500',
-    pattern: 'bg-purple-600',
-  },
-  technologies: {
-    bg: 'bg-gradient-to-r from-blue-600/10 via-blue-500/5 to-cyan-600/10',
-    border: 'border-blue-200 dark:border-blue-800/50',
-    textColor: 'text-blue-600 dark:text-blue-400',
-    glowOverlay: 'bg-gradient-to-r from-blue-500 to-cyan-500',
-    pattern: 'bg-blue-600',
-  },
-  databases: {
-    bg: 'bg-gradient-to-r from-green-600/10 via-green-500/5 to-teal-600/10',
-    border: 'border-green-200 dark:border-green-800/50',
-    textColor: 'text-green-600 dark:text-green-400',
-    glowOverlay: 'bg-gradient-to-r from-green-500 to-teal-500',
-    pattern: 'bg-green-600',
-  },
-  coreCompetencies: {
-    bg: 'bg-gradient-to-r from-pink-600/10 via-pink-500/5 to-rose-600/10',
-    border: 'border-pink-200 dark:border-pink-800/50',
-    textColor: 'text-pink-600 dark:text-pink-400',
-    glowOverlay: 'bg-gradient-to-r from-pink-500 to-rose-500',
-    pattern: 'bg-pink-600',
-  },
+  languages: monochromeStyle,
+  technologies: monochromeStyle,
+  databases: monochromeStyle,
+  coreCompetencies: monochromeStyle,
 };
 
 const containerVariants = {
@@ -218,7 +204,7 @@ function SkillCategoryView({
             <span className={isMobile ? 'text-xl' : 'text-2xl'}>{category.icon}</span>
           </div>
           <h3 className={isMobile ? 'text-lg font-bold' : 'text-xl font-bold'}>
-            <span className="bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-400 bg-clip-text text-transparent">
               {category.title}
             </span>
           </h3>
@@ -252,14 +238,14 @@ export default function Skills() {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: isMobile ? 0.5 : 0.7 }}
-      className={`relative overflow-hidden rounded-3xl border border-gray-200/50 dark:border-gray-700/50 bg-gradient-to-br from-white/80 to-gray-100/80 dark:from-gray-800/80 dark:to-gray-900/80 backdrop-blur-sm shadow-xl ${
+      className={`relative overflow-hidden rounded-3xl border border-gray-200/50 dark:border-gray-700/50 bg-gradient-to-br from-white/80 to-gray-100/80 dark:from-gray-800/80 dark:to-black/80 backdrop-blur-sm shadow-xl ${
         isMobile ? 'my-8 py-10' : 'my-12 sm:my-24 py-16 sm:py-24'
       }`}
     >
       {!isMobile && (
         <>
-          <div className="pointer-events-none absolute top-0 left-0 w-40 h-40 bg-purple-500/10 rounded-full blur-3xl" />
-          <div className="pointer-events-none absolute bottom-0 right-0 w-60 h-60 bg-blue-500/10 rounded-full blur-3xl" />
+          <div className="pointer-events-none absolute top-0 left-0 w-40 h-40 bg-gray-500/10 dark:bg-white/5 rounded-full blur-3xl" />
+          <div className="pointer-events-none absolute bottom-0 right-0 w-60 h-60 bg-gray-500/10 dark:bg-white/5 rounded-full blur-3xl" />
         </>
       )}
 
@@ -272,7 +258,7 @@ export default function Skills() {
           className={`text-center ${isMobile ? 'mb-8' : 'mb-16'}`}
         >
           <h2
-            className={`mb-4 font-extrabold bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 bg-clip-text text-transparent ${
+            className={`mb-4 font-extrabold bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-400 bg-clip-text text-transparent ${
               isMobile ? 'text-3xl' : 'text-4xl sm:text-5xl'
             }`}
           >

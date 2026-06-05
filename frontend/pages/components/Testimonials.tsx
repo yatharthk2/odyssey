@@ -38,7 +38,7 @@ function TestimonialCard({
           <button
             type="button"
             onClick={() => setIsExpanded((v) => !v)}
-            className="mt-2 rounded px-2 py-0.5 text-sm font-medium text-purple-600 dark:text-purple-400 hover:underline focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800"
+            className="mt-2 rounded px-2 py-0.5 text-sm font-medium text-gray-900 dark:text-gray-100 hover:underline focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800"
           >
             {isExpanded ? 'Read less' : 'Read more'}
           </button>
@@ -47,11 +47,11 @@ function TestimonialCard({
 
       <div className="mt-auto flex items-center border-t border-gray-100 dark:border-gray-700 pt-4">
         {imageUrl ? (
-          <div className="mr-4 h-14 w-14 overflow-hidden rounded-full ring-2 ring-purple-500 ring-offset-2 dark:ring-offset-gray-800">
+          <div className="mr-4 h-14 w-14 overflow-hidden rounded-full ring-2 ring-gray-900 dark:ring-white ring-offset-2 dark:ring-offset-gray-800">
             <img src={imageUrl} alt={name} className="h-full w-full object-cover" />
           </div>
         ) : (
-          <div className="mr-4 flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-purple-500 to-indigo-600 text-xl font-bold text-white shadow-md">
+          <div className="mr-4 flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-gray-700 to-gray-900 dark:from-gray-300 dark:to-white text-xl font-bold text-white dark:text-gray-900 shadow-md">
             {name.charAt(0)}
           </div>
         )}
@@ -63,7 +63,7 @@ function TestimonialCard({
                 href={linkedinUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[#0A66C2] hover:text-[#004182] dark:hover:text-[#4593de] transition-colors"
+                className="text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors"
                 aria-label={`${name}'s LinkedIn profile`}
               >
                 <SiLinkedin className="h-5 w-5" />
@@ -153,11 +153,11 @@ export default function Testimonials() {
       onMouseEnter={() => setAutoRotate(false)}
       onMouseLeave={() => setAutoRotate(true)}
       aria-label="Testimonials"
-      className="relative my-12 sm:my-24 overflow-hidden rounded-3xl bg-gradient-to-b from-purple-50/60 to-white/60 dark:from-gray-900/60 dark:to-gray-800/60 backdrop-blur-sm py-16 sm:py-24 shadow-xl"
+      className="relative my-12 sm:my-24 overflow-hidden rounded-3xl bg-gradient-to-b from-gray-100/60 to-white/60 dark:from-gray-900/60 dark:to-gray-800/60 backdrop-blur-sm py-16 sm:py-24 shadow-xl"
     >
       <div className="pointer-events-none absolute inset-0 overflow-hidden opacity-10">
-        <div className="absolute -top-40 -right-40 h-80 w-80 rounded-full bg-purple-300/30" />
-        <div className="absolute -bottom-40 -left-40 h-96 w-96 rounded-full bg-blue-300/30" />
+        <div className="absolute -top-40 -right-40 h-80 w-80 rounded-full bg-gray-400/30 dark:bg-white/10" />
+        <div className="absolute -bottom-40 -left-40 h-96 w-96 rounded-full bg-gray-400/30 dark:bg-white/10" />
       </div>
 
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -210,9 +210,9 @@ export default function Testimonials() {
                 type="button"
                 onClick={prev}
                 aria-label="Previous testimonials"
-                className="group rounded-full bg-white dark:bg-gray-700 p-3 shadow-md transition-colors hover:bg-purple-100 dark:hover:bg-purple-900/30"
+                className="group rounded-full bg-white dark:bg-gray-700 p-3 shadow-md transition-colors hover:bg-gray-200 dark:hover:bg-gray-600"
               >
-                <ChevronLeft className="h-5 w-5 text-purple-600 dark:text-purple-400 transition-transform group-hover:scale-110" />
+                <ChevronLeft className="h-5 w-5 text-gray-900 dark:text-gray-100 transition-transform group-hover:scale-110" />
               </button>
 
               <div className="my-4 flex gap-3 sm:my-0">
@@ -225,8 +225,8 @@ export default function Testimonials() {
                     aria-current={currentPage === idx ? 'true' : 'false'}
                     className={`rounded transition-all duration-300 ${
                       currentPage === idx
-                        ? 'h-2 w-8 bg-purple-600 dark:bg-purple-500'
-                        : 'h-2 w-2 bg-gray-300 dark:bg-gray-600 hover:bg-purple-400 dark:hover:bg-purple-700'
+                        ? 'h-2 w-8 bg-gray-900 dark:bg-white'
+                        : 'h-2 w-2 bg-gray-300 dark:bg-gray-600 hover:bg-gray-500 dark:hover:bg-gray-400'
                     }`}
                   />
                 ))}
@@ -236,9 +236,9 @@ export default function Testimonials() {
                 type="button"
                 onClick={next}
                 aria-label="Next testimonials"
-                className="group rounded-full bg-white dark:bg-gray-700 p-3 shadow-md transition-colors hover:bg-purple-100 dark:hover:bg-purple-900/30"
+                className="group rounded-full bg-white dark:bg-gray-700 p-3 shadow-md transition-colors hover:bg-gray-200 dark:hover:bg-gray-600"
               >
-                <ChevronRight className="h-5 w-5 text-purple-600 dark:text-purple-400 transition-transform group-hover:scale-110" />
+                <ChevronRight className="h-5 w-5 text-gray-900 dark:text-gray-100 transition-transform group-hover:scale-110" />
               </button>
             </div>
           )}

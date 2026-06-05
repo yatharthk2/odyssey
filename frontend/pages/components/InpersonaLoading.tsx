@@ -28,7 +28,7 @@ export default function InpersonaLoading() {
   const progressDelay = FEATURE_BASE_DELAY + features.length * FEATURE_STEP;
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-gradient-to-br from-purple-900 via-blue-900 to-black p-4">
+    <div className="fixed inset-0 flex items-center justify-center bg-gradient-to-br from-gray-900 via-gray-950 to-black p-4">
       <div className="relative w-full max-w-[600px]">
         <motion.div
           initial={{ scale: 0, opacity: 0 }}
@@ -47,7 +47,7 @@ export default function InpersonaLoading() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.7 }}
-            className="mb-4 sm:mb-8 text-2xl sm:text-3xl font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent"
+            className="mb-4 sm:mb-8 text-2xl sm:text-3xl font-bold bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent"
           >
             {loadingTitle}
           </motion.h2>
@@ -63,7 +63,7 @@ export default function InpersonaLoading() {
                   transition={{ delay: FEATURE_BASE_DELAY + index * FEATURE_STEP }}
                   className="flex items-center gap-3 rounded-xl bg-white/10 backdrop-blur-sm p-3 sm:p-4"
                 >
-                  <div className="rounded-lg bg-gradient-to-br from-purple-500 to-blue-500 p-1.5 sm:p-2">
+                  <div className="rounded-lg bg-gradient-to-br from-gray-600 to-gray-800 p-1.5 sm:p-2">
                     <Icon className="h-5 w-5 sm:h-6 sm:w-6" />
                   </div>
                   <div className="text-left">
@@ -82,7 +82,7 @@ export default function InpersonaLoading() {
             transition={{ delay: progressDelay }}
           >
             <motion.div
-              className="h-full bg-gradient-to-r from-purple-500 via-blue-500 to-purple-500"
+              className="h-full bg-gradient-to-r from-gray-400 via-white to-gray-400"
               initial={{ width: '0%' }}
               animate={{ width: '100%' }}
               transition={{ duration: 1.5, delay: progressDelay, ease: 'easeInOut' }}
@@ -95,10 +95,10 @@ export default function InpersonaLoading() {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               whileHover={{ scale: 1.05 }}
-              className="group relative mt-4 sm:mt-8 px-6 sm:px-8 py-2.5 sm:py-3 rounded-full bg-gradient-to-r from-purple-500 to-blue-500 text-sm sm:text-base font-medium text-white shadow-lg"
+              className="group relative mt-4 sm:mt-8 px-6 sm:px-8 py-2.5 sm:py-3 rounded-full bg-white text-gray-900 hover:bg-gray-200 text-sm sm:text-base font-medium shadow-lg"
             >
               <motion.div
-                className="absolute inset-0 rounded-full bg-white opacity-20"
+                className="absolute inset-0 rounded-full bg-gray-900 opacity-20"
                 animate={{ scale: [1, 1.2, 1], opacity: [0.2, 0, 0.2] }}
                 transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
               />

@@ -49,12 +49,12 @@ export default function Home() {
               transition={{ duration: 0.5, delay: 0.3 }}
               whileHover={{
                 scale: 1.02,
-                boxShadow: '0 8px 25px rgba(147, 51, 234, 0.3)',
+                boxShadow: '0 8px 25px rgba(0, 0, 0, 0.25)',
                 transition: { duration: 0.2 },
               }}
               whileTap={{ scale: 0.98 }}
               onClick={() => setIsContactModalOpen(true)}
-              className="inline-block rounded-full bg-gradient-to-r from-purple-600 to-blue-600 px-8 py-4 font-medium text-white transition-shadow hover:shadow-lg"
+              className="inline-block rounded-full bg-gray-900 text-white hover:bg-gray-700 dark:bg-white dark:text-gray-900 dark:hover:bg-gray-200 px-8 py-4 font-medium transition-colors hover:shadow-lg"
             >
               {contact.ctaLabel}
             </motion.button>
@@ -98,7 +98,7 @@ function AboutSection() {
             transition={{ duration: 0.6, delay: 0.3 }}
             className="relative mt-8 md:mt-0"
           >
-            <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-purple-600 to-blue-600 opacity-30 blur-lg" />
+            <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-gray-400 to-gray-600 dark:from-gray-600 dark:to-gray-800 opacity-30 blur-lg" />
             <img
               src={about.image}
               alt={about.title}
