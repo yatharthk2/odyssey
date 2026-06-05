@@ -17,8 +17,9 @@ const sizeClasses = {
 } as const;
 
 /**
- * Title with the signature purple → pink → blue gradient that appears on every section.
- * Animated in from a slight upward offset when scrolled into view.
+ * Title with the signature monochrome gradient (near-black → mid-gray in light mode,
+ * white → mid-gray in dark) that appears on every section. Animated in from a slight
+ * upward offset when scrolled into view.
  */
 export default function GradientHeading({
   children,
@@ -36,7 +37,7 @@ export default function GradientHeading({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay: 0.1 }}
-      className={`${sizeClasses[size]} ${alignment} font-bold bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 bg-clip-text text-transparent ${className}`}
+      className={`${sizeClasses[size]} ${alignment} font-bold bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-400 bg-clip-text text-transparent ${className}`}
     >
       {children}
     </Component>

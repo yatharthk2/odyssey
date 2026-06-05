@@ -19,10 +19,10 @@ interface OrbConfig {
 }
 
 const palettes = [
-  'bg-gradient-to-br from-purple-500/40 to-fuchsia-500/40 dark:from-purple-500/60 dark:to-fuchsia-500/60',
-  'bg-gradient-to-br from-blue-500/40 to-cyan-500/40 dark:from-blue-500/60 dark:to-cyan-500/60',
-  'bg-gradient-to-br from-pink-500/40 to-rose-500/40 dark:from-pink-500/60 dark:to-rose-500/60',
-  'bg-gradient-to-br from-indigo-500/40 to-purple-500/40 dark:from-indigo-500/60 dark:to-purple-500/60',
+  'bg-gradient-to-br from-gray-400/60 to-gray-500/60 dark:from-white/30 dark:to-gray-300/30',
+  'bg-gradient-to-br from-gray-300/60 to-gray-400/60 dark:from-gray-200/30 dark:to-white/30',
+  'bg-gradient-to-br from-gray-500/60 to-gray-600/60 dark:from-gray-300/30 dark:to-gray-400/30',
+  'bg-gradient-to-br from-gray-400/60 to-gray-300/60 dark:from-white/30 dark:to-gray-200/30',
 ];
 
 export default function Hero() {
@@ -53,14 +53,14 @@ export default function Hero() {
 
   return (
     <div className="relative min-h-[calc(100vh-4rem)] flex items-center justify-center overflow-hidden px-4 sm:px-6 touch-pan-y">
-      <div className="absolute inset-0 bg-gradient-to-br from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20" />
+      <div className="absolute inset-0 bg-gradient-to-br from-gray-100 to-white dark:from-gray-900/40 dark:to-black/40" />
 
       <div className="relative z-10 max-w-4xl mx-auto text-center">
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="text-4xl sm:text-6xl md:text-7xl font-bold mb-4 sm:mb-6 bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 bg-clip-text text-transparent"
+          className="text-4xl sm:text-6xl md:text-7xl font-bold mb-4 sm:mb-6 bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-400 bg-clip-text text-transparent"
         >
           {config.hero.name}
         </motion.h1>
@@ -91,7 +91,7 @@ export default function Hero() {
         >
           <div className="relative mx-auto w-fit">
             <motion.div
-              className="absolute -inset-1 rounded-full bg-gradient-to-r from-purple-400/20 via-fuchsia-400/20 to-blue-400/20 blur-lg"
+              className="absolute -inset-1 rounded-full bg-gradient-to-r from-gray-400/20 via-gray-300/20 to-gray-400/20 dark:from-white/15 dark:via-gray-300/15 dark:to-white/15 blur-lg"
               animate={{ opacity: [0, 0.7, 0] }}
               transition={{ duration: 3, repeat: Infinity, delay: 1.5 }}
             />
@@ -109,7 +109,7 @@ export default function Hero() {
           {orbs.map((orb, i) => (
             <motion.div
               key={i}
-              className={`absolute w-48 h-48 rounded-full blur-2xl ${orb.palette}`}
+              className={`absolute w-48 h-48 rounded-full blur-xl ${orb.palette}`}
               animate={
                 isMobile
                   ? {
@@ -144,9 +144,9 @@ export default function Hero() {
             className="absolute inset-0 opacity-50 dark:opacity-70"
             animate={{
               background: [
-                'radial-gradient(circle at 20% 30%, rgba(147, 51, 234, 0.25) 0%, transparent 60%), radial-gradient(circle at 80% 70%, rgba(59, 130, 246, 0.25) 0%, transparent 60%)',
-                'radial-gradient(circle at 80% 60%, rgba(236, 72, 153, 0.25) 0%, transparent 60%), radial-gradient(circle at 20% 40%, rgba(59, 130, 246, 0.25) 0%, transparent 60%)',
-                'radial-gradient(circle at 20% 30%, rgba(147, 51, 234, 0.25) 0%, transparent 60%), radial-gradient(circle at 80% 70%, rgba(59, 130, 246, 0.25) 0%, transparent 60%)',
+                'radial-gradient(circle at 20% 30%, rgba(120, 120, 120, 0.28) 0%, transparent 60%), radial-gradient(circle at 80% 70%, rgba(160, 160, 160, 0.28) 0%, transparent 60%)',
+                'radial-gradient(circle at 80% 60%, rgba(140, 140, 140, 0.28) 0%, transparent 60%), radial-gradient(circle at 20% 40%, rgba(110, 110, 110, 0.28) 0%, transparent 60%)',
+                'radial-gradient(circle at 20% 30%, rgba(120, 120, 120, 0.28) 0%, transparent 60%), radial-gradient(circle at 80% 70%, rgba(160, 160, 160, 0.28) 0%, transparent 60%)',
               ],
             }}
             transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut' }}

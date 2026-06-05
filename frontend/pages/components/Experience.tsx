@@ -27,7 +27,7 @@ export default function Experience() {
                   exp.iconOnly ? 'bg-white' : ''
                 }`}
               >
-                <div className="absolute inset-0 z-10 bg-gradient-to-r from-purple-600/50 to-blue-600/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="absolute inset-0 z-10 bg-gradient-to-r from-black/40 to-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 <img
                   src={exp.image}
                   alt={`${exp.company} logo`}
@@ -51,7 +51,7 @@ export default function Experience() {
                     href={exp.companyUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 mt-3 text-sm text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 transition-colors"
+                    className="inline-flex items-center gap-2 mt-3 text-sm text-gray-900 dark:text-gray-100 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
                   >
                     <ExternalLink size={14} />
                     <span>Visit Company Page</span>
@@ -59,7 +59,7 @@ export default function Experience() {
                 )}
               </div>
 
-              <div className="pointer-events-none absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-purple-600/20 to-blue-600/20 dark:from-purple-600/10 dark:to-blue-600/10 rotate-45 translate-x-8 -translate-y-8" />
+              <div className="pointer-events-none absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-gray-900/15 to-gray-500/10 dark:from-white/10 dark:to-white/5 rotate-45 translate-x-8 -translate-y-8" />
             </motion.article>
           ))}
         </div>

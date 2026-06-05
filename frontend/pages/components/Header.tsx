@@ -81,7 +81,7 @@ export default function Header() {
                     href={item.url}
                     download={item.isDownload}
                     onClick={handleNavClick(item, true)}
-                    className="text-gray-700 dark:text-gray-200 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
+                    className="text-gray-700 dark:text-gray-200 hover:text-black dark:hover:text-white transition-colors"
                   >
                     {item.title}
                   </a>
@@ -108,11 +108,11 @@ function NavLink({
         href={item.url}
         download={item.isDownload}
         onClick={onClick}
-        className="whitespace-nowrap font-medium text-gray-700 dark:text-gray-200 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
+        className="whitespace-nowrap font-medium text-gray-700 dark:text-gray-200 hover:text-black dark:hover:text-white transition-colors"
       >
         {item.title}
       </a>
-      <div className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 scale-x-0 group-hover:scale-x-100 transition-transform origin-left" />
+      <div className="absolute bottom-0 left-0 w-full h-0.5 bg-gray-900 dark:bg-white scale-x-0 group-hover:scale-x-100 transition-transform origin-left" />
     </div>
   );
 }

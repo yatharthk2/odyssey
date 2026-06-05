@@ -24,13 +24,13 @@ const OpenNotifAnimation: React.FC<OpenNotifAnimationProps> = ({
         {/* Define gradients and filters for better visuals */}
         <defs>
           <linearGradient id="awsGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#FF9900" />
-            <stop offset="100%" stopColor="#ED8600" />
+            <stop offset="0%" stopColor="#374151" />
+            <stop offset="100%" stopColor="#1f2937" />
           </linearGradient>
-          
+
           <linearGradient id="userGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#4CAF50" />
-            <stop offset="100%" stopColor="#3D8B40" />
+            <stop offset="0%" stopColor="#6b7280" />
+            <stop offset="100%" stopColor="#4b5563" />
           </linearGradient>
           
           <filter id="shadowEffect" x="-20%" y="-20%" width="140%" height="140%">
@@ -53,122 +53,122 @@ const OpenNotifAnimation: React.FC<OpenNotifAnimationProps> = ({
         
         {/* Title with animation */}
         <g filter="url(#shadowEffect)">
-          <text x="450" y="50" fontFamily="Arial, sans-serif" fontSize="36" fontWeight="bold" textAnchor="middle" fill="#232F3E">
+          <text x="450" y="50" fontFamily="Arial, sans-serif" fontSize="36" fontWeight="bold" textAnchor="middle" fill="#111827">
             Open-Notif: CLI for User-Company Connectivity
             <animate attributeName="opacity" values="0.9;1;0.9" dur="3s" repeatCount="indefinite" />
           </text>
         </g>
         
         {/* AWS Chalice - Increased size */}
-        <rect id="chalice" x="100" y="90" width="150" height="90" rx="15" fill="url(#awsGradient)" stroke="#232F3E" strokeWidth="2" filter="url(#shadowEffect)">
+        <rect id="chalice" x="100" y="90" width="150" height="90" rx="15" fill="url(#awsGradient)" stroke="#111827" strokeWidth="2" filter="url(#shadowEffect)">
           <animate attributeName="opacity" values="0.8;1;0.8" dur="2s" repeatCount="indefinite" />
         </rect>
-        <text x="175" y="140" fontFamily="Arial, sans-serif" fontSize="20" fontWeight="bold" textAnchor="middle" fill="#232F3E">
+        <text x="175" y="140" fontFamily="Arial, sans-serif" fontSize="20" fontWeight="bold" textAnchor="middle" fill="#ffffff">
           AWS Chalice
         </text>
         
         {/* AWS SNS - Increased size */}
-        <rect id="sns" x="375" y="90" width="150" height="90" rx="15" fill="url(#awsGradient)" stroke="#232F3E" strokeWidth="2" filter="url(#shadowEffect)">
+        <rect id="sns" x="375" y="90" width="150" height="90" rx="15" fill="url(#awsGradient)" stroke="#111827" strokeWidth="2" filter="url(#shadowEffect)">
           <animate attributeName="opacity" values="0.8;1;0.8" dur="2s" repeatCount="indefinite" begin="0.5s" />
         </rect>
-        <text x="450" y="140" fontFamily="Arial, sans-serif" fontSize="20" fontWeight="bold" textAnchor="middle" fill="#232F3E">
+        <text x="450" y="140" fontFamily="Arial, sans-serif" fontSize="20" fontWeight="bold" textAnchor="middle" fill="#ffffff">
           AWS SNS
         </text>
         
         {/* SQS 1 - Increased size */}
-        <rect id="sqs1" x="225" y="210" width="150" height="90" rx="15" fill="url(#awsGradient)" stroke="#232F3E" strokeWidth="2" filter="url(#shadowEffect)">
+        <rect id="sqs1" x="225" y="210" width="150" height="90" rx="15" fill="url(#awsGradient)" stroke="#111827" strokeWidth="2" filter="url(#shadowEffect)">
           <animate attributeName="opacity" values="0.8;1;0.8" dur="2s" repeatCount="indefinite" begin="1s" />
         </rect>
-        <text x="300" y="260" fontFamily="Arial, sans-serif" fontSize="20" fontWeight="bold" textAnchor="middle" fill="#232F3E">
+        <text x="300" y="260" fontFamily="Arial, sans-serif" fontSize="20" fontWeight="bold" textAnchor="middle" fill="#ffffff">
           AWS SQS
         </text>
         
         {/* SQS 2 - Increased size */}
-        <rect id="sqs2" x="525" y="210" width="150" height="90" rx="15" fill="url(#awsGradient)" stroke="#232F3E" strokeWidth="2" filter="url(#shadowEffect)">
+        <rect id="sqs2" x="525" y="210" width="150" height="90" rx="15" fill="url(#awsGradient)" stroke="#111827" strokeWidth="2" filter="url(#shadowEffect)">
           <animate attributeName="opacity" values="0.8;1;0.8" dur="2s" repeatCount="indefinite" begin="1s" />
         </rect>
-        <text x="600" y="260" fontFamily="Arial, sans-serif" fontSize="20" fontWeight="bold" textAnchor="middle" fill="#232F3E">
+        <text x="600" y="260" fontFamily="Arial, sans-serif" fontSize="20" fontWeight="bold" textAnchor="middle" fill="#ffffff">
           AWS SQS
         </text>
         
         {/* Lambda 1 - Increased size */}
-        <rect id="lambda1" x="225" y="330" width="150" height="90" rx="15" fill="url(#awsGradient)" stroke="#232F3E" strokeWidth="2" filter="url(#shadowEffect)">
+        <rect id="lambda1" x="225" y="330" width="150" height="90" rx="15" fill="url(#awsGradient)" stroke="#111827" strokeWidth="2" filter="url(#shadowEffect)">
           <animate attributeName="opacity" values="0.8;1;0.8" dur="2s" repeatCount="indefinite" begin="1.5s" />
         </rect>
-        <text x="300" y="380" fontFamily="Arial, sans-serif" fontSize="20" fontWeight="bold" textAnchor="middle" fill="#232F3E">
+        <text x="300" y="380" fontFamily="Arial, sans-serif" fontSize="20" fontWeight="bold" textAnchor="middle" fill="#ffffff">
           AWS Lambda
         </text>
         
         {/* Lambda 2 - Increased size */}
-        <rect id="lambda2" x="525" y="330" width="150" height="90" rx="15" fill="url(#awsGradient)" stroke="#232F3E" strokeWidth="2" filter="url(#shadowEffect)">
+        <rect id="lambda2" x="525" y="330" width="150" height="90" rx="15" fill="url(#awsGradient)" stroke="#111827" strokeWidth="2" filter="url(#shadowEffect)">
           <animate attributeName="opacity" values="0.8;1;0.8" dur="2s" repeatCount="indefinite" begin="1.5s" />
         </rect>
-        <text x="600" y="380" fontFamily="Arial, sans-serif" fontSize="20" fontWeight="bold" textAnchor="middle" fill="#232F3E">
+        <text x="600" y="380" fontFamily="Arial, sans-serif" fontSize="20" fontWeight="bold" textAnchor="middle" fill="#ffffff">
           AWS Lambda
         </text>
         
         {/* User Call - Moved to left edge */}
-        <rect id="usercall" x="50" y="430" width="170" height="60" rx="25" fill="url(#userGradient)" stroke="#232F3E" strokeWidth="2" filter="url(#shadowEffect)">
+        <rect id="usercall" x="50" y="430" width="170" height="60" rx="25" fill="url(#userGradient)" stroke="#111827" strokeWidth="2" filter="url(#shadowEffect)">
           <animate attributeName="opacity" values="0.8;1;0.8" dur="2s" repeatCount="indefinite" begin="2s" />
         </rect>
-        <text x="135" y="468" fontFamily="Arial, sans-serif" fontSize="20" fontWeight="bold" textAnchor="middle" fill="#232F3E">
+        <text x="135" y="468" fontFamily="Arial, sans-serif" fontSize="20" fontWeight="bold" textAnchor="middle" fill="#ffffff">
           User Call
         </text>
         
         {/* User Email - Moved to right edge */}
-        <rect id="useremail" x="680" y="430" width="170" height="60" rx="25" fill="url(#userGradient)" stroke="#232F3E" strokeWidth="2" filter="url(#shadowEffect)">
+        <rect id="useremail" x="680" y="430" width="170" height="60" rx="25" fill="url(#userGradient)" stroke="#111827" strokeWidth="2" filter="url(#shadowEffect)">
           <animate attributeName="opacity" values="0.8;1;0.8" dur="2s" repeatCount="indefinite" begin="2s" />
         </rect>
-        <text x="765" y="468" fontFamily="Arial, sans-serif" fontSize="20" fontWeight="bold" textAnchor="middle" fill="#232F3E">
+        <text x="765" y="468" fontFamily="Arial, sans-serif" fontSize="20" fontWeight="bold" textAnchor="middle" fill="#ffffff">
           User Email
         </text>
         
         {/* Enhanced connection paths with better visibility - Updated coordinates */}
         {/* Chalice to SNS */}
-        <path id="path1-1" d="M240,135 L390,135" stroke="#232F3E" strokeWidth="3" fill="none">
+        <path id="path1-1" d="M240,135 L390,135" stroke="#6b7280" strokeWidth="3" fill="none">
           <animate attributeName="stroke-dasharray" values="1,15;15,1;1,15" dur="2s" repeatCount="indefinite" />
         </path>
-        <polygon points="390,135 380,130 380,140" fill="#232F3E" />
+        <polygon points="390,135 380,130 380,140" fill="#6b7280" />
         
         {/* SNS to SQS 1 */}
-        <path id="path2-1" d="M450,170 Q450,195 325,220" stroke="#232F3E" strokeWidth="3" fill="none">
+        <path id="path2-1" d="M450,170 Q450,195 325,220" stroke="#6b7280" strokeWidth="3" fill="none">
           <animate attributeName="stroke-dasharray" values="1,15;15,1;1,15" dur="2s" repeatCount="indefinite" />
         </path>
-        <polygon points="325,220 335,215 335,225" fill="#232F3E" />
+        <polygon points="325,220 335,215 335,225" fill="#6b7280" />
         
         {/* SNS to SQS 2 */}
-        <path id="path2-2" d="M450,170 Q450,195 575,220" stroke="#232F3E" strokeWidth="3" fill="none">
+        <path id="path2-2" d="M450,170 Q450,195 575,220" stroke="#6b7280" strokeWidth="3" fill="none">
           <animate attributeName="stroke-dasharray" values="1,15;15,1;1,15" dur="2s" repeatCount="indefinite" />
         </path>
-        <polygon points="575,220 565,215 565,225" fill="#232F3E" />
+        <polygon points="575,220 565,215 565,225" fill="#6b7280" />
         
         {/* SQS 1 to Lambda 1 */}
-        <path id="path3-1" d="M300,290 L300,330" stroke="#232F3E" strokeWidth="3" fill="none">
+        <path id="path3-1" d="M300,290 L300,330" stroke="#6b7280" strokeWidth="3" fill="none">
           <animate attributeName="stroke-dasharray" values="1,15;15,1;1,15" dur="2s" repeatCount="indefinite" />
         </path>
-        <polygon points="300,340 295,330 305,330" fill="#232F3E" />
+        <polygon points="300,340 295,330 305,330" fill="#6b7280" />
         
         {/* SQS 2 to Lambda 2 */}
-        <path id="path3-2" d="M600,290 L600,330" stroke="#232F3E" strokeWidth="3" fill="none">
+        <path id="path3-2" d="M600,290 L600,330" stroke="#6b7280" strokeWidth="3" fill="none">
           <animate attributeName="stroke-dasharray" values="1,15;15,1;1,15" dur="2s" repeatCount="indefinite" />
         </path>
-        <polygon points="600,340 595,330 605,330" fill="#232F3E" />
+        <polygon points="600,340 595,330 605,330" fill="#6b7280" />
         
         {/* Lambda 1 to User Call - Updated path */}
-        <path id="path4-1" d="M300,410 Q300,425 135,440" stroke="#232F3E" strokeWidth="3" fill="none">
+        <path id="path4-1" d="M300,410 Q300,425 135,440" stroke="#6b7280" strokeWidth="3" fill="none">
           <animate attributeName="stroke-dasharray" values="1,15;15,1;1,15" dur="2s" repeatCount="indefinite" />
         </path>
-        <polygon points="135,440 145,435 145,445" fill="#232F3E" />
+        <polygon points="135,440 145,435 145,445" fill="#6b7280" />
         
         {/* Lambda 2 to User Email - Updated path */}
-        <path id="path4-2" d="M600,410 Q600,425 765,440" stroke="#232F3E" strokeWidth="3" fill="none">
+        <path id="path4-2" d="M600,410 Q600,425 765,440" stroke="#6b7280" strokeWidth="3" fill="none">
           <animate attributeName="stroke-dasharray" values="1,15;15,1;1,15" dur="2s" repeatCount="indefinite" />
         </path>
-        <polygon points="765,440 755,435 755,445" fill="#232F3E" />
+        <polygon points="765,440 755,435 755,445" fill="#6b7280" />
         
         {/* Enhanced moving circles along paths - Updated paths */}
         {/* Path 1 - AWS Chalice to SNS */}
-        <circle cx="0" cy="0" r="8" fill="#FF5722" filter="url(#glowEffect)">
+        <circle cx="0" cy="0" r="8" fill="#111827" filter="url(#glowEffect)">
           <animateMotion dur="2s" repeatCount="indefinite" rotate="auto" begin="0s">
             <mpath href="#path1-1" />
           </animateMotion>
@@ -176,7 +176,7 @@ const OpenNotifAnimation: React.FC<OpenNotifAnimationProps> = ({
         </circle>
         
         {/* Path 2-1 - SNS to SQS 1 */}
-        <circle cx="0" cy="0" r="8" fill="#FF5722" filter="url(#glowEffect)">
+        <circle cx="0" cy="0" r="8" fill="#111827" filter="url(#glowEffect)">
           <animateMotion dur="2s" repeatCount="indefinite" rotate="auto" begin="2s">
             <mpath href="#path2-1" />
           </animateMotion>
@@ -184,7 +184,7 @@ const OpenNotifAnimation: React.FC<OpenNotifAnimationProps> = ({
         </circle>
         
         {/* Path 2-2 - SNS to SQS 2 */}
-        <circle cx="0" cy="0" r="8" fill="#FF5722" filter="url(#glowEffect)">
+        <circle cx="0" cy="0" r="8" fill="#111827" filter="url(#glowEffect)">
           <animateMotion dur="2s" repeatCount="indefinite" rotate="auto" begin="2.5s">
             <mpath href="#path2-2" />
           </animateMotion>
@@ -192,7 +192,7 @@ const OpenNotifAnimation: React.FC<OpenNotifAnimationProps> = ({
         </circle>
         
         {/* Path 3-1 - SQS 1 to Lambda 1 */}
-        <circle cx="0" cy="0" r="8" fill="#FF5722" filter="url(#glowEffect)">
+        <circle cx="0" cy="0" r="8" fill="#111827" filter="url(#glowEffect)">
           <animateMotion dur="1.5s" repeatCount="indefinite" rotate="auto" begin="4s">
             <mpath href="#path3-1" />
           </animateMotion>
@@ -200,7 +200,7 @@ const OpenNotifAnimation: React.FC<OpenNotifAnimationProps> = ({
         </circle>
         
         {/* Path 3-2 - SQS 2 to Lambda 2 */}
-        <circle cx="0" cy="0" r="8" fill="#FF5722" filter="url(#glowEffect)">
+        <circle cx="0" cy="0" r="8" fill="#111827" filter="url(#glowEffect)">
           <animateMotion dur="1.5s" repeatCount="indefinite" rotate="auto" begin="4.5s">
             <mpath href="#path3-2" />
           </animateMotion>
@@ -208,7 +208,7 @@ const OpenNotifAnimation: React.FC<OpenNotifAnimationProps> = ({
         </circle>
         
         {/* Path 4-1 - Lambda 1 to User Call */}
-        <circle cx="0" cy="0" r="8" fill="#FF5722" filter="url(#glowEffect)">
+        <circle cx="0" cy="0" r="8" fill="#111827" filter="url(#glowEffect)">
           <animateMotion dur="1.5s" repeatCount="indefinite" rotate="auto" begin="5.5s">
             <mpath href="#path4-1" />
           </animateMotion>
@@ -216,7 +216,7 @@ const OpenNotifAnimation: React.FC<OpenNotifAnimationProps> = ({
         </circle>
         
         {/* Path 4-2 - Lambda 2 to User Email */}
-        <circle cx="0" cy="0" r="8" fill="#FF5722" filter="url(#glowEffect)">
+        <circle cx="0" cy="0" r="8" fill="#111827" filter="url(#glowEffect)">
           <animateMotion dur="1.5s" repeatCount="indefinite" rotate="auto" begin="6s">
             <mpath href="#path4-2" />
           </animateMotion>
@@ -226,7 +226,7 @@ const OpenNotifAnimation: React.FC<OpenNotifAnimationProps> = ({
         {/* Continuous flow animation showing complete path - Updated coordinates */}
         <g>
           {/* Path 1 - Complete flow through left side - Updated end point */}
-          <circle cx="0" cy="0" r="6" fill="#4CAF50" filter="url(#glowEffect)">
+          <circle cx="0" cy="0" r="6" fill="#4b5563" filter="url(#glowEffect)">
             <animate attributeName="opacity" values="1;0.7;1" dur="1s" repeatCount="indefinite" />
             <animateMotion 
               path="M180,135 L390,135 L450,135 Q450,195 325,220 L300,220 L300,330 Q300,425 135,440" 
@@ -240,7 +240,7 @@ const OpenNotifAnimation: React.FC<OpenNotifAnimationProps> = ({
           </circle>
           
           {/* Path 2 - Complete flow through right side - Updated end point */}
-          <circle cx="0" cy="0" r="6" fill="#4CAF50" filter="url(#glowEffect)">
+          <circle cx="0" cy="0" r="6" fill="#4b5563" filter="url(#glowEffect)">
             <animate attributeName="opacity" values="1;0.7;1" dur="1s" repeatCount="indefinite" begin="4s" />
             <animateMotion 
               path="M450,135 Q450,195 575,220 L600,220 L600,330 Q600,425 765,440" 
@@ -258,42 +258,42 @@ const OpenNotifAnimation: React.FC<OpenNotifAnimationProps> = ({
         {/* Additional visual enhancements - Updated for larger box sizes and positions */}
         <g>
           {/* Pulsing highlight on the active component */}
-          <rect id="highlight-chalice" x="98" y="88" width="154" height="94" rx="17" fill="none" stroke="#FF5722" strokeWidth="2">
+          <rect id="highlight-chalice" x="98" y="88" width="154" height="94" rx="17" fill="none" stroke="#111827" strokeWidth="2">
             <animate attributeName="opacity" values="0;1;0" dur="8s" repeatCount="indefinite" begin="0s" />
             <animate attributeName="stroke-width" values="2;4;2" dur="8s" repeatCount="indefinite" begin="0s" />
           </rect>
           
-          <rect id="highlight-sns" x="373" y="88" width="154" height="94" rx="17" fill="none" stroke="#FF5722" strokeWidth="2">
+          <rect id="highlight-sns" x="373" y="88" width="154" height="94" rx="17" fill="none" stroke="#111827" strokeWidth="2">
             <animate attributeName="opacity" values="0;1;0" dur="8s" repeatCount="indefinite" begin="1s" />
             <animate attributeName="stroke-width" values="2;4;2" dur="8s" repeatCount="indefinite" begin="1s" />
           </rect>
           
-          <rect id="highlight-sqs1" x="223" y="208" width="154" height="94" rx="17" fill="none" stroke="#FF5722" strokeWidth="2">
+          <rect id="highlight-sqs1" x="223" y="208" width="154" height="94" rx="17" fill="none" stroke="#111827" strokeWidth="2">
             <animate attributeName="opacity" values="0;1;0" dur="8s" repeatCount="indefinite" begin="2s" />
             <animate attributeName="stroke-width" values="2;4;2" dur="8s" repeatCount="indefinite" begin="2s" />
           </rect>
           
-          <rect id="highlight-sqs2" x="523" y="208" width="154" height="94" rx="17" fill="none" stroke="#FF5722" strokeWidth="2">
+          <rect id="highlight-sqs2" x="523" y="208" width="154" height="94" rx="17" fill="none" stroke="#111827" strokeWidth="2">
             <animate attributeName="opacity" values="0;1;0" dur="8s" repeatCount="indefinite" begin="2.5s" />
             <animate attributeName="stroke-width" values="2;4;2" dur="8s" repeatCount="indefinite" begin="2.5s" />
           </rect>
           
-          <rect id="highlight-lambda1" x="223" y="328" width="154" height="94" rx="17" fill="none" stroke="#FF5722" strokeWidth="2">
+          <rect id="highlight-lambda1" x="223" y="328" width="154" height="94" rx="17" fill="none" stroke="#111827" strokeWidth="2">
             <animate attributeName="opacity" values="0;1;0" dur="8s" repeatCount="indefinite" begin="3s" />
             <animate attributeName="stroke-width" values="2;4;2" dur="8s" repeatCount="indefinite" begin="3s" />
           </rect>
           
-          <rect id="highlight-lambda2" x="523" y="328" width="154" height="94" rx="17" fill="none" stroke="#FF5722" strokeWidth="2">
+          <rect id="highlight-lambda2" x="523" y="328" width="154" height="94" rx="17" fill="none" stroke="#111827" strokeWidth="2">
             <animate attributeName="opacity" values="0;1;0" dur="8s" repeatCount="indefinite" begin="3.5s" />
             <animate attributeName="stroke-width" values="2;4;2" dur="8s" repeatCount="indefinite" begin="3.5s" />
           </rect>
           
-          <rect id="highlight-usercall" x="48" y="428" width="174" height="64" rx="27" fill="none" stroke="#FF5722" strokeWidth="2">
+          <rect id="highlight-usercall" x="48" y="428" width="174" height="64" rx="27" fill="none" stroke="#111827" strokeWidth="2">
             <animate attributeName="opacity" values="0;1;0" dur="8s" repeatCount="indefinite" begin="4s" />
             <animate attributeName="stroke-width" values="2;4;2" dur="8s" repeatCount="indefinite" begin="4s" />
           </rect>
           
-          <rect id="highlight-useremail" x="678" y="428" width="174" height="64" rx="27" fill="none" stroke="#FF5722" strokeWidth="2">
+          <rect id="highlight-useremail" x="678" y="428" width="174" height="64" rx="27" fill="none" stroke="#111827" strokeWidth="2">
             <animate attributeName="opacity" values="0;1;0" dur="8s" repeatCount="indefinite" begin="4.5s" />
             <animate attributeName="stroke-width" values="2;4;2" dur="8s" repeatCount="indefinite" begin="4.5s" />
           </rect>
