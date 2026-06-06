@@ -3,7 +3,6 @@ import configJson from '../pages/index.json';
 export interface NavItem {
   title: string;
   url: string;
-  isDownload?: boolean;
 }
 
 export interface Skill {
