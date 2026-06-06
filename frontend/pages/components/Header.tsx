@@ -25,7 +25,6 @@ export default function Header() {
   const handleNavClick =
     (item: NavItem, closeMenu = false) =>
     (e: MouseEvent<HTMLAnchorElement>) => {
-      if (item.isDownload) return;
       e.preventDefault();
       navigateTo(item.url);
       if (closeMenu) setIsMenuOpen(false);
@@ -79,7 +78,6 @@ export default function Header() {
                   <a
                     key={item.title}
                     href={item.url}
-                    download={item.isDownload}
                     onClick={handleNavClick(item, true)}
                     className="text-gray-700 dark:text-gray-200 hover:text-black dark:hover:text-white transition-colors"
                   >
@@ -106,7 +104,6 @@ function NavLink({
     <div className="group relative">
       <a
         href={item.url}
-        download={item.isDownload}
         onClick={onClick}
         className="whitespace-nowrap font-medium text-gray-700 dark:text-gray-200 hover:text-black dark:hover:text-white transition-colors"
       >
