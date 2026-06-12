@@ -3,6 +3,15 @@
 @tailwind utilities;
 
 @layer base {
+  /* Anchor navigation must clear the 64px sticky header or section
+     headings land hidden underneath it. Honored by both scrollIntoView
+     and URL-hash navigation. 6rem rather than the header's 4rem because
+     SectionCard's whileInView entrance starts sections at y:24 — the
+     scroll computes against the pre-animation position on first reveal. */
+  html {
+    scroll-padding-top: 6rem;
+  }
+
   body {
     @apply bg-white dark:bg-gray-900 transition-colors duration-200;
     overscroll-behavior: none;

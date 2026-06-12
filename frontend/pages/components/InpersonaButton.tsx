@@ -87,7 +87,7 @@ const InpersonaButton: React.FC<InpersonaButtonProps> = ({
             </motion.div>
           </motion.div>
           
-          <span className="font-medium tracking-wide text-sm sm:text-base">Chat with InPersona</span>
+          <span className="font-medium tracking-wide text-sm sm:text-base">Chat with Inpersona</span>
           
           {/* Animated arrow */}
           <motion.div
