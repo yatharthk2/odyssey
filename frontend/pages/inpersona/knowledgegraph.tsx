@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Maximize2, Minimize2 } from 'lucide-react';
+import Seo from '../../components/Seo';
 
 export default function KnowledgeGraph() {
   const iframeRef = useRef<HTMLIFrameElement>(null);
@@ -29,6 +30,11 @@ export default function KnowledgeGraph() {
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-black">
+      <Seo
+        title="Knowledge Graph Explorer · Inpersona"
+        description="Explore the entity graph behind Inpersona — a knowledge graph extracted from Yatharth Kapadia's resume and project docs."
+        path="/inpersona/knowledgegraph"
+      />
       {/* Enhanced Navigation */}
       <nav className="backdrop-blur-sm bg-white/30 dark:bg-black/30 border-b border-gray-200/20 dark:border-gray-700/20 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">

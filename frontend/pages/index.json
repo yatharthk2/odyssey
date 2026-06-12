@@ -41,19 +41,19 @@
         "icon": "🔧",
         "items": [
           { "name": "PyTorch" },
-          { "name": "Tensorflow" },
+          { "name": "TensorFlow" },
           { "name": "Django" },
-          { "name": "NodeJS" },
+          { "name": "Node.js" },
           { "name": "Express" },
-          { "name": "ReactJS" },
+          { "name": "React" },
           { "name": "Next.js" },
-          { "name": "TailWind CSS" },
-          { "name": "Fastapi" },
+          { "name": "Tailwind CSS" },
+          { "name": "FastAPI" },
           { "name": "Docker" },
           { "name": "Kubernetes (EKS)" },
           { "name": "AWS" },
           { "name": "Kafka" },
-          { "name": "GIT" },
+          { "name": "Git" },
           { "name": "GraphQL" },
           { "name": "Databricks" },
           { "name": "Spark" },
@@ -191,7 +191,7 @@
       },
       {
         "title": "Inpersona",
-        "description": "AI-powered avatar, to inpersonate as if you are talking to me in person.",
+        "description": "A RAG chatbot that answers as me. Built on FastAPI and LlamaIndex with knowledge-graph and HyDE retrieval modes, streaming live on this site over WebSockets.",
         "url": "/loading",
         "github": "https://github.com/yatharthk2/odyssey",
         "image": "/Projects/inpersona_img.png"
@@ -230,7 +230,7 @@
     "items": [
       {
         "name": "Yogesh Shinde",
-        "role": "Sr. Project Manager, Tools and Automation",
+        "role": "Sr. Project Manager",
         "company": "IDeaS Revenue Solutions",
         "content": "I am pleased to recommend Yatharth Kapadia for his contributions during his time at IDeaS. He distinguished himself not only through his technical expertise but also through his collaborative approach to teamwork. Yatharth consistently demonstrated thoughtfulness, a willingness to assist others, and a commitment to delivering high-quality work. He is the type of individual who makes a meaningful impact, and I am confident he will bring the same dedication and professionalism to his future endeavors.",
         "imageUrl": "/Testimonial/yogi.jpeg",
@@ -255,7 +255,7 @@
     ]
   },
   "contact": {
-    "title": "Get In Touch",
+    "title": "Get in Touch",
     "description": "Have a project in mind or want to discuss potential opportunities? I'd love to hear from you!",
     "ctaLabel": "Get in Touch",
     "formId": "xkgovpaz"
@@ -271,7 +271,7 @@
     "emptyStatePrompt": "How can I help you today?",
     "inputPlaceholder": "Ask me anything...",
     "readyButton": "Ready when you are",
-    "footerCredit": "InPersona AI · Designed by Yatharth Kapadia",
+    "footerCredit": "Inpersona · Designed by Yatharth Kapadia",
     "avatar": "/Newyork_Dumbo_300x300.jpg",
     "websocketPath": "/chat",
     "websocketPort": 8000,
@@ -295,7 +295,7 @@
         "description": "More accurate but less detailed results."
       },
       "hyde": {
-        "label": "Use Hyde Query",
+        "label": "Use HyDE Query",
         "shortLabel": "Use HyDE",
         "tooltip": "Friendly, Detailed, Prone to Hallucination",
         "description": "Friendly and detailed results, but may occasionally provide inaccurate information."

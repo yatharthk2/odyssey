@@ -1,6 +1,8 @@
 import { useState } from 'react';
+import Head from 'next/head';
 import { motion } from 'framer-motion';
 import Layout from '../components/Layout';
+import Seo, { SITE_URL } from '../components/Seo';
 import SectionCard from '../components/primitives/SectionCard';
 import GradientHeading from '../components/primitives/GradientHeading';
 import Hero from './components/Hero';
@@ -12,12 +14,33 @@ import Testimonials from './components/Testimonials';
 import ContactModal from './components/ContactModal';
 import config from '../types/config';
 
+const personJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: config.site.name,
+  url: SITE_URL,
+  jobTitle: 'AI/ML Engineer',
+  worksFor: { '@type': 'Organization', name: 'Moss' },
+  sameAs: [config.footer.github, config.footer.linkedin, config.footer.twitter],
+};
+
 export default function Home() {
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
   const { contact } = config;
 
   return (
     <Layout>
+      <Seo
+        title="Yatharth Kapadia · AI/ML Engineer"
+        description="Portfolio of Yatharth Kapadia, founding engineer at Moss. Production LLM and RAG systems — and Inpersona, a self-hosted AI chatbot that answers questions as him."
+      />
+      <Head>
+        <script
+          type="application/ld+json"
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+        />
+      </Head>
       <Hero />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

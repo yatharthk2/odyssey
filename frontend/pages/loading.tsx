@@ -1,5 +1,16 @@
+import Seo from '../components/Seo';
 import InpersonaLoading from './components/InpersonaLoading';
 
 export default function LoadingPage() {
-  return <InpersonaLoading />;
+  return (
+    <>
+      <Seo
+        title="Inpersona · Yatharth Kapadia"
+        description="Inpersona is warming up — a RAG chatbot that answers as Yatharth Kapadia."
+        path="/loading"
+        noindex
+      />
+      <InpersonaLoading />
+    </>
+  );
 }

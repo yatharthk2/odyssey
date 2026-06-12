@@ -21,6 +21,9 @@ interface ChatQuery {
 }
 
 const RECONNECT_DELAY_MS = 3000;
+// If the stream goes silent this long (no chunk/complete/error), assume the
+// backend died mid-response and unstick the UI instead of bouncing forever.
+const RESPONSE_TIMEOUT_MS = 45000;
 
 export default function InpersonaChat() {
   const [draftMessage, setDraftMessage] = useState('');
@@ -32,6 +35,7 @@ export default function InpersonaChat() {
   const [showInfo, setShowInfo] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const wsRef = useRef<WebSocket | null>(null);
+  const watchdogRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const { inpersona } = config;
   const { knowledgeGraph: kgToggle, hyde: hydeToggle } = inpersona.toggles;
@@ -40,20 +44,34 @@ export default function InpersonaChat() {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-  // Lock the visual viewport so the iOS keyboard doesn't trigger reflow that
-  // jumps the chat. Restore the default viewport on unmount so the rest of the
-  // site stays responsive.
-  useEffect(() => {
-    const meta = document.querySelector('meta[name=viewport]');
-    const original = meta?.getAttribute('content');
-    meta?.setAttribute(
-      'content',
-      `height=${window.innerHeight}px, width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0`
-    );
-    return () => {
-      meta?.setAttribute('content', original ?? 'width=device-width, initial-scale=1.0');
-    };
-  }, []);
+  const clearResponseWatchdog = () => {
+    if (watchdogRef.current) {
+      clearTimeout(watchdogRef.current);
+      watchdogRef.current = null;
+    }
+  };
+
+  // Unstick the chat when a response can't finish (socket drop, silent
+  // backend): stop the loading state and finalize the trailing bubble with a
+  // notice so the user knows to ask again. No-op if nothing is pending.
+  const failPendingResponse = (notice: string) => {
+    clearResponseWatchdog();
+    setIsLoading(false);
+    setMessages((prev) => {
+      const last = prev[prev.length - 1];
+      if (!last || last.isUser || last.complete) return prev;
+      const html = `<p><em>${notice}</em></p>`;
+      const content = last.content ? `${last.content}${html}` : html;
+      return [...prev.slice(0, -1), { content, isUser: false, complete: true }];
+    });
+  };
+
+  const startResponseWatchdog = () => {
+    clearResponseWatchdog();
+    watchdogRef.current = setTimeout(() => {
+      failPendingResponse('The response timed out. Please ask again.');
+    }, RESPONSE_TIMEOUT_MS);
+  };
 
   // Declared before the connect effect so the assignment to ws.onmessage
   // sees a defined function (avoids TDZ + closure issues across HMR reloads).
@@ -68,6 +86,7 @@ export default function InpersonaChat() {
     }
 
     if (data.error) {
+      clearResponseWatchdog();
       setIsLoading(false);
       setMessages((prev) => {
         const withoutLoading = prev.slice(0, -1);
@@ -80,6 +99,8 @@ export default function InpersonaChat() {
     }
 
     if (data.type === 'chunk') {
+      // Each chunk proves the stream is alive — push the deadline out.
+      startResponseWatchdog();
       setMessages((prev) => {
         const next = [...prev];
         const last = next[next.length - 1];
@@ -97,6 +118,7 @@ export default function InpersonaChat() {
         return next;
       });
     } else if (data.type === 'complete') {
+      clearResponseWatchdog();
       setIsLoading(false);
       setMessages((prev) => {
         const next = [...prev];
@@ -149,6 +171,9 @@ export default function InpersonaChat() {
         if (wsRef.current !== ws) return;
         setIsConnected(false);
         wsRef.current = null;
+        // A drop mid-response would otherwise leave isLoading stuck true and
+        // the typing bubble bouncing forever, blocking all future sends.
+        failPendingResponse('Connection dropped while answering. Please ask again.');
         if (!cancelled) {
           reconnectTimer = setTimeout(connect, RECONNECT_DELAY_MS);
         }
@@ -165,29 +190,32 @@ export default function InpersonaChat() {
     return () => {
       cancelled = true;
       if (reconnectTimer) clearTimeout(reconnectTimer);
+      clearResponseWatchdog();
       wsRef.current?.close();
       wsRef.current = null;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const sendQuestion = (question: string) => {
+  // Returns true only if the question actually went out on the wire, so
+  // callers know whether it's safe to clear the user's draft.
+  const sendQuestion = (question: string): boolean => {
     const ws = wsRef.current;
-    if (!question.trim()) return;
+    if (!question.trim()) return false;
     if (!ws) {
       // eslint-disable-next-line no-console
       console.warn('Inpersona: send blocked, no WebSocket');
-      return;
+      return false;
     }
     if (ws.readyState !== WebSocket.OPEN) {
       // eslint-disable-next-line no-console
       console.warn('Inpersona: send blocked, readyState =', ws.readyState);
-      return;
+      return false;
     }
     if (isLoading) {
       // eslint-disable-next-line no-console
       console.warn('Inpersona: send blocked, still loading previous response');
-      return;
+      return false;
     }
 
     const userMessage: Message = { content: question, isUser: true, complete: true };
@@ -203,12 +231,17 @@ export default function InpersonaChat() {
     // eslint-disable-next-line no-console
     console.info('Inpersona: sending', query);
     ws.send(JSON.stringify(query));
+    startResponseWatchdog();
+    return true;
   };
 
   const submitDraft = () => {
     if (!draftMessage.trim()) return;
-    sendQuestion(draftMessage);
-    setDraftMessage('');
+    // Keep the draft if the send was blocked (disconnected, mid-stream) —
+    // silently discarding typed input is the worst chat failure mode.
+    if (sendQuestion(draftMessage)) {
+      setDraftMessage('');
+    }
   };
 
   const handleInputKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -263,7 +296,7 @@ export default function InpersonaChat() {
       </div>
 
       {/* Input + toggles */}
-      <div className="fixed bottom-0 left-0 w-full bg-gradient-to-t from-white dark:from-gray-900 to-transparent pt-6 pb-4">
+      <div className="fixed bottom-0 left-0 w-full bg-gradient-to-t from-white dark:from-gray-900 to-transparent pt-6 pb-[calc(1rem+env(safe-area-inset-bottom))]">
         <div className="mx-auto max-w-3xl px-2 sm:px-4">
           <div className="flex flex-col gap-2">
             <div className="flex flex-wrap items-center justify-end gap-2 px-2 mb-2">
@@ -376,7 +409,7 @@ function EmptyState({
 }) {
   const { inpersona } = config;
   return (
-    <div className="flex min-h-[calc(100vh-240px)] flex-col items-center justify-center space-y-4 sm:space-y-6 px-4 mt-2 sm:mt-4">
+    <div className="flex min-h-[calc(100dvh-240px)] flex-col items-center justify-center space-y-4 sm:space-y-6 px-4 mt-2 sm:mt-4">
       <div className="h-24 w-24 sm:h-32 sm:w-32 animate-float rounded-full bg-gradient-to-br from-gray-700 to-gray-900 dark:from-gray-300 dark:to-white p-1 shadow-lg">
         <img
           src={inpersona.avatar}

@@ -19,8 +19,6 @@ function TestimonialCard({
 }: TestimonialItem & { truncationLength: number }) {
   const [isExpanded, setIsExpanded] = useState(false);
   const shouldTruncate = content.length > truncationLength;
-  const visibleContent =
-    shouldTruncate && !isExpanded ? `${content.substring(0, truncationLength)}…` : content;
 
   return (
     <motion.div
@@ -31,14 +29,22 @@ function TestimonialCard({
       className="relative mx-4 flex h-full flex-col rounded-xl border border-gray-100/40 dark:border-gray-700/40 bg-gradient-to-br from-white/95 to-white/90 dark:from-gray-800/95 dark:to-gray-800/90 backdrop-blur-sm p-8 shadow-xl"
     >
       <div className="mb-6 flex-grow">
-        <p className="text-lg leading-relaxed text-gray-700 dark:text-gray-200 first-letter:mr-1 first-letter:font-serif first-letter:text-3xl">
-          “{visibleContent}”
+        {/* line-clamp (not character truncation) so every collapsed card shows
+            exactly five lines — keeps Read more and the divider aligned across
+            cards regardless of where words happen to wrap. */}
+        <p
+          className={`text-lg leading-relaxed text-gray-700 dark:text-gray-200 first-letter:mr-1 first-letter:font-serif first-letter:text-3xl ${
+            shouldTruncate && !isExpanded ? 'line-clamp-5' : ''
+          }`}
+        >
+          “{content}”
         </p>
         {shouldTruncate && (
           <button
             type="button"
             onClick={() => setIsExpanded((v) => !v)}
-            className="mt-2 rounded px-2 py-0.5 text-sm font-medium text-gray-900 dark:text-gray-100 hover:underline focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800"
+            aria-expanded={isExpanded}
+            className="mt-2 -ml-2 rounded px-2 py-0.5 text-sm font-medium text-gray-900 dark:text-gray-100 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-gray-800"
           >
             {isExpanded ? 'Read less' : 'Read more'}
           </button>
@@ -70,7 +76,9 @@ function TestimonialCard({
               </a>
             )}
           </div>
-          <p className="text-sm text-gray-600 dark:text-gray-400">
+          {/* Fixed two-line meta block so the divider sits at the same height
+              on every card whether the role wraps to one line or two. */}
+          <p className="min-h-[2.5rem] text-sm text-gray-600 dark:text-gray-400 line-clamp-2">
             {role}
             {company && `, ${company}`}
           </p>
@@ -106,6 +114,13 @@ export default function Testimonials() {
   const currentPage = Math.floor(currentIndex / displayCount);
   const visibleTestimonials = items.slice(currentIndex, currentIndex + displayCount);
   const canPaginate = items.length > displayCount;
+
+  // A page index from one breakpoint can be out of range at another (e.g.
+  // rotation advanced to index 2 while mobile showed 1 card, then the window
+  // widens to show 3) — without a reset the slice strands a partial group.
+  useEffect(() => {
+    setCurrentIndex(0);
+  }, [displayCount]);
 
   useEffect(() => {
     if (!autoRotate || !canPaginate) return undefined;
