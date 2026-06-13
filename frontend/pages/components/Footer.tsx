@@ -35,7 +35,7 @@ export default function Footer() {
           ))}
         </div>
         <p className="text-sm text-gray-500 dark:text-gray-400">
-          © {year} — Developed by{' '}
+          © {year} · Developed by{' '}
           <a
             href={config.site.developerUrl}
             target="_blank"

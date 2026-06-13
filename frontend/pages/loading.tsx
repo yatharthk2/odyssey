@@ -6,7 +6,7 @@ export default function LoadingPage() {
     <>
       <Seo
         title="Inpersona · Yatharth Kapadia"
-        description="Inpersona is warming up — a RAG chatbot that answers as Yatharth Kapadia."
+        description="Inpersona is warming up. A RAG chatbot that answers as Yatharth Kapadia."
         path="/loading"
         noindex
       />

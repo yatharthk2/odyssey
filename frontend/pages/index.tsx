@@ -31,7 +31,7 @@ export default function Home() {
     <Layout>
       <Seo
         title="Yatharth Kapadia · AI/ML Engineer"
-        description="Portfolio of Yatharth Kapadia, AI/ML engineer in San Francisco. Production LLM and RAG systems — and Inpersona, a self-hosted AI chatbot that answers questions as him."
+        description="Portfolio of Yatharth Kapadia, AI/ML engineer in San Francisco. Production LLM and RAG systems, plus Inpersona, a self-hosted AI chatbot that answers questions as him."
       />
       <Head>
         <script

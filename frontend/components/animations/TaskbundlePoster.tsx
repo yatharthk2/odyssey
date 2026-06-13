@@ -51,7 +51,7 @@ export default function TaskbundlePoster() {
       <circle cx="132" cy="103" r="7" fill="#febc2e" />
       <circle cx="156" cy="103" r="7" fill="#28c840" />
       <text x="480" y="109" textAnchor="middle" fontSize="20" fill="#8b8bb0">
-        taskbundle — task run
+        taskbundle · task run
       </text>
 
       {/* Session */}
