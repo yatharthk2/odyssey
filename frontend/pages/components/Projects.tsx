@@ -3,10 +3,12 @@ import { ExternalLink, Github } from 'lucide-react';
 import SectionCard from '../../components/primitives/SectionCard';
 import SectionHeading from '../../components/primitives/SectionHeading';
 import OpenNotifAnimation from '../../components/animations/OpenNotifAnimation';
+import TaskbundlePoster from '../../components/animations/TaskbundlePoster';
 import config from '../../types/config';
 
 const mediaComponents = {
   openNotifAnimation: OpenNotifAnimation,
+  taskbundlePoster: TaskbundlePoster,
 } as const;
 
 export default function Projects() {

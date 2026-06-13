@@ -305,6 +305,12 @@
         "image": "/Projects/inpersona_img.png"
       },
       {
+        "title": "Taskbundle",
+        "description": "An evaluation environment for coding agents: SWE-bench-style tasks solved blind, graded against hidden tests — tamper-proof scoring that pinpoints every fix and every regression.",
+        "github": "https://github.com/yatharthk2/taskbundle",
+        "media": "taskbundlePoster"
+      },
+      {
         "title": "Sprechen",
         "description": "Transformer-based machine translation implemented from scratch in PyTorch: English to Hindi and German to English.",
         "github": "https://github.com/yatharthk2/SPRECHEN",
