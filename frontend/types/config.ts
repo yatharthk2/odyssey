@@ -32,6 +32,8 @@ export interface ExperienceItem {
   location: string;
   image: string;
   iconOnly?: boolean;
+  /** One short sentence (~2 rendered lines) summarizing the role's impact. */
+  description?: string;
 }
 
 export interface AchievementItem {
@@ -125,6 +127,7 @@ export interface Config {
     linkedin: string;
     twitter: string;
     github: string;
+    email: string;
   };
   inpersona: {
     homeLink: string;

@@ -4,10 +4,26 @@
     "developerUrl": "https://github.com/yatharthk2"
   },
   "navigation": [
-    { "title": "About", "url": "#about" },
-    { "title": "Projects", "url": "#projects" },
-    { "title": "Contact", "url": "#contact" },
-    { "title": "Inpersona", "url": "/inpersona" }
+    {
+      "title": "About",
+      "url": "#about"
+    },
+    {
+      "title": "Experience",
+      "url": "#experience"
+    },
+    {
+      "title": "Projects",
+      "url": "#projects"
+    },
+    {
+      "title": "Contact",
+      "url": "#contact"
+    },
+    {
+      "title": "Inpersona",
+      "url": "/inpersona"
+    }
   ],
   "hero": {
     "name": "I am Yatharth",
@@ -17,8 +33,8 @@
   },
   "about": {
     "title": "About Me",
-    "primary": "I'm a passionate software engineer and machine learning enthusiast, focused on building intelligent systems that solve real-world problems.",
-    "secondary": "With a background in computer science and years of industry experience, I blend technical expertise with creative problem-solving to deliver innovative solutions.",
+    "primary": "I'm a software engineer in San Francisco building production AI systems: hybrid search in Rust, RAG pipelines, and real-time voice agents. I care most about the gap between an ML demo and a system people rely on: retrieval quality, latency, and cost.",
+    "secondary": "Before this: an MS in Computer Science from Indiana University Bloomington, LLM-security research at Kelley's DSAIL lab, and engineering stints across AI startups. The chatbot on this site, Inpersona, is my own RAG stack, self-hosted end to end on a $5/month server.",
     "image": "/Newyork_Dumbo_300x300.jpg"
   },
   "skills": {
@@ -29,61 +45,135 @@
         "title": "Languages",
         "icon": "💻",
         "items": [
-          { "name": "Rust" },
-          { "name": "Python" },
-          { "name": "C++" },
-          { "name": "Go" },
-          { "name": "TypeScript" },
-          { "name": "JavaScript" },
-          { "name": "SQL" }
+          {
+            "name": "Rust"
+          },
+          {
+            "name": "Python"
+          },
+          {
+            "name": "C++"
+          },
+          {
+            "name": "Go"
+          },
+          {
+            "name": "TypeScript"
+          },
+          {
+            "name": "JavaScript"
+          },
+          {
+            "name": "SQL"
+          }
         ]
       },
       "technologies": {
         "title": "Technologies",
         "icon": "🔧",
         "items": [
-          { "name": "PyTorch" },
-          { "name": "TensorFlow" },
-          { "name": "Django" },
-          { "name": "Node.js" },
-          { "name": "Express" },
-          { "name": "React" },
-          { "name": "Next.js" },
-          { "name": "Tailwind CSS" },
-          { "name": "FastAPI" },
-          { "name": "Docker" },
-          { "name": "Kubernetes (EKS)" },
-          { "name": "AWS" },
-          { "name": "Kafka" },
-          { "name": "Git" },
-          { "name": "GraphQL" },
-          { "name": "Databricks" },
-          { "name": "Spark" },
-          { "name": "Airflow" },
-          { "name": "GitHub Actions" }
+          {
+            "name": "PyTorch"
+          },
+          {
+            "name": "TensorFlow"
+          },
+          {
+            "name": "Django"
+          },
+          {
+            "name": "Node.js"
+          },
+          {
+            "name": "Express"
+          },
+          {
+            "name": "React"
+          },
+          {
+            "name": "Next.js"
+          },
+          {
+            "name": "Tailwind CSS"
+          },
+          {
+            "name": "FastAPI"
+          },
+          {
+            "name": "Docker"
+          },
+          {
+            "name": "Kubernetes (EKS)"
+          },
+          {
+            "name": "AWS"
+          },
+          {
+            "name": "Kafka"
+          },
+          {
+            "name": "Git"
+          },
+          {
+            "name": "GraphQL"
+          },
+          {
+            "name": "Databricks"
+          },
+          {
+            "name": "Spark"
+          },
+          {
+            "name": "Airflow"
+          },
+          {
+            "name": "GitHub Actions"
+          }
         ]
       },
       "databases": {
         "title": "Databases",
         "icon": "🗄️",
         "items": [
-          { "name": "MongoDB" },
-          { "name": "Neo4j" },
-          { "name": "DynamoDB" },
-          { "name": "Redis" }
+          {
+            "name": "MongoDB"
+          },
+          {
+            "name": "Neo4j"
+          },
+          {
+            "name": "DynamoDB"
+          },
+          {
+            "name": "Redis"
+          }
         ]
       },
       "coreCompetencies": {
         "title": "Core Competencies",
         "icon": "🚀",
         "items": [
-          { "name": "Hybrid Search & Vector DBs" },
-          { "name": "LLM Engineering" },
-          { "name": "Real-Time Systems" },
-          { "name": "ML Model Finetuning" },
-          { "name": "AI Integration in Web Apps" },
-          { "name": "AWS Cost Optimization" },
-          { "name": "CI/CD" }
+          {
+            "name": "Hybrid Search & Vector DBs"
+          },
+          {
+            "name": "LLM Engineering"
+          },
+          {
+            "name": "Real-Time Systems"
+          },
+          {
+            "name": "ML Model Finetuning"
+          },
+          {
+            "name": "AI Integration in Web Apps"
+          },
+          {
+            "name": "AWS Cost Optimization"
+          },
+          {
+            "name": "CI/CD"
+          }
         ]
       }
     }
@@ -95,50 +185,66 @@
         "title": "Founding Engineer (Core Team)",
         "company": "Moss",
         "companyUrl": "https://www.usemoss.dev/",
-        "period": "10/2025 – Present",
+        "period": "Oct 2025 – Present",
         "location": "San Francisco, CA",
         "image": "/companyLogo/Moss.png",
+        "description": "First core-team hire: built the Rust hybrid search engine (BM25 + semantic), shipped at 4ms P99 and now behind 300k+ SDK downloads.",
+        "iconOnly": true
+      },
+      {
+        "title": "Software Developer",
+        "company": "Haldune",
+        "companyUrl": "https://www.haldune.com/",
+        "period": "Jun 2025 – Oct 2025",
+        "location": "Chicago, IL",
+        "image": "/companyLogo/Haldune.png",
+        "description": "Cut agentic research-report generation from 10 minutes to under 3 with a parallel multi-agent workflow on Azure AI Foundry.",
         "iconOnly": true
       },
       {
         "title": "Research Assistant",
         "company": "DSAIL, Kelley School of Business",
         "companyUrl": "https://dsail.kelley.iu.edu/",
-        "period": "03/2024 – 12/2024",
+        "period": "Mar 2024 – Dec 2024",
         "location": "Bloomington, IN",
-        "image": "/companyLogo/DSAIL.jpg"
+        "image": "/companyLogo/DSAIL.jpg",
+        "description": "Red-teamed LLMs with Garak, Counterfit, and Purple Llama; NeMo guardrails cut attack success rate by 60%."
       },
       {
         "title": "Software Engineer Intern",
         "company": "Outspeed",
         "companyUrl": "https://www.outspeed.com/",
-        "period": "06/2024 – 08/2024",
+        "period": "Jun 2024 – Aug 2024",
         "location": "San Francisco, CA",
-        "image": "/companyLogo/Outspeed_2.png"
+        "image": "/companyLogo/Outspeed_2.png",
+        "description": "Built a GPU speech-to-speech stack (Whisper, Llama 3.1, Parler TTS) on AWS EKS at p95 800ms; self-hosted vLLM cut inference costs ~30%."
       },
       {
         "title": "Software Developer Intern",
         "company": "IDeaS",
         "companyUrl": "https://ideas.com/",
-        "period": "07/2022 – 01/2023",
+        "period": "Jul 2022 – Jan 2023",
         "location": "Pune, India",
-        "image": "/companyLogo/Ideas_final.png"
+        "image": "/companyLogo/Ideas_final.png",
+        "description": "Built an analytics platform for five multi-billion-dollar hospitality clients, replacing Excel macros and saving 100+ engineering hours a month."
       },
       {
         "title": "Software Engineer Intern",
         "company": "Quidich Innovation Labs",
         "companyUrl": "https://www.quidich.com/",
-        "period": "05/2022 – 06/2022",
+        "period": "May 2022 – Jun 2022",
         "location": "Mumbai, India",
-        "image": "/companyLogo/Quidich.png"
+        "image": "/companyLogo/Quidich.png",
+        "description": "Pose-estimation algorithm predicting bowler release points at 97% accuracy, powering live broadcast analytics on Sony Liv."
       },
       {
         "title": "Software Developer Intern",
         "company": "Azodha",
         "companyUrl": "https://www.azodha.com/",
-        "period": "09/2021 – 04/2022",
-        "location": "New York",
-        "image": "/companyLogo/Azodha.png"
+        "period": "Sep 2021 – Apr 2022",
+        "location": "New York, NY",
+        "image": "/companyLogo/Azodha.png",
+        "description": "Led Open-Notif: event-driven notifications on AWS with sub-3-second delivery and 99% production uptime."
       }
     ]
   },
@@ -154,29 +260,29 @@
       },
       {
         "title": "Graduate Teaching Assistant, Indiana University",
-        "date": "August 2024",
+        "date": "Aug 2024",
         "description": "Selected as a Graduate Teaching Assistant for Elements of AI (with Prof. David Leake) and Machine Learning in Signal Processing (with Prof. Jonathan Ponniah), supporting graduate students with lectures, assignments, and project mentorship.",
         "companyIcon": "kelley",
         "link": ""
       },
       {
         "title": "SIH 2022 Grand Finale Winner",
-        "date": "August 2022",
+        "date": "Aug 2022",
         "description": "Led the creation of a no-code chatbot-building platform at the SIH hackathon, competing among thousands of teams. Enhanced chatbot narrative understanding with AWS ECS, implemented Amazon S3 for conversational storage.",
         "companyIcon": "dell",
         "link": "https://sih.gov.in/sih-2022-senior-final-result"
       },
       {
         "title": "4th Rank in India Academia Connect AI Hackathon",
-        "date": "October 2021",
+        "date": "Oct 2021",
         "description": "Created AI solutions for COVID-19 distancing, using YOLO for crowd monitoring and heat maps for sanitation planning.",
         "companyIcon": "nvidia",
         "link": ""
       },
       {
         "title": "87th Rank in Amazon ML Challenge",
-        "date": "August 2021",
-        "description": "Ranked 87th among 10,000+ in Amazon's ML Challenge by building a product categorization model using TF-IDF.",
+        "date": "Aug 2021",
+        "description": "Ranked 87th of 3,300 teams in Amazon's ML Challenge with a TF-IDF product-categorization model.",
         "companyIcon": "amazon",
         "link": "https://www.hackerearth.com/challenges/competitive/amazon-ml-challenge/leaderboard/page/2/"
       }
@@ -187,7 +293,7 @@
     "items": [
       {
         "title": "Image Inpainting",
-        "description": "Harnessing segmentation-aware partial convolutions for ultra-precise image reconstruction.",
+        "description": "Reconstructs masked facial regions with partial convolutions in PyTorch, trained on 50,000 CelebA images with random-walk-generated masks to prevent overfitting.",
         "github": "https://github.com/yatharthk2/FaceInpainting",
         "image": "/Projects/Inpainting_img.png"
       },
@@ -200,25 +306,25 @@
       },
       {
         "title": "Sprechen",
-        "description": "Implementing Transformer-based architecture to convert text between languages with precision.",
+        "description": "Transformer-based machine translation implemented from scratch in PyTorch: English to Hindi and German to English.",
         "github": "https://github.com/yatharthk2/SPRECHEN",
         "image": "/Projects/Sprechen.png"
       },
       {
         "title": "Highway Agent",
-        "description": "Developed a reinforcement learning agent for autonomous highway navigation using actor-critic architecture and policy gradient framework.",
+        "description": "A reinforcement learning agent for autonomous highway navigation, trained with an actor-critic policy-gradient setup.",
         "github": "https://github.com/yatharthk2/autopilot",
         "image": "/Projects/dqn_.gif"
       },
       {
         "title": "PixTOPix",
-        "description": "Engineered a Conditional GANs framework achieving 87% accuracy in satellite-to-map image translation with 100K Google Maps dataset.",
+        "description": "A conditional GAN that translates satellite imagery into map tiles, trained on a 100K-image Google Maps dataset.",
         "github": "https://github.com/yatharthk2/PixToPix",
         "image": "/Projects/PixtoPix.png"
       },
       {
         "title": "Open-Notif",
-        "description": "CLI for user-company connectivity with AWS (Lambda, SNS, SQS), MongoDB and Twilio. Achieved sub-3-second notification delivery using AWS Chalice for Infrastructure as Code.",
+        "description": "Event-driven notification CLI on AWS (Lambda, SNS, SQS) with PostgreSQL, Twilio, and Mailchimp. Sub-3-second delivery, with infrastructure managed as code via AWS Chalice.",
         "github": "https://github.com/yatharthk2/notifications",
         "media": "openNotifAnimation"
       }
@@ -263,6 +369,7 @@
     "formId": "xkgovpaz"
   },
   "footer": {
+    "email": "yatharth.k2@outlook.com",
     "linkedin": "https://www.linkedin.com/in/yatharthkapadia/",
     "twitter": "https://x.com/yatharthk2",
     "github": "https://github.com/yatharthk2"
@@ -278,10 +385,26 @@
     "websocketPath": "/chat",
     "websocketPort": 8000,
     "features": [
-      { "icon": "MessageSquare", "title": "Real-time Streaming", "description": "Lightning-fast responses" },
-      { "icon": "Brain", "title": "Smart Context", "description": "Remembers conversations" },
-      { "icon": "Sparkles", "title": "Knowledge Graph", "description": "Enhanced understanding" },
-      { "icon": "Zap", "title": "Query Processing", "description": "Intelligent transformations" }
+      {
+        "icon": "MessageSquare",
+        "title": "Real-time Streaming",
+        "description": "Lightning-fast responses"
+      },
+      {
+        "icon": "Brain",
+        "title": "Smart Context",
+        "description": "Remembers conversations"
+      },
+      {
+        "icon": "Sparkles",
+        "title": "Knowledge Graph",
+        "description": "Enhanced understanding"
+      },
+      {
+        "icon": "Zap",
+        "title": "Query Processing",
+        "description": "Intelligent transformations"
+      }
     ],
     "suggestions": [
       "Tell me about your background",
