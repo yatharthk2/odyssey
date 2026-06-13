@@ -32,7 +32,7 @@ export default function KnowledgeGraph() {
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-black">
       <Seo
         title="Knowledge Graph Explorer · Inpersona"
-        description="Explore the entity graph behind Inpersona — a knowledge graph extracted from Yatharth Kapadia's resume and project docs."
+        description="Explore the entity graph behind Inpersona: a knowledge graph extracted from Yatharth Kapadia's resume and project docs."
         path="/inpersona/knowledgegraph"
       />
       {/* Enhanced Navigation */}

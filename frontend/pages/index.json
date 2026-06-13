@@ -306,7 +306,7 @@
       },
       {
         "title": "Taskbundle",
-        "description": "An evaluation environment for coding agents: SWE-bench-style tasks solved blind, graded against hidden tests — tamper-proof scoring that pinpoints every fix and every regression.",
+        "description": "An evaluation environment for coding agents: SWE-bench-style tasks solved blind and graded against hidden tests. Tamper-proof scoring that pinpoints every fix and every regression.",
         "github": "https://github.com/yatharthk2/taskbundle",
         "media": "taskbundlePoster"
       },
