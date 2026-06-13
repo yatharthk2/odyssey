@@ -19,24 +19,25 @@ export default function ContactForm() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
           </div>
-          <h3 className="text-2xl font-bold bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-400 bg-clip-text text-transparent mb-2">
+          <h3 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white mb-2">
             Message Sent Successfully!
           </h3>
-          <p className="text-gray-600 dark:text-gray-300">
+          <p className="text-gray-700 dark:text-gray-300">
             I&apos;ll get back to you as soon as possible. Thank you for reaching out!
           </p>
         </div>
       ) : (
         <div className="relative">
-          <h2 className="text-2xl font-bold text-center mb-8 text-gray-800 dark:text-gray-200">
+          <h2 className="text-2xl font-bold tracking-tight text-center mb-8 text-gray-900 dark:text-white">
             Send me a message
           </h2>
 
-          <form 
-            onSubmit={handleSubmit} 
+          {/* The modal wrapper already provides the card surface — no inner panel. */}
+          <form
+            onSubmit={handleSubmit}
             action={`https://formspree.io/f/${contact.formId}`}
-            method="post" 
-            className="relative bg-white/50 dark:bg-gray-800/50 backdrop-blur-md shadow-xl rounded-2xl px-8 pt-8 pb-8"
+            method="post"
+            className="relative px-8 pt-8 pb-8"
           >
             <div className="mb-6 group">
               <label className="block text-gray-700 dark:text-gray-300 font-medium text-sm mb-2 transition-colors duration-200" htmlFor="name">
@@ -45,7 +46,7 @@ export default function ContactForm() {
               <input
                 className="w-full px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-600 bg-white/50 dark:bg-gray-700/50 
                          focus:ring-2 focus:ring-gray-900 dark:focus:ring-gray-300 focus:border-transparent transition-all duration-300
-                         text-gray-800 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500"
+                         text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
                 id="name"
                 type="text"
                 name="name"
@@ -62,7 +63,7 @@ export default function ContactForm() {
               <input
                 className="w-full px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-600 bg-white/50 dark:bg-gray-700/50 
                          focus:ring-2 focus:ring-gray-900 dark:focus:ring-gray-300 focus:border-transparent transition-all duration-300
-                         text-gray-800 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500"
+                         text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
                 id="email"
                 type="email"
                 name="email"
@@ -79,7 +80,7 @@ export default function ContactForm() {
               <textarea
                 className="w-full px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-600 bg-white/50 dark:bg-gray-700/50 
                          focus:ring-2 focus:ring-gray-900 dark:focus:ring-gray-300 focus:border-transparent transition-all duration-300
-                         text-gray-800 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500 min-h-[150px] resize-y"
+                         text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 min-h-[150px] resize-y"
                 id="message"
                 name="message"
                 placeholder="Your message here..."

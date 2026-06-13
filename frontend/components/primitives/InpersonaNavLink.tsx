@@ -1,27 +1,6 @@
 import { motion } from 'framer-motion';
 import { type MouseEventHandler } from 'react';
 
-// Grayscale shimmer: mid/light grays cycle through so the animated halo reads on
-// both light and dark backgrounds (a dark-gray halo would vanish in dark mode).
-const gradientStops = [
-  'linear-gradient(to right, #4b5563, #d1d5db, #4b5563)',
-  'linear-gradient(to right, #9ca3af, #f3f4f6, #9ca3af)',
-  'linear-gradient(to right, #6b7280, #e5e7eb, #374151)',
-  'linear-gradient(to right, #374151, #d1d5db, #6b7280)',
-  'linear-gradient(to right, #9ca3af, #4b5563, #9ca3af)',
-  'linear-gradient(to right, #4b5563, #d1d5db, #4b5563)',
-];
-
-const animationConfig = {
-  animate: { background: gradientStops },
-  transition: {
-    duration: 4,
-    repeat: Infinity,
-    ease: 'linear' as const,
-    times: [0, 0.2, 0.4, 0.6, 0.8, 1],
-  },
-};
-
 interface InpersonaNavLinkProps {
   label: string;
   href: string;
@@ -30,9 +9,12 @@ interface InpersonaNavLinkProps {
 }
 
 /**
- * The animated, grayscale-shimmering "Inpersona" link used in both the desktop and
- * mobile navs. Renders three stacked gradient layers (blur halo, soft glow,
- * crisp border) with a solid pill on top so the underlying text stays legible.
+ * The grayscale-shimmering "Inpersona" pill used in both the desktop and
+ * mobile navs. The shimmer is one wide gradient animated via CSS
+ * background-position (`.nav-pill-shimmer` in globals.css) — cheap on the
+ * compositor, unlike interpolating gradient strings per frame on the main
+ * thread inside a sticky header. Two layers: a blurred halo and a crisp
+ * border ring, with a solid pill on top so the label stays legible.
  */
 export default function InpersonaNavLink({
   label,
@@ -49,15 +31,11 @@ export default function InpersonaNavLink({
         variant === 'mobile' ? 'inline-block' : ''
       }`}
     >
-      <motion.span
-        className="absolute inset-0 rounded-full opacity-40 blur-xl"
-        {...animationConfig}
+      <span
+        aria-hidden="true"
+        className="nav-pill-shimmer absolute -inset-0.5 rounded-full opacity-50 blur-md"
       />
-      <motion.span
-        className="absolute -inset-0.5 rounded-full opacity-50 blur-md"
-        {...animationConfig}
-      />
-      <motion.span className="absolute inset-0 rounded-full" {...animationConfig} />
+      <span aria-hidden="true" className="nav-pill-shimmer absolute inset-0 rounded-full" />
       <span className="absolute inset-[1.5px] rounded-full bg-white dark:bg-gray-900" />
       <span className="relative">{label}</span>
     </motion.a>

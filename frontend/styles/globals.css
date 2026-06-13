@@ -69,24 +69,15 @@
   }
 }
 
-@keyframes spin-slow {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
+/* Transform-only (animating box-shadow forces a repaint every frame); the
+   shadow is applied statically by .animate-float instead. */
 @keyframes float {
   0%,
   100% {
     transform: translateY(0);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
   }
   50% {
-    transform: translateY(-20px);
-    box-shadow: 0 25px 30px rgba(0, 0, 0, 0.1);
+    transform: translateY(-8px);
   }
 }
 
@@ -98,23 +89,38 @@
   animation: scale-in 0.3s ease-out;
 }
 
-.animate-spin-slow {
-  animation: spin-slow 20s linear infinite;
-}
-
 .animate-float {
   animation: float 3s ease-in-out infinite;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 
-.bg-gradient-conic {
-  background-image: conic-gradient(var(--tw-gradient-stops));
+/* Shimmer for the nav "Inpersona" pill: one wide gradient slid via
+   background-position — compositor-cheap, unlike interpolating gradient
+   strings per frame in JS. */
+.nav-pill-shimmer {
+  background: linear-gradient(110deg, #525252, #e5e5e5, #737373, #d4d4d4, #525252);
+  background-size: 300% 100%;
+  animation: pill-shimmer 6s linear infinite;
 }
+
+@keyframes pill-shimmer {
+  from {
+    background-position: 0% 50%;
+  }
+  to {
+    background-position: 300% 50%;
+  }
+}
+
+/* The reduced-motion overrides live at the END of this file — at equal
+   specificity the later declaration wins, and .typing-container::after is
+   defined below this point. */
 
 /* ----- Inpersona chat: scrollbar, typing indicator, streamed HTML --------------- */
 
 .inpersona-scrollbar {
   scrollbar-width: thin;
-  scrollbar-color: #9ca3af transparent;
+  scrollbar-color: #a3a3a3 transparent;
 }
 
 .inpersona-scrollbar::-webkit-scrollbar {
@@ -126,12 +132,12 @@
 }
 
 .inpersona-scrollbar::-webkit-scrollbar-thumb {
-  background-color: #9ca3af;
+  background-color: #a3a3a3;
   border-radius: 4px;
 }
 
 .inpersona-scrollbar::-webkit-scrollbar-thumb:hover {
-  background-color: #6b7280;
+  background-color: #737373;
 }
 
 .typing-indicator {
@@ -146,13 +152,13 @@
   height: 8px;
   width: 8px;
   margin: 0 2px;
-  background-color: rgba(107, 114, 128, 0.7);
+  background-color: rgba(115, 115, 115, 0.7);
   border-radius: 50%;
   opacity: 0.4;
 }
 
 .dark .typing-indicator span {
-  background-color: rgba(156, 163, 175, 0.7);
+  background-color: rgba(163, 163, 163, 0.7);
 }
 
 .typing-indicator span:nth-child(1) {
@@ -199,9 +205,9 @@
 .dark .typing-container::after {
   background: linear-gradient(
     90deg,
-    rgba(30, 41, 59, 0) 0%,
-    rgba(30, 41, 59, 0.2) 50%,
-    rgba(30, 41, 59, 0) 100%
+    rgba(38, 38, 38, 0) 0%,
+    rgba(38, 38, 38, 0.2) 50%,
+    rgba(38, 38, 38, 0) 100%
   );
 }
 
@@ -249,19 +255,42 @@
 }
 
 .html-content a {
-  color: #111827;
+  color: #171717;
   text-decoration: underline;
 }
 
 .dark .html-content a {
-  color: #e5e7eb;
+  color: #e5e5e5;
 }
 
 .html-content hr {
   margin: 1.5rem 0;
-  border-color: rgba(209, 213, 219, 0.3);
+  border-color: rgba(212, 212, 212, 0.3);
 }
 
 .dark .html-content hr {
-  border-color: rgba(75, 85, 99, 0.5);
+  border-color: rgba(82, 82, 82, 0.5);
+}
+
+/* ----- Reduce Motion ------------------------------------------------------------- */
+
+/* Honor OS-level Reduce Motion for the CSS keyframe loops (framer-motion
+   animations are covered by MotionConfig reducedMotion="user" in _app.tsx).
+   The typing-indicator dots are kept — they're status feedback, not motion
+   decoration. Must stay at the end of the file: at equal specificity the
+   later declaration wins, so this block has to follow every base rule it
+   overrides (notably .typing-container::after, defined above). */
+@media (prefers-reduced-motion: reduce) {
+  .animate-float,
+  .animate-fade-in,
+  .animate-scale-in,
+  .nav-pill-shimmer {
+    animation: none;
+  }
+
+  /* Remove the shimmer overlay entirely — a frozen translucent band would
+     otherwise sit over the streaming bubble. */
+  .typing-container::after {
+    content: none;
+  }
 }

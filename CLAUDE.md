@@ -107,7 +107,7 @@ Recent tunings (matter for response quality):
 ## Frontend architecture
 
 ### Layout quirk
-Page-level routes live in `frontend/pages/` (Pages Router), but **most reusable UI components live in `frontend/pages/components/`** rather than the conventional top-level `frontend/components/`. The top-level `frontend/components/` exists too and contains only the cross-cutting `Layout`, `ThemeToggle`, animation primitives, and the `primitives/` extractions (`SectionCard`, `GradientHeading`, `InpersonaNavLink`). When adding a component, match whichever location its siblings use — don't consolidate.
+Page-level routes live in `frontend/pages/` (Pages Router), but **most reusable UI components live in `frontend/pages/components/`** rather than the conventional top-level `frontend/components/`. The top-level `frontend/components/` exists too and contains only the cross-cutting `Layout`, `ThemeToggle`, animation primitives, and the `primitives/` extractions (`SectionCard`, `SectionHeading`, `InpersonaNavLink`). When adding a component, match whichever location its siblings use — don't consolidate.
 
 ### Content is data-driven via `frontend/pages/index.json`
 Almost all user-facing copy — nav links, hero, about, projects, experience, skills, achievements, testimonials, footer, Inpersona suggestions / toggle copy / loading screen tiles — lives in `index.json`. Components import from `frontend/types/config.ts` (typed loader). Adding a new section means updating the JSON + the `Config` type + the component that consumes it.

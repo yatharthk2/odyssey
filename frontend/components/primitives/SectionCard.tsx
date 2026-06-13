@@ -10,9 +10,11 @@ interface SectionCardProps extends Omit<HTMLMotionProps<'section'>, 'children'> 
 }
 
 /**
- * Glass-panel section container used by every section on the home page.
- * Wraps the repeated `motion.section + bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm
- * rounded-3xl shadow-xl` envelope so individual sections stay focused on their content.
+ * Section container used by every section on the home page: spacing plus the
+ * scroll-reveal entrance, nothing else. Sections are open regions on the page
+ * background — surface treatment (border/shadow/rounding) belongs to the
+ * content cards inside, so the page reads as one composition rather than a
+ * stack of glass panels.
  */
 export default function SectionCard({
   id,
@@ -32,7 +34,7 @@ export default function SectionCard({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-50px' }}
       transition={{ duration: 0.6, ease: 'easeOut' }}
-      className={`relative ${spacing} bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm rounded-3xl shadow-xl overflow-hidden ${className}`}
+      className={`relative ${spacing} ${className}`}
       {...motionProps}
     >
       {children}

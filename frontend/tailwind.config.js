@@ -1,3 +1,6 @@
+const defaultTheme = require('tailwindcss/defaultTheme');
+const colors = require('tailwindcss/colors');
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
 	darkMode: "class",
@@ -8,28 +11,16 @@ module.exports = {
 	],
 	theme: {
 		extend: {
-			keyframes: {
-				marquee1: {
-					"0%": { transform: "translateX(0%)" },
-					"100%": { transform: "translateX(-100%)" },
-				},
-				marquee2: {
-					"0%": { transform: "translateX(100%)" },
-					"100%": { transform: "translateX(0%)" },
-				},
+			// Wired to next/font variables set in pages/_app.tsx (Geist / Geist Mono).
+			fontFamily: {
+				sans: ["var(--font-sans)", ...defaultTheme.fontFamily.sans],
+				mono: ["var(--font-mono)", ...defaultTheme.fontFamily.mono],
 			},
-			animation: {
-				marquee1: "marquee1 40s linear infinite",
-				marquee2: "marquee2 40s linear infinite",
-				'spin-slow': 'spin 20s linear infinite',
-			},
-			backgroundImage: {
-				"gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-				"gradient-conic":
-					"conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
-			},
-			gradientColorStops: {
-				'gradient-conic': 'conic-gradient(var(--tw-gradient-stops))',
+			// Tailwind's default `gray` is cool-tinted (gray-900 = #111827, a navy
+			// hue) which made the dark theme read blue. Alias it to the truly
+			// neutral scale so "black & white" is actually black & white.
+			colors: {
+				gray: colors.neutral,
 			},
 		},
 	},

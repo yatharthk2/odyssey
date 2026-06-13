@@ -47,7 +47,7 @@ export default function InpersonaLoading() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.7 }}
-            className="mb-4 sm:mb-8 text-2xl sm:text-3xl font-bold bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent"
+            className="mb-4 sm:mb-8 text-2xl sm:text-3xl font-bold tracking-tight text-white"
           >
             {loadingTitle}
           </motion.h2>
