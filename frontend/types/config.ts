@@ -50,7 +50,7 @@ export interface ProjectItem {
   github?: string;
   url?: string;
   image?: string;
-  media?: 'openNotifAnimation';
+  media?: 'openNotifAnimation' | 'taskbundlePoster';
 }
 
 export interface TestimonialItem {
