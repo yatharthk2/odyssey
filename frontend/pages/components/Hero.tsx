@@ -18,27 +18,39 @@ const fadeUp = {
 // compositor. The orbs are radial gradients rather than blurred discs — the
 // falloff is baked into the fill, so they read as defined glowing shapes
 // (no filter layer needed) and the motion is clearly visible.
+//
+// Each axis oscillates on its own period (Lissajous-style): with x and y on
+// different clocks the combined path is a smooth, continuously curving loop
+// instead of straight diagonal runs between shared waypoints, and the figure
+// drifts for a long time before visually repeating. Asymmetric ranges give
+// each orb a different starting phase.
 const ORBS = [
   {
     className:
       'hero-orb left-[6%] top-[10%] h-96 w-96 [background:radial-gradient(circle,rgba(82,82,82,0.45)_0%,transparent_65%)] dark:[background:radial-gradient(circle,rgba(255,255,255,0.30)_0%,transparent_65%)]',
-    x: [0, 220, -140, 0],
-    y: [0, -130, 100, 0],
-    duration: 6,
+    x: [-150, 210],
+    xDur: 3.2,
+    y: [90, -160],
+    yDur: 4.5,
+    pulseDur: 7.3,
   },
   {
     className:
       'hero-orb right-[4%] top-[20%] h-[28rem] w-[28rem] [background:radial-gradient(circle,rgba(64,64,64,0.40)_0%,transparent_65%)] dark:[background:radial-gradient(circle,rgba(229,229,229,0.24)_0%,transparent_65%)]',
-    x: [0, -240, 150, 0],
-    y: [0, 150, -160, 0],
-    duration: 8,
+    x: [170, -230],
+    xDur: 4.1,
+    y: [-130, 170],
+    yDur: 3.0,
+    pulseDur: 8.9,
   },
   {
     className:
       'hero-orb left-[28%] bottom-[2%] h-[26rem] w-[26rem] [background:radial-gradient(circle,rgba(115,115,115,0.50)_0%,transparent_65%)] dark:[background:radial-gradient(circle,rgba(255,255,255,0.20)_0%,transparent_65%)]',
-    x: [0, 180, -120, 0],
-    y: [0, -110, 130, 0],
-    duration: 7,
+    x: [-190, 150],
+    xDur: 3.7,
+    y: [110, -140],
+    yDur: 5.2,
+    pulseDur: 6.7,
   },
 ];
 
@@ -65,10 +77,15 @@ export default function Hero() {
               animate={{
                 x: orb.x,
                 y: orb.y,
-                scale: [1, 1.25, 0.9, 1],
-                opacity: [0.75, 1, 0.85, 0.75],
+                scale: [1, 1.22, 0.92, 1],
+                opacity: [0.75, 1, 0.8, 0.75],
               }}
-              transition={{ duration: orb.duration, repeat: Infinity, ease: 'easeInOut' }}
+              transition={{
+                x: { duration: orb.xDur, repeat: Infinity, repeatType: 'mirror', ease: 'easeInOut' },
+                y: { duration: orb.yDur, repeat: Infinity, repeatType: 'mirror', ease: 'easeInOut' },
+                scale: { duration: orb.pulseDur, repeat: Infinity, ease: 'easeInOut' },
+                opacity: { duration: orb.pulseDur, repeat: Infinity, ease: 'easeInOut' },
+              }}
             />
           ))}
         </div>
