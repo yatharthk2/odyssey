@@ -42,13 +42,15 @@ export default function Home() {
       </Head>
       <Hero />
 
+      {/* Proof of work before claims of skill: Experience and Projects lead,
+          the skills wall follows. */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <AboutSection />
 
-        <Skills />
         <Experience />
-        <Achievements />
         <Projects />
+        <Skills />
+        <Achievements />
       </div>
 
       {/* Full-bleed contrast band — the one section that breaks the page

@@ -1,8 +1,14 @@
+import { Mail } from 'lucide-react';
 import { SiLinkedin, SiX, SiGithub } from 'react-icons/si';
 import config from '../../types/config';
 import { asIcon, type Icon } from '../../types/icons';
 
 const socialLinks: { href: string; label: string; Icon: Icon }[] = [
+  {
+    href: config.footer.email ? `mailto:${config.footer.email}` : '',
+    label: 'Email',
+    Icon: asIcon(Mail),
+  },
   { href: config.footer.linkedin, label: 'LinkedIn', Icon: asIcon(SiLinkedin) },
   { href: config.footer.twitter, label: 'X (formerly Twitter)', Icon: asIcon(SiX) },
   { href: config.footer.github, label: 'GitHub', Icon: asIcon(SiGithub) },
