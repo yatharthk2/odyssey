@@ -37,7 +37,7 @@ export default function Header() {
           <button
             type="button"
             onClick={() => setIsMenuOpen((open) => !open)}
-            className="md:hidden p-2 rounded-md text-gray-700 dark:text-gray-200"
+            className="md:hidden p-2 rounded-md text-gray-700 dark:text-gray-300"
             aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={isMenuOpen}
           >
@@ -79,7 +79,7 @@ export default function Header() {
                     key={item.title}
                     href={item.url}
                     onClick={handleNavClick(item, true)}
-                    className="text-gray-700 dark:text-gray-200 hover:text-black dark:hover:text-white transition-colors"
+                    className="text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white transition-colors"
                   >
                     {item.title}
                   </a>
@@ -105,7 +105,7 @@ function NavLink({
       <a
         href={item.url}
         onClick={onClick}
-        className="whitespace-nowrap font-medium text-gray-700 dark:text-gray-200 hover:text-black dark:hover:text-white transition-colors"
+        className="whitespace-nowrap font-medium text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white transition-colors"
       >
         {item.title}
       </a>

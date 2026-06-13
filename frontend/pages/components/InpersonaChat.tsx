@@ -257,7 +257,7 @@ export default function InpersonaChat() {
       <div className="fixed inset-x-0 top-0 z-50 flex items-center justify-between bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm py-2 px-4">
         <Link
           href="/"
-          className="whitespace-nowrap text-sm sm:text-base font-bold bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-400 bg-clip-text text-transparent"
+          className="whitespace-nowrap text-sm sm:text-base font-bold text-gray-900 dark:text-white hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
         >
           {inpersona.homeLink}
         </Link>
@@ -268,7 +268,7 @@ export default function InpersonaChat() {
                 isConnected ? 'bg-gray-900 dark:bg-white' : 'bg-gray-300 dark:bg-gray-600'
               }`}
             />
-            <span className="text-xs text-gray-600 dark:text-gray-300">
+            <span className="text-xs text-gray-500 dark:text-gray-400">
               {isConnected ? 'Connected' : 'Disconnected'}
             </span>
           </div>
@@ -370,7 +370,7 @@ export default function InpersonaChat() {
                 value={draftMessage}
                 onChange={(e) => setDraftMessage(e.target.value)}
                 onKeyDown={handleInputKeyDown}
-                className="flex-1 bg-transparent py-1 text-base text-gray-800 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500 outline-none"
+                className="flex-1 bg-transparent py-1 text-base text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 outline-none"
               />
               <button
                 type="button"
@@ -383,7 +383,7 @@ export default function InpersonaChat() {
               </button>
             </div>
           </div>
-          <p className="mt-2 sm:mt-3 text-center text-xs sm:text-sm text-gray-400">
+          <p className="mt-2 sm:mt-3 text-center text-xs sm:text-sm text-gray-500 dark:text-gray-400">
             {inpersona.footerCredit}
           </p>
         </div>
@@ -418,7 +418,7 @@ function EmptyState({
         />
       </div>
       <div className="text-center">
-        <p className="mb-4 text-xl sm:text-2xl font-light text-gray-600 dark:text-gray-300">
+        <p className="mb-4 text-xl sm:text-2xl font-light tracking-tight text-gray-900 dark:text-white">
           {inpersona.emptyStatePrompt}
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-xl mx-auto">
@@ -445,7 +445,7 @@ function MessageBubble({ message }: { message: Message }) {
         className={`max-w-[90%] sm:max-w-[85%] rounded-2xl p-3 sm:p-4 transition-all ${
           message.isUser
             ? 'bg-gray-900 text-white dark:bg-white dark:text-gray-900 shadow-lg'
-            : 'bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 shadow-md'
+            : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 shadow-md'
         }`}
       >
         {message.isUser ? (
@@ -516,8 +516,8 @@ function InfoModal({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 sm:hidden">
       <div className="w-full max-w-xs rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-4 shadow-lg">
-        <h3 className="mb-2 font-semibold text-gray-800 dark:text-gray-200">Search Options</h3>
-        <div className="mb-4 space-y-3 text-sm text-gray-600 dark:text-gray-300">
+        <h3 className="mb-2 font-semibold tracking-tight text-gray-900 dark:text-white">Search Options</h3>
+        <div className="mb-4 space-y-3 text-sm text-gray-700 dark:text-gray-300">
           <div>
             <p className="mb-1 font-medium">KG (Knowledge Graph):</p>
             <p>{knowledgeGraphDescription}</p>
@@ -530,7 +530,7 @@ function InfoModal({
         <button
           type="button"
           onClick={onClose}
-          className="w-full rounded-lg bg-gray-100 dark:bg-gray-700 py-2 text-sm text-gray-800 dark:text-gray-200 transition-colors hover:bg-gray-200 dark:hover:bg-gray-600"
+          className="w-full rounded-lg bg-gray-100 dark:bg-gray-700 py-2 text-sm text-gray-900 dark:text-gray-100 transition-colors hover:bg-gray-200 dark:hover:bg-gray-600"
         >
           Close
         </button>

@@ -41,12 +41,12 @@ export default function KnowledgeGraph() {
           <div className="flex justify-between items-center h-14 sm:h-16">
             <Link 
               href="/inpersona" 
-              className="flex items-center space-x-1 sm:space-x-2 bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-400 bg-clip-text text-transparent font-bold hover:opacity-80 transition-opacity text-sm sm:text-base"
+              className="flex items-center space-x-1 sm:space-x-2 text-gray-900 dark:text-white font-bold hover:opacity-80 transition-opacity text-sm sm:text-base"
             >
               <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5 stroke-gray-900 dark:stroke-white" />
               <span>Back to Chat</span>
             </Link>
-            <h1 className="text-lg sm:text-xl font-bold bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-400 bg-clip-text text-transparent hidden sm:block">
+            <h1 className="text-lg sm:text-xl font-bold tracking-tight text-gray-900 dark:text-white hidden sm:block">
               Knowledge Graph Explorer
             </h1>
             <button
@@ -55,9 +55,9 @@ export default function KnowledgeGraph() {
               aria-label="Toggle fullscreen"
             >
               {isFullscreen ? (
-                <Minimize2 className="w-5 h-5 text-gray-600 dark:text-gray-300" />
+                <Minimize2 className="w-5 h-5 text-gray-500 dark:text-gray-400" />
               ) : (
-                <Maximize2 className="w-5 h-5 text-gray-600 dark:text-gray-300" />
+                <Maximize2 className="w-5 h-5 text-gray-500 dark:text-gray-400" />
               )}
             </button>
           </div>
@@ -77,7 +77,7 @@ export default function KnowledgeGraph() {
       </div>
 
       {/* Mobile Title (shown only on small screens) */}
-      <div className="sm:hidden text-center py-2 text-sm font-medium text-gray-600 dark:text-gray-300">
+      <div className="sm:hidden text-center py-2 text-sm font-medium text-gray-700 dark:text-gray-300">
         Knowledge Graph Explorer
       </div>
 

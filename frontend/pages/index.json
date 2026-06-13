@@ -11,7 +11,9 @@
   ],
   "hero": {
     "name": "I am Yatharth",
-    "subtitle": "Innovating AI for smarter solutions and scalable systems."
+    "role": "AI/ML Engineer · San Francisco",
+    "subtitle": "Innovating AI for smarter solutions and scalable systems.",
+    "secondaryCtaLabel": "View experience"
   },
   "about": {
     "title": "About Me",

@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import { SiAmazon, SiDell, SiNvidia, SiYcombinator } from 'react-icons/si';
 import { FaGraduationCap } from 'react-icons/fa';
 import SectionCard from '../../components/primitives/SectionCard';
-import GradientHeading from '../../components/primitives/GradientHeading';
+import SectionHeading from '../../components/primitives/SectionHeading';
 import config from '../../types/config';
 import { asIcon, type Icon } from '../../types/icons';
 
@@ -25,7 +25,7 @@ export default function Achievements() {
   return (
     <SectionCard id="achievements" compact>
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
-        <GradientHeading className="mb-8 sm:mb-16">{title}</GradientHeading>
+        <SectionHeading className="mb-8 sm:mb-16">{title}</SectionHeading>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
           {items.map((item, index) => {
@@ -38,35 +38,33 @@ export default function Achievements() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.08 }}
-                className="group relative flex h-full flex-col bg-white dark:bg-gray-700 rounded-xl shadow-md hover:shadow-xl transition-shadow p-6 overflow-hidden"
+                className="group relative flex h-full flex-col bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-sm hover:shadow-md p-6 overflow-hidden transition-all duration-200 hover:-translate-y-1"
               >
-                <div className="pointer-events-none absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-gray-400/20 to-gray-600/20 dark:from-white/10 dark:to-white/5 rounded-bl-full translate-x-5 -translate-y-5" />
-
                 <div className="flex items-start mb-4">
                   {iconConfig && (
-                    <div className="p-3 rounded-full bg-gray-100 dark:bg-gray-600 mr-4">
+                    <div className="p-3 rounded-full bg-gray-100 dark:bg-gray-800 mr-4">
                       <iconConfig.Icon className={`text-2xl ${iconConfig.className}`} />
                     </div>
                   )}
                   <div>
-                    <h3 className="font-bold text-lg text-gray-800 dark:text-white group-hover:text-gray-900 dark:group-hover:text-gray-300 transition-colors">
+                    <h3 className="font-semibold tracking-tight text-lg text-gray-900 dark:text-white">
                       {item.title}
                     </h3>
-                    <p className="text-sm text-gray-500 dark:text-gray-300">{item.date}</p>
+                    <p className="font-mono text-xs text-gray-500 dark:text-gray-400 mt-0.5">{item.date}</p>
                   </div>
                 </div>
 
-                <p className="flex-grow text-sm text-gray-600 dark:text-gray-300">
+                <p className="flex-grow text-sm text-gray-700 dark:text-gray-300">
                   {item.description}
                 </p>
 
                 {item.link && (
-                  <div className="mt-5 pt-3 border-t border-gray-200 dark:border-gray-600 text-right">
+                  <div className="mt-5 pt-3 border-t border-gray-200 dark:border-gray-700 text-right">
                     <a
                       href={item.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center text-sm font-medium text-gray-900 dark:text-gray-100 hover:text-gray-600 dark:hover:text-gray-300"
+                      className="inline-flex items-center text-sm font-medium text-gray-900 dark:text-gray-100 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
                     >
                       Learn more
                       <svg

@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { type ReactNode } from 'react';
 
-interface GradientHeadingProps {
+interface SectionHeadingProps {
   children: ReactNode;
   /** h2 by default — pass another tag for SEO/accessibility hierarchy. */
   as?: 'h1' | 'h2' | 'h3';
@@ -17,17 +17,18 @@ const sizeClasses = {
 } as const;
 
 /**
- * Title with the signature monochrome gradient (near-black → mid-gray in light mode,
- * white → mid-gray in dark) that appears on every section. Animated in from a slight
- * upward offset when scrolled into view.
+ * Section title: solid near-black/white with tight tracking. The monochrome
+ * text gradient is reserved for the hero h1 — repeating it on every heading
+ * diluted it and washed out contrast at smaller sizes. Animated in from a
+ * slight upward offset when scrolled into view.
  */
-export default function GradientHeading({
+export default function SectionHeading({
   children,
   as = 'h2',
   align = 'center',
   size = 'lg',
   className = '',
-}: GradientHeadingProps) {
+}: SectionHeadingProps) {
   const Component = motion[as];
   const alignment = align === 'center' ? 'text-center' : 'text-left';
 
@@ -37,7 +38,7 @@ export default function GradientHeading({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay: 0.1 }}
-      className={`${sizeClasses[size]} ${alignment} font-bold bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-400 bg-clip-text text-transparent ${className}`}
+      className={`${sizeClasses[size]} ${alignment} font-bold tracking-tight text-gray-900 dark:text-white ${className}`}
     >
       {children}
     </Component>

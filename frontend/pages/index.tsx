@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import Layout from '../components/Layout';
 import Seo, { SITE_URL } from '../components/Seo';
 import SectionCard from '../components/primitives/SectionCard';
-import GradientHeading from '../components/primitives/GradientHeading';
+import SectionHeading from '../components/primitives/SectionHeading';
 import Hero from './components/Hero';
 import Skills from './components/Skills';
 import Experience from './components/Experience';
@@ -20,7 +20,6 @@ const personJsonLd = {
   name: config.site.name,
   url: SITE_URL,
   jobTitle: 'AI/ML Engineer',
-  worksFor: { '@type': 'Organization', name: 'Moss' },
   sameAs: [config.footer.github, config.footer.linkedin, config.footer.twitter],
 };
 
@@ -32,7 +31,7 @@ export default function Home() {
     <Layout>
       <Seo
         title="Yatharth Kapadia · AI/ML Engineer"
-        description="Portfolio of Yatharth Kapadia, founding engineer at Moss. Production LLM and RAG systems — and Inpersona, a self-hosted AI chatbot that answers questions as him."
+        description="Portfolio of Yatharth Kapadia, AI/ML engineer in San Francisco. Production LLM and RAG systems — and Inpersona, a self-hosted AI chatbot that answers questions as him."
       />
       <Head>
         <script
@@ -50,17 +49,22 @@ export default function Home() {
         <Experience />
         <Achievements />
         <Projects />
-        <Testimonials />
+      </div>
 
+      {/* Full-bleed contrast band — the one section that breaks the page
+          container, so the long run of open sections has a visual anchor. */}
+      <Testimonials />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionCard id="contact" compact>
           <div className="mx-auto max-w-3xl px-4 sm:px-6 text-center">
-            <GradientHeading className="mb-6 sm:mb-8">{contact.title}</GradientHeading>
+            <SectionHeading className="mb-6 sm:mb-8">{contact.title}</SectionHeading>
             <motion.p
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="mb-8 sm:mb-12 text-base sm:text-lg text-gray-600 dark:text-gray-300"
+              className="mb-8 sm:mb-12 text-base sm:text-lg text-gray-700 dark:text-gray-300"
             >
               {contact.description}
             </motion.p>
@@ -70,14 +74,10 @@ export default function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.3 }}
-              whileHover={{
-                scale: 1.02,
-                boxShadow: '0 8px 25px rgba(0, 0, 0, 0.25)',
-                transition: { duration: 0.2 },
-              }}
-              whileTap={{ scale: 0.98 }}
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
               onClick={() => setIsContactModalOpen(true)}
-              className="inline-block rounded-full bg-gray-900 text-white hover:bg-gray-700 dark:bg-white dark:text-gray-900 dark:hover:bg-gray-200 px-8 py-4 font-medium transition-colors hover:shadow-lg"
+              className="inline-block rounded-full bg-gray-900 text-white hover:bg-gray-700 dark:bg-white dark:text-gray-900 dark:hover:bg-gray-200 px-8 py-4 font-medium shadow-md hover:shadow-lg transition-all duration-200"
             >
               {contact.ctaLabel}
             </motion.button>
@@ -98,7 +98,7 @@ function AboutSection() {
   return (
     <SectionCard id="about" compact>
       <div className="mx-auto max-w-5xl px-4 sm:px-6">
-        <GradientHeading className="mb-8 sm:mb-12">{about.title}</GradientHeading>
+        <SectionHeading className="mb-8 sm:mb-12">{about.title}</SectionHeading>
         <div className="grid grid-cols-1 items-center gap-8 sm:gap-12 md:grid-cols-2">
           <motion.div
             initial={{ opacity: 0, x: -30 }}
@@ -110,7 +110,7 @@ function AboutSection() {
             <p className="text-base sm:text-lg leading-relaxed text-gray-700 dark:text-gray-300">
               {about.primary}
             </p>
-            <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">
+            <p className="text-sm sm:text-base text-gray-700 dark:text-gray-300">
               {about.secondary}
             </p>
           </motion.div>

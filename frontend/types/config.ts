@@ -81,7 +81,9 @@ export interface Config {
   navigation: NavItem[];
   hero: {
     name: string;
+    role: string;
     subtitle: string;
+    secondaryCtaLabel: string;
   };
   about: {
     title: string;
