@@ -69,6 +69,22 @@ class PropertyGraphSettings:
     redis_url: str = "redis://localhost:6379"
     cache_size: int = 6
 
+    # --- abuse / limits -----------------------------------------------------
+    # Reject questions longer than this (cost amplification + Redis key bloat).
+    max_question_chars: int = 2000
+    # Per-IP question budget: refill rate + burst allowance (token bucket).
+    rate_limit_per_minute: int = 15
+    rate_limit_burst: int = 5
+
+    # --- resilience ---------------------------------------------------------
+    # Hard ceiling on a single query: if no chunk arrives within this many
+    # seconds the connection is freed with a timeout message (a hung upstream
+    # call can never wedge it forever).
+    query_timeout_seconds: float = 45.0
+    # Retry transient LLM failures (429 / 5xx / "overloaded") this many times
+    # with exponential backoff before surfacing an error.
+    llm_max_retries: int = 4
+
     # --- HTTP / WebSocket server -------------------------------------------
     host: str = "0.0.0.0"
     port: int = 8000
@@ -117,6 +133,17 @@ class PropertyGraphSettings:
         _str("SSL_CA_PATH", "ssl_ca_path")
         _str("OPENAI_API_KEY", "openai_api_key")
         _str("OPENAI_MODEL", "openai_model")
+        _int("MAX_QUESTION_CHARS", "max_question_chars")
+        _int("RATE_LIMIT_PER_MINUTE", "rate_limit_per_minute")
+        _int("RATE_LIMIT_BURST", "rate_limit_burst")
+        _int("LLM_MAX_RETRIES", "llm_max_retries")
+
+        def _float(env: str, attr: str) -> None:
+            value = os.getenv(env)
+            if value:
+                overrides[attr] = float(value)
+
+        _float("QUERY_TIMEOUT_SECONDS", "query_timeout_seconds")
 
         origins_raw = os.getenv("ALLOWED_ORIGINS")
         if origins_raw:

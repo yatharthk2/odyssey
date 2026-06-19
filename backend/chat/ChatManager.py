@@ -1,6 +1,6 @@
 import logging
 import threading
-from collections.abc import Iterator
+from collections.abc import AsyncIterator
 from concurrent.futures import ThreadPoolExecutor
 from contextlib import contextmanager
 from pathlib import Path
@@ -23,7 +23,6 @@ class ChatManager:
         provider = model_provider or settings.default_model_provider
         self.model_manager = ModelManager(settings, provider)
         self.chroma_store_manager = ChromaStoreManager(settings)
-        self.chat = Chat(settings.chat_size)
         self.vector_store_manager = VectorStoreManager(
             settings,
             self.model_manager,
@@ -38,7 +37,10 @@ class ChatManager:
             logger.info(f"Initialized cache manager with Redis at {settings.redis_url}")
         else:
             logger.info("Redis URL not configured, caching disabled")
-        self.query_engine = QueryEngine(self.vector_store_manager, self.chat, self.cache_manager)
+        # The manager holds only shared, stateless-across-connections resources
+        # (indices, engines, cache). Conversation history is per-connection and
+        # passed into query() by the caller — never stored here.
+        self.query_engine = QueryEngine(self.vector_store_manager, self.cache_manager)
         self.thread_pool = ThreadPoolExecutor(max_workers=settings.thread_pool_size)
         # Guards reinitialization when a client requests a different model provider.
         self._swap_lock = threading.Lock()
@@ -62,11 +64,12 @@ class ChatManager:
     def query(
         self,
         question: str,
+        chat: Chat,
         query_transformation: str | None = None,
         choice_of_vector_store: str | None = None,
-    ) -> Iterator[str]:
+    ) -> AsyncIterator[str]:
         return self.query_engine.process_query(
-            question, query_transformation, choice_of_vector_store
+            question, chat, query_transformation, choice_of_vector_store
         )
 
     @contextmanager
@@ -86,7 +89,6 @@ class ChatManager:
 
         for attr in (
             "thread_pool",
-            "chat",
             "model_manager",
             "chroma_store_manager",
             "vector_store_manager",

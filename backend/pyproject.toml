@@ -38,6 +38,9 @@ dependencies = [
     "ipython>=8.32.0,<9.0.0",
     "colorama>=0.4.6,<0.5.0",
     "llama-index-llms-openai>=0.2.0,<0.3.0",
+    # Resilience + observability
+    "tenacity>=8.0,<10.0",
+    "prometheus-client>=0.20,<1.0",
 ]
 
 [tool.uv]
@@ -46,6 +49,8 @@ package = false
 [dependency-groups]
 dev = [
     "ruff>=0.7,<1.0",
+    "pytest>=8.0,<9.0",
+    "pytest-asyncio>=0.24,<0.25",
 ]
 
 # ----------------------------------------------------------------------------
@@ -55,6 +60,22 @@ dev = [
 #   uv run ruff check . --fix       # autofix what's safe
 #   uv run ruff check .             # CI mode (no autofix)
 # ----------------------------------------------------------------------------
+# ----------------------------------------------------------------------------
+# pytest — unit suite for the hardening layer (rate limiter, output redaction,
+# retry, request schema, metrics, query-engine streaming, health endpoints).
+# These exercise the new logic in isolation; they do NOT spin up the full RAG
+# stack (no API keys / model downloads). Run via:
+#   uv run pytest                   # whole suite
+#   uv run pytest tests/test_x.py   # one file
+# ----------------------------------------------------------------------------
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+filterwarnings = [
+    # Third-party (pydantic v2 via llama-index) deprecation noise, not ours.
+    "ignore::DeprecationWarning",
+]
+
 [tool.ruff]
 line-length = 100
 target-version = "py312"
