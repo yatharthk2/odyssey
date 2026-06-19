@@ -96,7 +96,7 @@ Per-query flow (`QueryEngine.process_query`):
 
 Recent tunings (matter for response quality):
 - `chunk_size=800`, `chunk_overlap=100` — bigger chunks keep a whole job/project together; smaller defaults shred resume bullets
-- `similarity_top_k=6` — broader coverage on the small KB
+- `similarity_top_k=4` — enough coverage on the small KB without bloating the prompt; higher values raise time-to-first-token (the LLM must prefill more context before it can start streaming)
 - `groq_model="llama-3.1-8b-instant"` — way higher rate-limit ceiling than `llama-3.3-70b-versatile`
 - `cache_size=6` — Redis LRU keeps the top-6 most-asked questions warm
 

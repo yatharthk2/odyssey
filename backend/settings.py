@@ -47,8 +47,10 @@ class PropertyGraphSettings:
     chunk_size: int = 800
     chunk_overlap: int = 100
     embedding_model: str = "BAAI/bge-base-en-v1.5"
-    # top_k=6 — small KB, more context fits without overwhelming the LLM.
-    similarity_top_k: int = 6
+    # top_k=4 — small KB; enough coverage without bloating the prompt. Higher
+    # values (6+) measurably raise time-to-first-token by enlarging the context
+    # the LLM must prefill before it can start streaming.
+    similarity_top_k: int = 4
 
     # --- LLM providers ------------------------------------------------------
     default_model_provider: str = "groq"  # "groq" | "gemini" | "openai"
