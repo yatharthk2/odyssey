@@ -17,7 +17,7 @@ dependencies = [
     # websockets 14+ removed transfer_data_task from the legacy protocol that
     # uvicorn's websockets_impl still uses, so close() raises AttributeError on
     # every disconnect. Pin <14 until uvicorn moves off the legacy API.
-    "websockets>=12.0,<14.0",
+    "websockets>=12.0,<17.0",
     "python-dotenv>=1.0.1,<2.0.0",
     # LlamaIndex stack — migrated 0.11 -> 0.13 to clear the security advisories
     # against llama-index-core. Compatible ranges (uv.lock pins the resolved
