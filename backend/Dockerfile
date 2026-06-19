@@ -42,11 +42,11 @@ COPY . .
 
 EXPOSE 8000
 
-# Container-level liveness — TCP probe instead of HTTP, because the only
-# route on the app is a WebSocket and we don't want a healthcheck that talks
-# the WS handshake. start-period is generous so the slow HuggingFace model
-# download on first boot doesn't kill the container before it's ready.
+# Container-level liveness via the HTTP /health route, so a wedged-but-listening
+# process is actually detected (and restarted by `restart: unless-stopped`).
+# start-period is generous so the slow HuggingFace model download on first boot
+# doesn't kill the container before it's ready.
 HEALTHCHECK --interval=30s --timeout=5s --start-period=180s --retries=3 \
-    CMD python -c "import socket; socket.create_connection(('localhost', 8000), timeout=3)" || exit 1
+    CMD python -c "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://localhost:8000/health', timeout=3).status == 200 else 1)" || exit 1
 
 CMD ["uvicorn", "server:app", "--host", "0.0.0.0", "--port", "8000"]

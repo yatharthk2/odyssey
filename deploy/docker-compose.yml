@@ -12,10 +12,17 @@
 #   docker compose up -d
 #   docker compose logs -f backend
 
+# Resource limits are sized for a 2 vCPU / 4 GB Hetzner CX22 so one component's
+# spike (an index rebuild, a torch allocation) can't OOM-kill the whole box and
+# take caddy or redis down with it. `mem_limit` / `cpus` are honored by
+# `docker compose up` (not just swarm).
+
 services:
   caddy:
     image: caddy:2-alpine
     restart: unless-stopped
+    mem_limit: 128m
+    cpus: 0.25
     ports:
       - "80:80"
       - "443:443"
@@ -35,6 +42,9 @@ services:
       dockerfile: Dockerfile
     image: inpersona-backend:latest
     restart: unless-stopped
+    mem_limit: 2560m       # embedding model + torch + Chroma, with rebuild headroom
+    mem_reservation: 1g
+    cpus: 1.5
     env_file:
       - .env
     environment:
@@ -60,6 +70,8 @@ services:
   redis:
     image: redis:7-alpine
     restart: unless-stopped
+    mem_limit: 256m
+    cpus: 0.25
     command: ["redis-server", "--appendonly", "yes", "--maxmemory", "128mb", "--maxmemory-policy", "allkeys-lru"]
     volumes:
       - redis_data:/data

@@ -100,7 +100,8 @@ The frontend is stateless and free to host. The backend is stateful (in-memory v
    ```
    You should see `Application startup complete.` Test from your laptop:
    ```bash
-   curl -I https://api.yatharthk.com/   # 404 from FastAPI is fine — means TLS + routing work
+   curl https://api.yatharthk.com/health   # {"status":"ok"} once TLS + routing work
+   curl https://api.yatharthk.com/ready    # {"status":"ready"} once indices are warm
    ```
 
 ---
@@ -145,6 +146,8 @@ wscat -c wss://api.yatharthk.com/chat
 
 | Task | Command |
 |---|---|
+| Health / readiness | `curl https://api.yatharthk.com/health` (liveness) · `/ready` (indices warm) |
+| Metrics (Prometheus) | `curl https://api.yatharthk.com/metrics` — query count, cache-hit rate, error rate, latency, active connections |
 | Update the chatbot's knowledge | Edit `deploy/documents/resume.txt` on the server, then `docker compose exec backend rm -rf /app/storage/* /app/chroma_db/* && docker compose restart backend` to force re-indexing |
 | Update the backend code | `cd /opt/odyssey && git pull && cd deploy && docker compose up -d --build backend` |
 | View logs | `docker compose logs -f backend` (or `caddy`, `redis`) |
