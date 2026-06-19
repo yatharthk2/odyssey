@@ -12,7 +12,7 @@ dependencies = [
     # Web layer
     # fastapi >=0.116 is required to pull a patched starlette (>=0.47.2); the
     # 0.115.x line caps starlette below the security fix.
-    "fastapi>=0.116.0,<0.117.0",
+    "fastapi>=0.116.0,<0.138.0",
     "uvicorn[standard]>=0.30.0,<1.0.0",
     # websockets 14+ removed transfer_data_task from the legacy protocol that
     # uvicorn's websockets_impl still uses, so close() raises AttributeError on
