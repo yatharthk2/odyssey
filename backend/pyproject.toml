@@ -10,34 +10,37 @@ authors = [
 
 dependencies = [
     # Web layer
-    "fastapi>=0.115.8,<0.116.0",
+    # fastapi >=0.116 is required to pull a patched starlette (>=0.47.2); the
+    # 0.115.x line caps starlette below the security fix.
+    "fastapi>=0.116.0,<0.117.0",
     "uvicorn[standard]>=0.30.0,<1.0.0",
     # websockets 14+ removed transfer_data_task from the legacy protocol that
     # uvicorn's websockets_impl still uses, so close() raises AttributeError on
     # every disconnect. Pin <14 until uvicorn moves off the legacy API.
     "websockets>=12.0,<14.0",
     "python-dotenv>=1.0.1,<2.0.0",
-    # LlamaIndex stack — pinned hard. The 0.11.x API was reshuffled across
-    # minor releases; bumping any of these usually requires code changes in
-    # ModelsManager / vector_store_manager / query_engine.
-    "llama-index-core==0.11.19",
-    "llama-index-embeddings-huggingface==0.3.1",
-    "llama-index-llms-groq==0.2.0",
-    "llama-index-llms-gemini==0.3.7",
-    "llama-index-vector-stores-chroma==0.2.1",
-    "llama-index-readers-file==0.2.2",
+    # LlamaIndex stack — migrated 0.11 -> 0.13 to clear the security advisories
+    # against llama-index-core. Compatible ranges (uv.lock pins the resolved
+    # versions). The Gemini integration moved off the deprecated
+    # llama-index-llms-gemini to llama-index-llms-google-genai (GoogleGenAI).
+    "llama-index-core>=0.13.0,<0.14.0",
+    "llama-index-embeddings-huggingface>=0.4.0,<0.7.0",
+    "llama-index-llms-groq>=0.3.0,<0.6.0",
+    "llama-index-llms-google-genai>=0.2.0,<0.6.0",
+    "llama-index-vector-stores-chroma>=0.4.0,<0.6.0",
+    "llama-index-readers-file>=0.4.0,<0.6.0",
+    "llama-index-llms-openai>=0.3.0,<0.6.0",
     # Vector store + embeddings runtime
-    "chromadb==0.5.15",
-    "transformers==4.45.2",
+    "chromadb>=0.5.15,<0.7.0",
+    "transformers>=4.53.0,<5.0.0",
     # sentence-transformers 5.x removed .device from SentenceTransformer, which
-    # the pinned llama-index-embeddings-huggingface still relies on.
-    "sentence-transformers>=3.0,<4.0",
+    # the huggingface embeddings integration relied on; keep <5 for safety.
+    "sentence-transformers>=3.0,<5.0",
     # Cache + visualization + CLI
     "redis>=5.0.0,<6.0.0",
     "pyvis>=0.3.2,<0.4.0",
     "ipython>=8.32.0,<9.0.0",
     "colorama>=0.4.6,<0.5.0",
-    "llama-index-llms-openai>=0.2.0,<0.3.0",
     # Resilience + observability
     "tenacity>=8.0,<10.0",
     "prometheus-client>=0.20,<1.0",
@@ -54,13 +57,6 @@ dev = [
 ]
 
 # ----------------------------------------------------------------------------
-# ruff — lint + format. Sensible defaults; opt into a few extra rule sets but
-# nothing too opinionated. Format is black-equivalent. Run via:
-#   uv run ruff format .            # reformat
-#   uv run ruff check . --fix       # autofix what's safe
-#   uv run ruff check .             # CI mode (no autofix)
-# ----------------------------------------------------------------------------
-# ----------------------------------------------------------------------------
 # pytest — unit suite for the hardening layer (rate limiter, output redaction,
 # retry, request schema, metrics, query-engine streaming, health endpoints).
 # These exercise the new logic in isolation; they do NOT spin up the full RAG
@@ -76,6 +72,13 @@ filterwarnings = [
     "ignore::DeprecationWarning",
 ]
 
+# ----------------------------------------------------------------------------
+# ruff — lint + format. Sensible defaults; opt into a few extra rule sets but
+# nothing too opinionated. Format is black-equivalent. Run via:
+#   uv run ruff format .            # reformat
+#   uv run ruff check . --fix       # autofix what's safe
+#   uv run ruff check .             # CI mode (no autofix)
+# ----------------------------------------------------------------------------
 [tool.ruff]
 line-length = 100
 target-version = "py312"

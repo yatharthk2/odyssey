@@ -2,7 +2,7 @@ import logging
 
 from llama_index.core import Settings
 from llama_index.embeddings.huggingface import HuggingFaceEmbedding
-from llama_index.llms.gemini import Gemini
+from llama_index.llms.google_genai import GoogleGenAI
 from llama_index.llms.groq import Groq
 from llama_index.llms.openai import OpenAI
 
@@ -42,9 +42,9 @@ class ModelManager:
                     api_key=self.settings.openai_api_key,
                     max_tokens=self.settings.max_tokens,
                 )
-            else:  # gemini
+            else:  # gemini (via the google-genai SDK)
                 logger.info(f"Initializing Gemini model: {self.settings.google_model}")
-                self.llm = Gemini(
+                self.llm = GoogleGenAI(
                     model=self.settings.google_model, api_key=self.settings.google_api_key
                 )
 

@@ -55,8 +55,9 @@ class PropertyGraphSettings:
     # --- LLM providers ------------------------------------------------------
     default_model_provider: str = "groq"  # "groq" | "gemini" | "openai"
     groq_model: str = "llama-3.1-8b-instant"
-    # gemini-2.0-pro-exp-02-05 was the retired experimental snapshot.
-    google_model: str = "models/gemini-2.5-pro"
+    # The google-genai SDK (llama-index-llms-google-genai) expects the bare model
+    # id, not the legacy "models/" prefix the deprecated Gemini integration used.
+    google_model: str = "gemini-2.5-pro"
     # gpt-4o-mini is the cost-effective default for chat (~$0.15 / $0.60 per
     # million tokens). Bump to "gpt-4o" or "gpt-4.1" for higher reasoning at
     # ~20x the cost.
