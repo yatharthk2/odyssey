@@ -25,14 +25,14 @@ function TestimonialCard({
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
       transition={{ duration: 0.5 }}
-      className="relative mx-4 flex h-full flex-col rounded-xl border border-white/10 bg-white/5 p-8"
+      className="relative mx-4 flex h-full flex-col rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 p-8 shadow-sm"
     >
       <div className="mb-6 flex-grow">
         {/* line-clamp (not character truncation) so every collapsed card shows
             exactly five lines — keeps Read more and the divider aligned across
             cards regardless of where words happen to wrap. */}
         <p
-          className={`text-lg leading-relaxed text-gray-300 first-letter:mr-1 first-letter:font-serif first-letter:text-3xl ${
+          className={`text-lg leading-relaxed text-gray-700 dark:text-gray-300 first-letter:mr-1 first-letter:font-serif first-letter:text-3xl ${
             shouldTruncate && !isExpanded ? 'line-clamp-5' : ''
           }`}
         >
@@ -43,32 +43,32 @@ function TestimonialCard({
             type="button"
             onClick={() => setIsExpanded((v) => !v)}
             aria-expanded={isExpanded}
-            className="mt-2 -ml-2 rounded px-2 py-0.5 text-sm font-medium text-white hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-950"
+            className="mt-2 -ml-2 rounded px-2 py-0.5 text-sm font-medium text-gray-900 dark:text-white hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-gray-900"
           >
             {isExpanded ? 'Read less' : 'Read more'}
           </button>
         )}
       </div>
 
-      <div className="mt-auto flex items-center border-t border-white/10 pt-4">
+      <div className="mt-auto flex items-center border-t border-gray-200 dark:border-gray-800 pt-4">
         {imageUrl ? (
-          <div className="mr-4 h-14 w-14 overflow-hidden rounded-full ring-2 ring-white ring-offset-2 ring-offset-gray-950">
+          <div className="mr-4 h-14 w-14 overflow-hidden rounded-full ring-2 ring-gray-200 dark:ring-white ring-offset-2 ring-offset-white dark:ring-offset-gray-900">
             <img src={imageUrl} alt={name} className="h-full w-full object-cover" />
           </div>
         ) : (
-          <div className="mr-4 flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-gray-300 to-white text-xl font-bold text-gray-900 shadow-md">
+          <div className="mr-4 flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-600 text-xl font-bold text-gray-900 dark:text-white shadow-md">
             {name.charAt(0)}
           </div>
         )}
         <div className="flex-grow">
           <div className="flex items-center justify-between">
-            <h3 className="font-semibold tracking-tight text-white">{name}</h3>
+            <h3 className="font-semibold tracking-tight text-gray-900 dark:text-white">{name}</h3>
             {linkedinUrl && (
               <a
                 href={linkedinUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-400 hover:text-white transition-colors"
+                className="text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
                 aria-label={`${name}'s LinkedIn profile`}
               >
                 <SiLinkedin className="h-5 w-5" />
@@ -77,7 +77,7 @@ function TestimonialCard({
           </div>
           {/* Fixed two-line meta block so the divider sits at the same height
               on every card whether the role wraps to one line or two. */}
-          <p className="min-h-[2.5rem] text-sm text-gray-400 line-clamp-2">
+          <p className="min-h-[2.5rem] text-sm text-gray-500 dark:text-gray-400 line-clamp-2">
             {role}
             {company && `, ${company}`}
           </p>
@@ -167,24 +167,25 @@ export default function Testimonials() {
       onMouseEnter={() => setAutoRotate(false)}
       onMouseLeave={() => setAutoRotate(true)}
       aria-label="Testimonials"
-      className="relative my-12 sm:my-24 overflow-hidden bg-gray-950 py-16 sm:py-24"
+      className="relative my-12 sm:my-24 overflow-hidden py-16 sm:py-24"
     >
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-12 text-center sm:mb-16">
-          {/* The band is always dark regardless of theme, so the heading is a
-              plain white h2 rather than the theme-aware SectionHeading. */}
+          {/* Theme-aware heading: the section sits on the page background (which
+              switches with the theme), so the title follows the same light/dark
+              treatment as every other section heading. */}
           <motion.h2
             initial={{ opacity: 0, y: -16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="mb-6 text-center text-3xl sm:text-4xl font-bold tracking-tight text-white"
+            className="mb-6 text-center text-3xl sm:text-4xl font-bold tracking-tight text-gray-900 dark:text-white"
           >
             {title}
           </motion.h2>
           {subtitle && (
             <motion.p
-              className="mx-auto max-w-3xl text-lg text-gray-400"
+              className="mx-auto max-w-3xl text-lg text-gray-600 dark:text-gray-400"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
@@ -227,9 +228,9 @@ export default function Testimonials() {
                 type="button"
                 onClick={prev}
                 aria-label="Previous testimonials"
-                className="group rounded-full bg-white/10 p-3 transition-colors hover:bg-white/20"
+                className="group rounded-full bg-gray-900/5 hover:bg-gray-900/10 dark:bg-white/10 dark:hover:bg-white/20 p-3 transition-colors"
               >
-                <ChevronLeft className="h-5 w-5 text-white transition-transform group-hover:scale-110" />
+                <ChevronLeft className="h-5 w-5 text-gray-900 dark:text-white transition-transform group-hover:scale-110" />
               </button>
 
               <div className="my-4 flex gap-3 sm:my-0">
@@ -242,8 +243,8 @@ export default function Testimonials() {
                     aria-current={currentPage === idx ? 'true' : 'false'}
                     className={`rounded transition-all duration-300 ${
                       currentPage === idx
-                        ? 'h-2 w-8 bg-white'
-                        : 'h-2 w-2 bg-white/30 hover:bg-white/60'
+                        ? 'h-2 w-8 bg-gray-900 dark:bg-white'
+                        : 'h-2 w-2 bg-gray-900/30 hover:bg-gray-900/60 dark:bg-white/30 dark:hover:bg-white/60'
                     }`}
                   />
                 ))}
@@ -253,9 +254,9 @@ export default function Testimonials() {
                 type="button"
                 onClick={next}
                 aria-label="Next testimonials"
-                className="group rounded-full bg-white/10 p-3 transition-colors hover:bg-white/20"
+                className="group rounded-full bg-gray-900/5 hover:bg-gray-900/10 dark:bg-white/10 dark:hover:bg-white/20 p-3 transition-colors"
               >
-                <ChevronRight className="h-5 w-5 text-white transition-transform group-hover:scale-110" />
+                <ChevronRight className="h-5 w-5 text-gray-900 dark:text-white transition-transform group-hover:scale-110" />
               </button>
             </div>
           )}
