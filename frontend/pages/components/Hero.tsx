@@ -1,9 +1,10 @@
-import { motion, useReducedMotion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
 import { SiGithub, SiLinkedin } from 'react-icons/si';
 import config from '../../types/config';
 import { asIcon } from '../../types/icons';
 import InpersonaButton from './InpersonaButton';
+import DitherCanvas from '../../components/animations/DitherCanvas';
 
 const GithubIcon = asIcon(SiGithub);
 const LinkedinIcon = asIcon(SiLinkedin);
@@ -13,85 +14,25 @@ const fadeUp = {
   animate: { opacity: 1, y: 0 },
 };
 
-// Ambient drift layer. Paths are fixed constants (SSR-safe, no per-render
-// re-roll) and animate transform/opacity only, so the loops stay on the
-// compositor. The orbs are radial gradients rather than blurred discs — the
-// falloff is baked into the fill, so they read as defined glowing shapes
-// (no filter layer needed) and the motion is clearly visible.
-//
-// Each axis oscillates on its own period (Lissajous-style): with x and y on
-// different clocks the combined path is a smooth, continuously curving loop
-// instead of straight diagonal runs between shared waypoints, and the figure
-// drifts for a long time before visually repeating. Asymmetric ranges give
-// each orb a different starting phase.
-const ORBS = [
-  {
-    className:
-      'hero-orb left-[6%] top-[10%] h-96 w-96 [background:radial-gradient(circle,rgba(82,82,82,0.45)_0%,transparent_65%)] dark:[background:radial-gradient(circle,rgba(255,255,255,0.30)_0%,transparent_65%)]',
-    x: [-150, 210],
-    xDur: 3.2,
-    y: [90, -160],
-    yDur: 4.5,
-    pulseDur: 7.3,
-  },
-  {
-    className:
-      'hero-orb right-[4%] top-[20%] h-[28rem] w-[28rem] [background:radial-gradient(circle,rgba(64,64,64,0.40)_0%,transparent_65%)] dark:[background:radial-gradient(circle,rgba(229,229,229,0.24)_0%,transparent_65%)]',
-    x: [170, -230],
-    xDur: 4.1,
-    y: [-130, 170],
-    yDur: 3.0,
-    pulseDur: 8.9,
-  },
-  {
-    className:
-      'hero-orb left-[28%] bottom-[2%] h-[26rem] w-[26rem] [background:radial-gradient(circle,rgba(115,115,115,0.50)_0%,transparent_65%)] dark:[background:radial-gradient(circle,rgba(255,255,255,0.20)_0%,transparent_65%)]',
-    x: [-190, 150],
-    xDur: 3.7,
-    y: [110, -140],
-    yDur: 5.2,
-    pulseDur: 6.7,
-  },
-];
-
 export default function Hero() {
   const { hero, footer } = config;
-  const reduceMotion = useReducedMotion();
 
   return (
     <div className="relative flex min-h-[70svh] md:min-h-[calc(100svh-4rem)] items-center justify-center overflow-hidden px-4 sm:px-6">
-      {/* No backdrop of its own — the hero sits on the Layout page gradient so
-          there is no seam where the section ends. Texture + orbs only. */}
+      {/* Ambient pixel cloud — a drifting smoke field rendered as monochrome
+          ordered-dither pixels. Alpha-based, so it blends over the Layout page
+          gradient with no seam. Freezes to a single frame under Reduce Motion. */}
+      <DitherCanvas className="pointer-events-none" palette="aurora" />
+
+      {/* Readability scrim — darkens the LEFT column so the left-aligned headline
+          and CTAs keep full contrast while the cloud builds toward the right. */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 opacity-60 dark:opacity-40 [background:radial-gradient(circle_at_25%_20%,rgba(120,120,120,0.14)_0%,transparent_55%),radial-gradient(circle_at_75%_75%,rgba(150,150,150,0.12)_0%,transparent_55%)]"
+        className="pointer-events-none absolute inset-0 [background:linear-gradient(to_right,rgba(250,250,250,0.94)_0%,rgba(250,250,250,0.72)_32%,transparent_62%)] dark:[background:linear-gradient(to_right,rgba(10,10,10,0.92)_0%,rgba(10,10,10,0.7)_32%,transparent_62%)]"
       />
 
-      {/* Ambient drift — omitted entirely under OS Reduce Motion. */}
-      {!reduceMotion && (
-        <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
-          {ORBS.map((orb, i) => (
-            <motion.div
-              key={i}
-              className={`absolute rounded-full ${orb.className}`}
-              animate={{
-                x: orb.x,
-                y: orb.y,
-                scale: [1, 1.22, 0.92, 1],
-                opacity: [0.75, 1, 0.8, 0.75],
-              }}
-              transition={{
-                x: { duration: orb.xDur, repeat: Infinity, repeatType: 'mirror', ease: 'easeInOut' },
-                y: { duration: orb.yDur, repeat: Infinity, repeatType: 'mirror', ease: 'easeInOut' },
-                scale: { duration: orb.pulseDur, repeat: Infinity, ease: 'easeInOut' },
-                opacity: { duration: orb.pulseDur, repeat: Infinity, ease: 'easeInOut' },
-              }}
-            />
-          ))}
-        </div>
-      )}
-
-      <div className="relative z-10 mx-auto max-w-4xl text-center">
+      <div className="relative z-10 mx-auto w-full max-w-5xl px-6 sm:px-8">
+        <div className="max-w-xl text-left">
         <motion.p
           {...fadeUp}
           transition={{ duration: 0.5 }}
@@ -111,7 +52,7 @@ export default function Hero() {
         <motion.p
           {...fadeUp}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="mx-auto mb-8 sm:mb-10 max-w-2xl px-4 text-lg sm:text-xl md:text-2xl text-gray-700 dark:text-gray-300"
+          className="mb-8 sm:mb-10 max-w-md text-lg sm:text-xl md:text-2xl text-gray-700 dark:text-gray-300"
         >
           {hero.subtitle}
         </motion.p>
@@ -119,7 +60,7 @@ export default function Hero() {
         <motion.div
           {...fadeUp}
           transition={{ duration: 0.5, delay: 0.3 }}
-          className="flex flex-wrap items-center justify-center gap-3 sm:gap-4"
+          className="flex flex-wrap items-center justify-start gap-3 sm:gap-4"
         >
           <InpersonaButton className="touch-manipulation" />
 
@@ -151,6 +92,7 @@ export default function Hero() {
             </a>
           </div>
         </motion.div>
+        </div>
       </div>
 
       <motion.a
