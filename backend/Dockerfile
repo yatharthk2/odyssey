@@ -3,7 +3,7 @@
 # --- builder ----------------------------------------------------------------
 # Resolves deps into a venv. Kept separate from the runtime stage so the final
 # image doesn't ship build tooling.
-FROM python:3.12-slim AS builder
+FROM python:3.14-slim AS builder
 
 COPY --from=ghcr.io/astral-sh/uv:0.9.26 /uv /uvx /bin/
 
@@ -22,7 +22,7 @@ RUN --mount=type=cache,target=/root/.cache/uv \
     uv sync --frozen --no-install-project
 
 # --- runtime ----------------------------------------------------------------
-FROM python:3.12-slim AS runtime
+FROM python:3.14-slim AS runtime
 
 # libgomp1: OpenMP runtime needed by torch/sentence-transformers wheels.
 RUN apt-get update \
