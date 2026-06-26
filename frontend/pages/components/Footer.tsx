@@ -28,7 +28,7 @@ export default function Footer() {
               target="_blank"
               rel="noreferrer"
               aria-label={label}
-              className="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors duration-200"
+              className="text-gray-500 hover:text-aurora-600 dark:text-gray-400 dark:hover:text-aurora-400 transition-colors duration-200"
             >
               <Icon className="w-6 h-6" />
             </a>
@@ -40,7 +40,7 @@ export default function Footer() {
             href={config.site.developerUrl}
             target="_blank"
             rel="noreferrer"
-            className="hover:text-gray-700 dark:hover:text-gray-300 transition-colors"
+            className="hover:text-aurora-600 dark:hover:text-aurora-400 transition-colors"
           >
             {config.site.name}
           </a>

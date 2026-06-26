@@ -114,9 +114,9 @@ function SkillTag({ skill, category }: { skill: Skill; category: SkillCategoryKe
       variants={itemVariants}
       whileHover={{ scale: 1.03 }}
       transition={{ type: 'spring', stiffness: 400, damping: 25 }}
-      className="flex items-center gap-2 rounded-full border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 py-1.5 transition-colors hover:border-gray-500 dark:hover:border-gray-400"
+      className="group flex items-center gap-2 rounded-full border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 py-1.5 transition-colors hover:border-aurora-500 dark:hover:border-aurora-400"
     >
-      <Icon className="text-base text-gray-700 dark:text-gray-300" />
+      <Icon className="text-base text-gray-700 dark:text-gray-300 transition-colors group-hover:text-aurora-600 dark:group-hover:text-aurora-400" />
       <span className="font-mono text-xs font-medium text-gray-700 dark:text-gray-300">
         {skill.name}
       </span>

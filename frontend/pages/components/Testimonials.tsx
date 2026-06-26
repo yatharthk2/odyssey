@@ -43,7 +43,7 @@ function TestimonialCard({
             type="button"
             onClick={() => setIsExpanded((v) => !v)}
             aria-expanded={isExpanded}
-            className="mt-2 -ml-2 rounded px-2 py-0.5 text-sm font-medium text-gray-900 dark:text-white hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-gray-900"
+            className="mt-2 -ml-2 rounded px-2 py-0.5 text-sm font-medium text-gray-900 dark:text-white hover:text-aurora-600 dark:hover:text-aurora-400 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-aurora-500 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-gray-900"
           >
             {isExpanded ? 'Read less' : 'Read more'}
           </button>
@@ -68,7 +68,7 @@ function TestimonialCard({
                 href={linkedinUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+                className="text-gray-400 hover:text-aurora-600 dark:hover:text-aurora-400 transition-colors"
                 aria-label={`${name}'s LinkedIn profile`}
               >
                 <SiLinkedin className="h-5 w-5" />
@@ -228,7 +228,7 @@ export default function Testimonials() {
                 type="button"
                 onClick={prev}
                 aria-label="Previous testimonials"
-                className="group rounded-full bg-gray-900/5 hover:bg-gray-900/10 dark:bg-white/10 dark:hover:bg-white/20 p-3 transition-colors"
+                className="group rounded-full bg-gray-900/5 hover:bg-aurora-500/10 dark:bg-white/10 dark:hover:bg-aurora-400/20 p-3 transition-colors"
               >
                 <ChevronLeft className="h-5 w-5 text-gray-900 dark:text-white transition-transform group-hover:scale-110" />
               </button>
@@ -243,8 +243,8 @@ export default function Testimonials() {
                     aria-current={currentPage === idx ? 'true' : 'false'}
                     className={`rounded transition-all duration-300 ${
                       currentPage === idx
-                        ? 'h-2 w-8 bg-gray-900 dark:bg-white'
-                        : 'h-2 w-2 bg-gray-900/30 hover:bg-gray-900/60 dark:bg-white/30 dark:hover:bg-white/60'
+                        ? 'h-2 w-8 bg-aurora-600 dark:bg-aurora-400'
+                        : 'h-2 w-2 bg-gray-900/30 hover:bg-aurora-500/60 dark:bg-white/30 dark:hover:bg-aurora-400/60'
                     }`}
                   />
                 ))}
@@ -254,7 +254,7 @@ export default function Testimonials() {
                 type="button"
                 onClick={next}
                 aria-label="Next testimonials"
-                className="group rounded-full bg-gray-900/5 hover:bg-gray-900/10 dark:bg-white/10 dark:hover:bg-white/20 p-3 transition-colors"
+                className="group rounded-full bg-gray-900/5 hover:bg-aurora-500/10 dark:bg-white/10 dark:hover:bg-aurora-400/20 p-3 transition-colors"
               >
                 <ChevronRight className="h-5 w-5 text-gray-900 dark:text-white transition-transform group-hover:scale-110" />
               </button>

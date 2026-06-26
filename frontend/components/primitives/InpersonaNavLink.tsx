@@ -9,8 +9,9 @@ interface InpersonaNavLinkProps {
 }
 
 /**
- * The grayscale-shimmering "Inpersona" pill used in both the desktop and
- * mobile navs. The shimmer is one wide gradient animated via CSS
+ * The aurora-shimmering "Inpersona" pill used in both the desktop and
+ * mobile navs (teal→mint→green, echoing the hero cloud). The shimmer is one
+ * wide gradient animated via CSS
  * background-position (`.nav-pill-shimmer` in globals.css) — cheap on the
  * compositor, unlike interpolating gradient strings per frame on the main
  * thread inside a sticky header. Two layers: a blurred halo and a crisp

@@ -6,9 +6,11 @@ import SectionHeading from '../../components/primitives/SectionHeading';
 import config from '../../types/config';
 import { asIcon, type Icon } from '../../types/icons';
 
-// All company marks render in a single grayscale tone to keep the section monochrome;
-// the icon shapes themselves stay recognizable.
-const ICON_TONE = 'text-gray-700 dark:text-gray-300';
+// All company marks render in a single grayscale tone to keep the section
+// monochrome at rest; they pick up the aurora accent on card hover, matching
+// the rest of the page. The icon shapes themselves stay recognizable.
+const ICON_TONE =
+  'text-gray-700 dark:text-gray-300 transition-colors group-hover:text-aurora-600 dark:group-hover:text-aurora-400';
 const companyIcons: Record<string, { Icon: Icon; className: string }> = {
   dell: { Icon: asIcon(SiDell), className: ICON_TONE },
   nvidia: { Icon: asIcon(SiNvidia), className: ICON_TONE },
@@ -38,11 +40,11 @@ export default function Achievements() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.08 }}
-                className="group relative flex h-full flex-col bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-sm hover:shadow-md p-6 overflow-hidden transition-all duration-200 hover:-translate-y-1"
+                className="group relative flex h-full flex-col bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-sm p-6 overflow-hidden transition-all duration-200 hover:-translate-y-1 hover:border-aurora-500/50 dark:hover:border-aurora-400/40 hover:shadow-md hover:shadow-aurora-500/10"
               >
                 <div className="flex items-start mb-4">
                   {iconConfig && (
-                    <div className="p-3 rounded-full bg-gray-100 dark:bg-gray-800 mr-4">
+                    <div className="p-3 rounded-full bg-gray-100 dark:bg-gray-800 mr-4 transition-colors group-hover:bg-aurora-500/10 dark:group-hover:bg-aurora-400/10">
                       <iconConfig.Icon className={`text-2xl ${iconConfig.className}`} />
                     </div>
                   )}
@@ -64,7 +66,7 @@ export default function Achievements() {
                       href={item.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center text-sm font-medium text-gray-900 dark:text-gray-100 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+                      className="inline-flex items-center text-sm font-medium text-gray-900 dark:text-gray-100 hover:text-aurora-600 dark:hover:text-aurora-400 transition-colors"
                     >
                       Learn more
                       <svg

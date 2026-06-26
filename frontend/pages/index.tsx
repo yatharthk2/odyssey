@@ -79,7 +79,7 @@ export default function Home() {
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
               onClick={() => setIsContactModalOpen(true)}
-              className="inline-block rounded-full bg-gray-900 text-white hover:bg-gray-700 dark:bg-white dark:text-gray-900 dark:hover:bg-gray-200 px-8 py-4 font-medium shadow-md hover:shadow-lg transition-all duration-200"
+              className="inline-block rounded-full bg-gray-900 text-white hover:bg-gray-700 dark:bg-white dark:text-gray-900 dark:hover:bg-gray-200 px-8 py-4 font-medium shadow-md hover:shadow-lg hover:shadow-aurora-500/40 transition-all duration-200"
             >
               {contact.ctaLabel}
             </motion.button>
@@ -123,7 +123,7 @@ function AboutSection() {
             transition={{ duration: 0.6, delay: 0.3 }}
             className="relative mt-8 md:mt-0"
           >
-            <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-gray-400 to-gray-600 dark:from-gray-600 dark:to-gray-800 opacity-30 blur-lg" />
+            <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-aurora-400 to-aurora-600 dark:from-aurora-700 dark:to-aurora-500 opacity-30 blur-lg" />
             <img
               src={about.image}
               alt={about.title}
