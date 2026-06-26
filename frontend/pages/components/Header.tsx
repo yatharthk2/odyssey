@@ -79,7 +79,7 @@ export default function Header() {
                     key={item.title}
                     href={item.url}
                     onClick={handleNavClick(item, true)}
-                    className="text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white transition-colors"
+                    className="text-gray-700 dark:text-gray-300 hover:text-aurora-600 dark:hover:text-aurora-400 transition-colors"
                   >
                     {item.title}
                   </a>
@@ -105,11 +105,11 @@ function NavLink({
       <a
         href={item.url}
         onClick={onClick}
-        className="whitespace-nowrap font-medium text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white transition-colors"
+        className="whitespace-nowrap font-medium text-gray-700 dark:text-gray-300 hover:text-aurora-600 dark:hover:text-aurora-400 transition-colors"
       >
         {item.title}
       </a>
-      <div className="absolute bottom-0 left-0 w-full h-0.5 bg-gray-900 dark:bg-white scale-x-0 group-hover:scale-x-100 transition-transform origin-left" />
+      <div className="absolute bottom-0 left-0 w-full h-0.5 bg-aurora-600 dark:bg-aurora-400 scale-x-0 group-hover:scale-x-100 transition-transform origin-left" />
     </div>
   );
 }

@@ -30,7 +30,7 @@ export default function Projects() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className="group relative flex h-full flex-col bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-sm overflow-hidden hover:shadow-md transition-all duration-200 hover:-translate-y-1"
+                className="group relative flex h-full flex-col bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-sm overflow-hidden transition-all duration-200 hover:-translate-y-1 hover:border-aurora-500/50 dark:hover:border-aurora-400/40 hover:shadow-md hover:shadow-aurora-500/10"
               >
                 <div className="relative h-48 overflow-hidden">
                   {MediaComponent ? (
@@ -58,7 +58,7 @@ export default function Projects() {
                         href={project.github}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors"
+                        className="inline-flex items-center text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-aurora-600 dark:hover:text-aurora-400 transition-colors"
                       >
                         <Github size={16} className="mr-1" />
                         <span>Source</span>
@@ -69,7 +69,7 @@ export default function Projects() {
                         href={project.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center text-sm font-medium text-gray-900 dark:text-gray-100 hover:text-gray-600 dark:hover:text-gray-300 transition-colors ml-auto"
+                        className="inline-flex items-center text-sm font-medium text-gray-900 dark:text-gray-100 hover:text-aurora-600 dark:hover:text-aurora-400 transition-colors ml-auto"
                       >
                         <span>Live Demo</span>
                         <ExternalLink size={16} className="ml-1" />

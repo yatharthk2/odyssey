@@ -98,7 +98,7 @@
    background-position — compositor-cheap, unlike interpolating gradient
    strings per frame in JS. */
 .nav-pill-shimmer {
-  background: linear-gradient(110deg, #525252, #e5e5e5, #737373, #d4d4d4, #525252);
+  background: linear-gradient(110deg, #0f6b70, #7be0a6, #2fb866, #168a5f, #0f6b70);
   background-size: 300% 100%;
   animation: pill-shimmer 6s linear infinite;
 }
@@ -152,13 +152,13 @@
   height: 8px;
   width: 8px;
   margin: 0 2px;
-  background-color: rgba(115, 115, 115, 0.7);
+  background-color: rgba(22, 138, 95, 0.75);
   border-radius: 50%;
   opacity: 0.4;
 }
 
 .dark .typing-indicator span {
-  background-color: rgba(163, 163, 163, 0.7);
+  background-color: rgba(52, 211, 153, 0.8);
 }
 
 .typing-indicator span:nth-child(1) {
@@ -255,12 +255,12 @@
 }
 
 .html-content a {
-  color: #171717;
+  color: #0f6b70;
   text-decoration: underline;
 }
 
 .dark .html-content a {
-  color: #e5e5e5;
+  color: #7be0a6;
 }
 
 .html-content hr {

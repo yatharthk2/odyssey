@@ -21,6 +21,22 @@ module.exports = {
 			// neutral scale so "black & white" is actually black & white.
 			colors: {
 				gray: colors.neutral,
+				// Aurora accent — drawn from the hero dither-cloud's teal→green→mint
+				// ramp (see DitherCanvas PALETTES.aurora). Single source of truth for
+				// every accent on the page so the home reads as one composition with
+				// the hero. Use ~400 on dark, ~600/700 on light for contrast.
+				aurora: {
+					50: '#e2fbef',
+					100: '#bfe3dc',
+					200: '#9ee5c4',
+					300: '#7be0a6',
+					400: '#34d399',
+					500: '#2fb866',
+					600: '#168a5f',
+					700: '#0f6b70',
+					800: '#125a63',
+					900: '#0c4f6a',
+				},
 			},
 		},
 	},
