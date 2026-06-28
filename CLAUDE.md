@@ -135,6 +135,7 @@ Theme state is React Context ([`frontend/context/ThemeContext.tsx`](frontend/con
 For step-by-step playbooks see [`.claude/skills/`](.claude/skills/):
 - `redeploy-backend.md` — pushing backend code changes to Hetzner
 - `update-inpersona-kb.md` — refreshing the RAG knowledge base
+- `add-persona.md` — deploying a second person's Inpersona persona (process-per-persona) on the same box
 - `start-local-stack.md` — bringing up frontend + backend for local development
 - `diagnose-inpersona.md` — debugging chat issues (rate limits, WebSocket failures, etc.)
 - `manage-ionos-dns.md` — DNS changes at IONOS
