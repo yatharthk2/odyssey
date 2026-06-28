@@ -45,15 +45,10 @@ services:
     mem_limit: 2560m       # embedding model + torch + Chroma, with rebuild headroom
     mem_reservation: 1g
     cpus: 1.5
-    healthcheck:
-      # /ready 503s until the RAG stack is built. backend-nupur gates on this so
-      # the two backends never cold-start their index builds simultaneously and
-      # OOM the box.
-      test: ["CMD", "python", "-c", "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://localhost:8000/ready').status==200 else 1)"]
-      interval: 10s
-      timeout: 5s
-      retries: 30
-      start_period: 120s
+    # No healthcheck here: the image already defines one on /health (Dockerfile),
+    # and because the index loads in the lifespan before the app serves, /health
+    # only goes green once the RAG is warm. backend-nupur gates on that, so we
+    # avoid recreating this live container just to add a redundant check.
     env_file:
       - .env
     environment:
@@ -100,7 +95,9 @@ services:
       - ./personas/nupur.prompt.txt:/app/persona.prompt.txt:ro
     depends_on:
       backend:
-        condition: service_healthy     # start only after Yatharth's backend is warm -> avoids cold-start OOM
+        # gate on backend's image HEALTHCHECK (/health passes only after its
+        # lifespan finishes loading the index) so the two never load at once
+        condition: service_healthy
       redis:
         condition: service_started
     networks:
