@@ -16,8 +16,8 @@ export default function Experience() {
           {items.map((exp, index) => (
             <motion.article
               key={`${exp.company}-${exp.period}`}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
               className="group relative flex h-full flex-col bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-sm overflow-hidden transition-all duration-200 hover:-translate-y-1 hover:border-aurora-500/50 dark:hover:border-aurora-400/40 hover:shadow-md hover:shadow-aurora-500/10"
