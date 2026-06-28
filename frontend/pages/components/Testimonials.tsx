@@ -21,9 +21,9 @@ function TestimonialCard({
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -20 }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
       transition={{ duration: 0.5 }}
       className="relative mx-4 flex h-full flex-col rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 p-8 shadow-sm"
     >
@@ -175,8 +175,8 @@ export default function Testimonials() {
               switches with the theme), so the title follows the same light/dark
               treatment as every other section heading. */}
           <motion.h2
-            initial={{ opacity: 0, y: -16 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.1 }}
             className="mb-6 text-center text-3xl sm:text-4xl font-bold tracking-tight text-gray-900 dark:text-white"
@@ -203,9 +203,9 @@ export default function Testimonials() {
                 {visibleTestimonials.map((testimonial, index) => (
                   <motion.div
                     key={`${currentIndex}-${index}`}
-                    initial={{ opacity: 0, x: 50 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -50 }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
                     transition={{ duration: 0.5, delay: index * 0.1 }}
                     className={`w-full ${
                       displayCount === 3

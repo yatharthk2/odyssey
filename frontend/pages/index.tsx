@@ -72,8 +72,8 @@ export default function Home() {
             </motion.p>
             <motion.button
               type="button"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.3 }}
               whileHover={{ scale: 1.03 }}
@@ -103,8 +103,8 @@ function AboutSection() {
         <SectionHeading className="mb-8 sm:mb-12">{about.title}</SectionHeading>
         <div className="grid grid-cols-1 items-center gap-8 sm:gap-12 md:grid-cols-2">
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
             className="space-y-4 sm:space-y-6"
@@ -117,8 +117,8 @@ function AboutSection() {
             </p>
           </motion.div>
           <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.3 }}
             className="relative mt-8 md:mt-0"
