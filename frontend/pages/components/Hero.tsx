@@ -20,15 +20,17 @@ export default function Hero() {
   return (
     <div className="relative flex min-h-[70svh] md:min-h-[calc(100svh-4rem)] items-center justify-center overflow-hidden px-4 sm:px-6">
       {/* Ambient pixel cloud — a drifting smoke field rendered as monochrome
-          ordered-dither pixels. Alpha-based, so it blends over the Layout page
-          gradient with no seam. Freezes to a single frame under Reduce Motion. */}
-      <DitherCanvas className="pointer-events-none" palette="aurora" />
+          ordered-dither pixels. `hero-bleed` fades its bottom edge into the page
+          so it dissolves into the next section instead of cutting off at a line.
+          Freezes to a single frame under Reduce Motion. */}
+      <DitherCanvas className="pointer-events-none hero-bleed" palette="aurora" />
 
       {/* Readability scrim — darkens the LEFT column so the left-aligned headline
-          and CTAs keep full contrast while the cloud builds toward the right. */}
+          and CTAs keep full contrast while the cloud builds toward the right.
+          Shares `hero-bleed` so its bottom edge fades out with the cloud. */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 [background:linear-gradient(to_right,rgba(250,250,250,0.94)_0%,rgba(250,250,250,0.72)_32%,transparent_62%)] dark:[background:linear-gradient(to_right,rgba(10,10,10,0.92)_0%,rgba(10,10,10,0.7)_32%,transparent_62%)]"
+        className="hero-bleed pointer-events-none absolute inset-0 [background:linear-gradient(to_right,rgba(250,250,250,0.94)_0%,rgba(250,250,250,0.72)_32%,transparent_62%)] dark:[background:linear-gradient(to_right,rgba(10,10,10,0.92)_0%,rgba(10,10,10,0.7)_32%,transparent_62%)]"
       />
 
       <div className="relative z-10 mx-auto w-full max-w-5xl px-6 sm:px-8">
