@@ -23,3 +23,24 @@ api.yatharthk.com {
         level INFO
     }
 }
+
+# Second persona (Nupur Kalele) — temporary subdomain under yatharthk.com until
+# she has her own domain. Needs an A record: nupur-api.yatharthk.com -> the
+# server's public IP, then Caddy fetches the cert automatically. To move her to
+# her own domain later, just change this block's hostname.
+nupur-api.yatharthk.com {
+    encode zstd gzip
+
+    reverse_proxy backend-nupur:8000 {
+        transport http {
+            keepalive 5m
+            keepalive_idle_conns 10
+        }
+    }
+
+    log {
+        output stdout
+        format console
+        level INFO
+    }
+}

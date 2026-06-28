@@ -45,6 +45,15 @@ services:
     mem_limit: 2560m       # embedding model + torch + Chroma, with rebuild headroom
     mem_reservation: 1g
     cpus: 1.5
+    healthcheck:
+      # /ready 503s until the RAG stack is built. backend-nupur gates on this so
+      # the two backends never cold-start their index builds simultaneously and
+      # OOM the box.
+      test: ["CMD", "python", "-c", "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://localhost:8000/ready').status==200 else 1)"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 120s
     env_file:
       - .env
     environment:
@@ -64,6 +73,36 @@ services:
       - ./documents:/app/documents:ro
     depends_on:
       - redis
+    networks:
+      - inpersona
+
+  # Second persona (Nupur Kalele). Same image as `backend`, no separate build —
+  # just its own documents, prompt, indices, and Redis logical DB.
+  backend-nupur:
+    image: inpersona-backend:latest   # reuse the image `backend` builds — no second build
+    restart: unless-stopped
+    mem_limit: 1200m                   # lower than backend's 2560m to avoid overcommit on 3.7 GiB
+    mem_reservation: 768m
+    cpus: 1.0
+    env_file:
+      - .env                           # reuses the shared Groq/Gemini keys (shared rate limit)
+    environment:
+      REDIS_URL: redis://redis:6379/1  # separate logical DB -> no cache cross-contamination
+      HOST: 0.0.0.0
+      PORT: 8000
+      PROMPT_PATH: /app/persona.prompt.txt
+      # ALLOWED_ORIGINS left unset -> defaults to "*" (no frontend yet; tighten later)
+    volumes:
+      - backend_nupur_storage:/app/storage
+      - backend_nupur_chroma:/app/chroma_db
+      - backend_nupur_hfcache:/app/.cache/huggingface
+      - ./documents-nupur:/app/documents:ro
+      - ./personas/nupur.prompt.txt:/app/persona.prompt.txt:ro
+    depends_on:
+      backend:
+        condition: service_healthy     # start only after Yatharth's backend is warm -> avoids cold-start OOM
+      redis:
+        condition: service_started
     networks:
       - inpersona
 
@@ -88,4 +127,7 @@ volumes:
   backend_storage:
   backend_chroma:
   backend_hfcache:
+  backend_nupur_storage:
+  backend_nupur_chroma:
+  backend_nupur_hfcache:
   redis_data:

@@ -1,0 +1,45 @@
+Nupur Kalele
+Contact: LinkedIn, GitHub, Research Gate (email and phone are kept private; reach out via LinkedIn)
+
+EDUCATION
+MS in Statistics — University of Illinois Urbana-Champaign (08/2025 - 05/2027, in progress)
+BS in Computational Mathematics and Statistics — MIT World Peace University (MIT-WPU), Pune, India (08/2021 - 05/2024). GPA: 3.48/4.0
+
+EXPERIENCE
+
+Statistical Consultant — Campus Community Compact, Champaign (01/2026 - 05/2026)
+- Analyzed US Census, Bureau of Labor Statistics, and United for ALICE datasets to identify key drivers of household financial hardship across income, employment, and cost-of-living dimensions.
+- Built Tableau dashboards and geospatial visualizations that translated complex multivariate data into clear, actionable insights for community stakeholders.
+- Designed a statistically rigorous survey instrument for the state of Illinois to capture community-needs data with greater reliability and validity.
+
+Independent Study — University of Illinois Urbana-Champaign (08/2025 - Present)
+- Investigated the intersection of perceptual intuition and computational logic to model human pattern-recognition architectures.
+- Developed NLP pipelines using Large Language Models (LLMs) to quantify qualitative self-reports, extracting high-fidelity data on human spatial clustering heuristics.
+- Evaluated the impact of non-perceptual variables (including cognitive fluency and personality metrics) on individual differences in structural organization and data perception.
+
+Undergrad Researcher — MIT-WPU, Pune, India (05/2024 - 01/2025)
+- Developed a hybrid framework using LLMs to refine GridSearchCV results, increasing model accuracy by 4-5% with fewer samples.
+- Engineered and optimized Random Forest, HGBoost, and KNN models to automate credit-risk assessment and loan-approval decisions.
+- Applied SHAP values and Permutation Importance to identify key drivers of creditworthiness and ensure model transparency.
+
+PUBLICATIONS AND HONOURS
+"Grid Search and LLM Assisted Hybrid Approach for Hyperparameter Optimization" — IEEE Xplore (03/2025).
+
+SKILLS
+Languages: Python, R, SQL, MATLAB, LaTeX.
+Frameworks & Tools: TensorFlow, Keras, Matplotlib, Seaborn, yfinance, Pandas, NumPy, Excel, Tableau.
+Financial & Statistical Tools: Forecasting, Cost Analysis, Predictive Analytics, A/B Testing.
+Core Competency: Statistical Modeling & Inference, Probability & Sampling Methods, Data Science & Analytics, Data-Driven Decision Making, Causal Inference.
+Professional Skills: Communication, Optimization, Cross-functional Collaboration, Problem-solving.
+
+TECHNICAL PROJECTS
+
+Loan Status Prediction (ML Modelling, Data Analysis, Model Optimization) — GitHub
+- Processed and analyzed 60K+ loan records from Kaggle, using Excel pivot tables and SQL queries to identify credit-risk patterns.
+- Built and compared 3 predictive models (Logistic Regression, Random Forest, Gradient Boosting), achieving an 82% F1-score on loan-default classification.
+- Delivered stakeholder-friendly Excel dashboards that reduced reporting time by 40% for simulated loan officers.
+
+Algorithmic Stock Intelligence (Sentiment Analysis, LSTM Modelling) — GitHub
+- Designed an LSTM forecasting model predicting 7-day stock-price trends with 85% accuracy.
+- Applied NLP-based sentiment analysis on 10K+ articles.
+- Automated real-time stock-data feeds, supporting continuous market-risk monitoring.
