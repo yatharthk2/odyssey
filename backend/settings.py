@@ -39,6 +39,10 @@ class PropertyGraphSettings:
     storage_dir: str = "./storage"
     chroma_db_path: str = "./chroma_db"
     graph_file: str = "./kg.html"
+    # Optional override for the persona system prompt. Unset -> the built-in
+    # Yatharth prompt (chat/prompt.py). Set to a mounted file path to run a
+    # second persona off the same image with its own identity.
+    prompt_path: str | None = None
 
     # --- chunking + embedding ----------------------------------------------
     # chunk_size=800 keeps a whole job/project (and its sub-bullets) together
@@ -126,6 +130,7 @@ class PropertyGraphSettings:
                 overrides[attr] = int(value)
 
         _str("PDF_DIRECTORY", "pdf_directory")
+        _str("PROMPT_PATH", "prompt_path")
         _str("REDIS_URL", "redis_url")
         _str("DEFAULT_MODEL_PROVIDER", "default_model_provider")
         _str("HOST", "host")

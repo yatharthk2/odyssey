@@ -23,12 +23,36 @@ GENERIC_TIMEOUT = "Sorry, that took too long. Please try asking again."
 _FALLBACK = "I apologize, but I couldn't generate a response to your question."
 
 
+def _load_system_prompt(settings) -> str:
+    """Resolve the persona system prompt.
+
+    PROMPT_PATH unset (the default) keeps Yatharth's built-in prompt. When set,
+    the prompt is read from that file so a second persona can run off the same
+    image with its own identity. A configured-but-unreadable/empty path is a
+    hard error on purpose: silently falling back to the built-in prompt would
+    make one persona answer as someone else.
+    """
+    path = getattr(settings, "prompt_path", None)
+    if not path:
+        return contextualized_query
+    try:
+        with open(path, encoding="utf-8") as f:
+            text = f.read().strip()
+    except OSError as e:
+        raise RuntimeError(f"PROMPT_PATH={path!r} could not be read: {e}") from e
+    if not text:
+        raise RuntimeError(f"PROMPT_PATH={path!r} is empty")
+    logger.info("Loaded persona system prompt from %s", path)
+    return text
+
+
 class QueryEngine:
     """Manages query processing and streaming responses."""
 
     def __init__(self, graph_manager, cache_manager: CacheManager | None = None):
         self.graph_manager = graph_manager
         self.cache_manager = cache_manager
+        self.system_prompt = _load_system_prompt(graph_manager.settings)
         self.query_engine_KG = None
         self.query_engine_vector = None
         self.hyde_engine_KG = None
@@ -113,7 +137,7 @@ class QueryEngine:
             recent_history = chat.to_list()[-8:]
 
             query_context = (
-                contextualized_query
+                self.system_prompt
                 + "\n".join(
                     f"{msg['role'].capitalize()}: {msg['content']}" for msg in recent_history
                 )
