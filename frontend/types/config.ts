@@ -49,6 +49,7 @@ export interface ProjectItem {
   description: string;
   github?: string;
   url?: string;
+  pypi?: string;
   image?: string;
   media?: 'openNotifAnimation' | 'taskbundlePoster';
 }
