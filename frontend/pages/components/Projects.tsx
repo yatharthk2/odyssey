@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { ExternalLink, Github } from 'lucide-react';
+import { ExternalLink, Github, Package } from 'lucide-react';
 import SectionCard from '../../components/primitives/SectionCard';
 import SectionHeading from '../../components/primitives/SectionHeading';
 import OpenNotifAnimation from '../../components/animations/OpenNotifAnimation';
@@ -73,6 +73,17 @@ export default function Projects() {
                       >
                         <span>Live Demo</span>
                         <ExternalLink size={16} className="ml-1" />
+                      </a>
+                    )}
+                    {project.pypi && (
+                      <a
+                        href={project.pypi}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="ml-auto inline-flex items-center text-sm font-medium text-gray-900 dark:text-gray-100 hover:text-aurora-600 dark:hover:text-aurora-400 transition-colors"
+                      >
+                        <Package size={16} className="mr-1" />
+                        <span>PyPI</span>
                       </a>
                     )}
                   </div>

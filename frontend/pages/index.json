@@ -308,6 +308,7 @@
         "title": "Taskbundle",
         "description": "An evaluation environment for coding agents: SWE-bench-style tasks solved blind and graded against hidden tests. Tamper-proof scoring that pinpoints every fix and every regression.",
         "github": "https://github.com/yatharthk2/taskbundle",
+        "pypi": "https://pypi.org/project/taskbundle/",
         "media": "taskbundlePoster"
       },
       {
