@@ -156,7 +156,7 @@
         "company": "Campus Community Compact",
         "period": "Jan 2026 – May 2026",
         "location": "Champaign, IL",
-        "image": "/placeholder-logo.svg",
+        "image": "/companyLogo/ccc.svg",
         "description": "Analyzed US Census, BLS, and United for ALICE data to surface key drivers of household financial hardship; built Tableau dashboards and geospatial visualizations for community stakeholders.",
         "iconOnly": true
       },
@@ -166,7 +166,7 @@
         "companyUrl": "https://illinois.edu/",
         "period": "Aug 2025 – Present",
         "location": "Champaign, IL",
-        "image": "/placeholder-logo.svg",
+        "image": "/companyLogo/uiuc.svg",
         "description": "Modeling human pattern recognition at the intersection of perceptual intuition and computational logic; built NLP pipelines using LLMs to quantify qualitative self-reports into high-fidelity data.",
         "iconOnly": true
       },
@@ -176,7 +176,7 @@
         "companyUrl": "https://mitwpu.edu.in/",
         "period": "May 2024 – Jan 2025",
         "location": "Pune, India",
-        "image": "/placeholder-logo.svg",
+        "image": "/companyLogo/mitwpu.svg",
         "description": "Built an LLM-assisted framework to refine GridSearchCV, lifting model accuracy 4-5% with fewer samples; engineered Random Forest, HGBoost, and KNN credit-risk models with SHAP and Permutation Importance for transparency.",
         "iconOnly": true
       }
@@ -212,19 +212,19 @@
         "title": "Loan Status Prediction",
         "description": "Processed 60K+ Kaggle loan records and compared Logistic Regression, Random Forest, and Gradient Boosting models, reaching an 82% F1-score on default classification; delivered Excel dashboards that cut reporting time 40%.",
         "github": "#",
-        "image": "/project-placeholder.svg"
+        "image": "/Projects/nupur-loan.svg"
       },
       {
         "title": "Algorithmic Stock Intelligence",
         "description": "An LSTM model forecasting 7-day stock-price trends at 85% accuracy, combined with NLP sentiment analysis over 10K+ articles and automated real-time data feeds for continuous market-risk monitoring.",
         "github": "#",
-        "image": "/project-placeholder.svg"
+        "image": "/Projects/nupur-stock.svg"
       },
       {
         "title": "Inpersona",
         "description": "A RAG chatbot that answers as me — built on FastAPI and LlamaIndex with knowledge-graph and HyDE retrieval modes, streaming live on this site over WebSockets.",
         "url": "/loading",
-        "image": "/project-placeholder.svg"
+        "image": "/Projects/nupur-inpersona.svg"
       }
     ]
   },
