@@ -220,12 +220,6 @@
         "description": "An LSTM model forecasting 7-day stock-price trends at 85% accuracy, combined with NLP sentiment analysis over 10K+ articles and automated real-time data feeds for continuous market-risk monitoring.",
         "github": "https://github.com/nupurkalele1/Stockprice-pred",
         "image": "/Projects/nupur-stock.svg"
-      },
-      {
-        "title": "Inpersona",
-        "description": "A RAG chatbot that answers as me — built on FastAPI and LlamaIndex with knowledge-graph and HyDE retrieval modes, streaming live on this site over WebSockets.",
-        "url": "/loading",
-        "image": "/Projects/nupur-inpersona.svg"
       }
     ]
   },
