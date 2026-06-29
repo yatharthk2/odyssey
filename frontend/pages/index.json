@@ -249,7 +249,7 @@
     "inputPlaceholder": "Ask me anything...",
     "readyButton": "Ready when you are",
     "footerCredit": "Inpersona · Nupur Kalele",
-    "avatar": "/nupur-avatar.svg",
+    "avatar": "/nupur-face.jpg",
     "websocketPath": "/chat",
     "websocketPort": 8000,
     "features": [
