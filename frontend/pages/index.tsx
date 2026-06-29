@@ -10,7 +10,6 @@ import Skills from './components/Skills';
 import Experience from './components/Experience';
 import Achievements from './components/Achievements';
 import Projects from './components/Projects';
-import Testimonials from './components/Testimonials';
 import ContactModal from './components/ContactModal';
 import config from '../types/config';
 
@@ -19,7 +18,7 @@ const personJsonLd = {
   '@type': 'Person',
   name: config.site.name,
   url: SITE_URL,
-  jobTitle: 'AI/ML Engineer',
+  jobTitle: 'Statistician & Data Scientist',
   sameAs: [config.footer.github, config.footer.linkedin, config.footer.twitter],
 };
 
@@ -30,8 +29,8 @@ export default function Home() {
   return (
     <Layout>
       <Seo
-        title="Yatharth Kapadia · AI/ML Engineer"
-        description="Portfolio of Yatharth Kapadia, AI/ML engineer in San Francisco. Production LLM and RAG systems, plus Inpersona, a self-hosted AI chatbot that answers questions as him."
+        title="Nupur Kalele · Statistician & Data Scientist"
+        description="Portfolio of Nupur Kalele, statistician and data scientist (MS Statistics, UIUC). Applied statistics, machine learning, and Inpersona, a RAG chatbot that answers questions as her."
       />
       <Head>
         <script
@@ -52,10 +51,6 @@ export default function Home() {
         <Skills />
         <Achievements />
       </div>
-
-      {/* Full-bleed contrast band — the one section that breaks the page
-          container, so the long run of open sections has a visual anchor. */}
-      <Testimonials />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionCard id="contact" compact>

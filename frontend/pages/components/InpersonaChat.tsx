@@ -413,7 +413,7 @@ function EmptyState({
       <div className="h-24 w-24 sm:h-32 sm:w-32 animate-float rounded-full bg-gradient-to-br from-gray-700 to-gray-900 dark:from-gray-300 dark:to-white p-1 shadow-lg">
         <img
           src={inpersona.avatar}
-          alt="Yatharth"
+          alt="Nupur"
           className="h-full w-full rounded-full object-cover"
         />
       </div>

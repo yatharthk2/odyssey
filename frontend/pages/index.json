@@ -1,7 +1,7 @@
 {
   "site": {
-    "name": "Yatharth Kapadia",
-    "developerUrl": "https://github.com/yatharthk2"
+    "name": "Nupur Kalele",
+    "developerUrl": "#"
   },
   "navigation": [
     {
@@ -26,16 +26,16 @@
     }
   ],
   "hero": {
-    "name": "I am Yatharth",
-    "role": "AI/ML Engineer · San Francisco",
-    "subtitle": "Innovating AI for smarter solutions and scalable systems.",
+    "name": "I am Nupur",
+    "role": "Statistician & Data Scientist · Champaign, IL",
+    "subtitle": "Turning data into rigorous, decision-ready insight.",
     "secondaryCtaLabel": "View experience"
   },
   "about": {
     "title": "About Me",
-    "primary": "I'm a software engineer in San Francisco building production AI systems: hybrid search in Rust, RAG pipelines, and real-time voice agents. I care most about the gap between an ML demo and a system people rely on: retrieval quality, latency, and cost.",
-    "secondary": "Before this: an MS in Computer Science from Indiana University Bloomington, LLM-security research at Kelley's DSAIL lab, and engineering stints across AI startups. The chatbot on this site, Inpersona, is my own RAG stack, self-hosted end to end on a $5/month server.",
-    "image": "/Newyork_Dumbo_300x300.jpg"
+    "primary": "I'm a statistician and data scientist pursuing my MS in Statistics at the University of Illinois Urbana-Champaign. I work across applied statistics and machine learning: statistical modeling, causal inference, forecasting, and increasingly NLP and LLM-assisted methods.",
+    "secondary": "Before UIUC I earned a BS in Computational Mathematics and Statistics from MIT-WPU, where my research on an LLM-assisted hybrid approach to hyperparameter optimization was published in IEEE Xplore. The chatbot on this site, Inpersona, is a RAG assistant that answers questions about my work.",
+    "image": "/nupur-avatar.svg"
   },
   "skills": {
     "title": "Skills & Expertise",
@@ -46,106 +46,82 @@
         "icon": "💻",
         "items": [
           {
-            "name": "Rust"
-          },
-          {
             "name": "Python"
           },
           {
-            "name": "C++"
-          },
-          {
-            "name": "Go"
-          },
-          {
-            "name": "TypeScript"
-          },
-          {
-            "name": "JavaScript"
+            "name": "R"
           },
           {
             "name": "SQL"
+          },
+          {
+            "name": "MATLAB"
+          },
+          {
+            "name": "LaTeX"
           }
         ]
       },
       "technologies": {
-        "title": "Technologies",
+        "title": "Frameworks & Tools",
         "icon": "🔧",
         "items": [
-          {
-            "name": "PyTorch"
-          },
           {
             "name": "TensorFlow"
           },
           {
-            "name": "Django"
+            "name": "Keras"
           },
           {
-            "name": "Node.js"
+            "name": "scikit-learn"
           },
           {
-            "name": "Express"
+            "name": "Pandas"
           },
           {
-            "name": "React"
+            "name": "NumPy"
           },
           {
-            "name": "Next.js"
+            "name": "Matplotlib"
           },
           {
-            "name": "Tailwind CSS"
+            "name": "Seaborn"
           },
           {
-            "name": "FastAPI"
+            "name": "Tableau"
           },
           {
-            "name": "Docker"
+            "name": "Excel"
           },
           {
-            "name": "Kubernetes (EKS)"
-          },
-          {
-            "name": "AWS"
-          },
-          {
-            "name": "Kafka"
+            "name": "yfinance"
           },
           {
             "name": "Git"
-          },
-          {
-            "name": "GraphQL"
-          },
-          {
-            "name": "Databricks"
-          },
-          {
-            "name": "Spark"
-          },
-          {
-            "name": "Airflow"
-          },
-          {
-            "name": "GitHub Actions"
           }
         ]
       },
       "databases": {
-        "title": "Databases",
-        "icon": "🗄️",
+        "title": "Statistics & Methods",
+        "icon": "📊",
         "items": [
           {
-            "name": "MongoDB"
+            "name": "Statistical Modeling & Inference"
           },
           {
-            "name": "Neo4j"
+            "name": "Probability & Sampling"
           },
           {
-            "name": "DynamoDB"
+            "name": "Causal Inference"
           },
           {
-            "name": "Redis"
+            "name": "A/B Testing"
+          },
+          {
+            "name": "Forecasting"
+          },
+          {
+            "name": "Predictive Analytics"
           }
         ]
       },
@@ -154,25 +130,19 @@
         "icon": "🚀",
         "items": [
           {
-            "name": "Hybrid Search & Vector DBs"
+            "name": "Data Science & Analytics"
           },
           {
-            "name": "LLM Engineering"
+            "name": "Data-Driven Decision Making"
           },
           {
-            "name": "Real-Time Systems"
+            "name": "NLP / LLM Methods"
           },
           {
-            "name": "ML Model Finetuning"
+            "name": "Model Interpretability (SHAP)"
           },
           {
-            "name": "AI Integration in Web Apps"
-          },
-          {
-            "name": "AWS Cost Optimization"
-          },
-          {
-            "name": "CI/CD"
+            "name": "Hyperparameter Optimization"
           }
         ]
       }
@@ -182,109 +152,56 @@
     "title": "Experience",
     "items": [
       {
-        "title": "Founding Engineer (Core Team)",
-        "company": "Moss",
-        "companyUrl": "https://www.usemoss.dev/",
-        "period": "Oct 2025 – Present",
-        "location": "San Francisco, CA",
-        "image": "/companyLogo/Moss.png",
-        "description": "First core-team hire: built the Rust hybrid search engine (BM25 + semantic), shipped at 4ms P99 and now behind 300k+ SDK downloads.",
+        "title": "Statistical Consultant",
+        "company": "Campus Community Compact",
+        "period": "Jan 2026 – May 2026",
+        "location": "Champaign, IL",
+        "image": "/placeholder-logo.svg",
+        "description": "Analyzed US Census, BLS, and United for ALICE data to surface key drivers of household financial hardship; built Tableau dashboards and geospatial visualizations for community stakeholders.",
         "iconOnly": true
       },
       {
-        "title": "Software Developer",
-        "company": "Haldune",
-        "companyUrl": "https://www.haldune.com/",
-        "period": "Jun 2025 – Oct 2025",
-        "location": "Chicago, IL",
-        "image": "/companyLogo/Haldune.png",
-        "description": "Cut agentic research-report generation from 10 minutes to under 3 with a parallel multi-agent workflow on Azure AI Foundry.",
+        "title": "Independent Study (Research)",
+        "company": "University of Illinois Urbana-Champaign",
+        "companyUrl": "https://illinois.edu/",
+        "period": "Aug 2025 – Present",
+        "location": "Champaign, IL",
+        "image": "/placeholder-logo.svg",
+        "description": "Modeling human pattern recognition at the intersection of perceptual intuition and computational logic; built NLP pipelines using LLMs to quantify qualitative self-reports into high-fidelity data.",
         "iconOnly": true
       },
       {
-        "title": "Research Assistant",
-        "company": "DSAIL, Kelley School of Business",
-        "companyUrl": "https://dsail.kelley.iu.edu/",
-        "period": "Mar 2024 – Dec 2024",
-        "location": "Bloomington, IN",
-        "image": "/companyLogo/DSAIL.jpg",
-        "description": "Red-teamed LLMs with Garak, Counterfit, and Purple Llama; NeMo guardrails cut attack success rate by 60%."
-      },
-      {
-        "title": "Software Engineer Intern",
-        "company": "Outspeed",
-        "companyUrl": "https://www.outspeed.com/",
-        "period": "Jun 2024 – Aug 2024",
-        "location": "San Francisco, CA",
-        "image": "/companyLogo/Outspeed_2.png",
-        "description": "Built a GPU speech-to-speech stack (Whisper, Llama 3.1, Parler TTS) on AWS EKS at p95 800ms; self-hosted vLLM cut inference costs ~30%."
-      },
-      {
-        "title": "Software Developer Intern",
-        "company": "IDeaS",
-        "companyUrl": "https://ideas.com/",
-        "period": "Jul 2022 – Jan 2023",
+        "title": "Undergraduate Researcher",
+        "company": "MIT World Peace University",
+        "companyUrl": "https://mitwpu.edu.in/",
+        "period": "May 2024 – Jan 2025",
         "location": "Pune, India",
-        "image": "/companyLogo/Ideas_final.png",
-        "description": "Built an analytics platform for five multi-billion-dollar hospitality clients, replacing Excel macros and saving 100+ engineering hours a month."
-      },
-      {
-        "title": "Software Engineer Intern",
-        "company": "Quidich Innovation Labs",
-        "companyUrl": "https://www.quidich.com/",
-        "period": "May 2022 – Jun 2022",
-        "location": "Mumbai, India",
-        "image": "/companyLogo/Quidich.png",
-        "description": "Pose-estimation algorithm predicting bowler release points at 97% accuracy, powering live broadcast analytics on Sony Liv."
-      },
-      {
-        "title": "Software Developer Intern",
-        "company": "Azodha",
-        "companyUrl": "https://www.azodha.com/",
-        "period": "Sep 2021 – Apr 2022",
-        "location": "New York, NY",
-        "image": "/companyLogo/Azodha.png",
-        "description": "Led Open-Notif: event-driven notifications on AWS with sub-3-second delivery and 99% production uptime."
+        "image": "/placeholder-logo.svg",
+        "description": "Built an LLM-assisted framework to refine GridSearchCV, lifting model accuracy 4-5% with fewer samples; engineered Random Forest, HGBoost, and KNN credit-risk models with SHAP and Permutation Importance for transparency.",
+        "iconOnly": true
       }
     ]
   },
   "achievements": {
-    "title": "Achievements & Awards",
+    "title": "Publications & Honours",
     "items": [
       {
-        "title": "Co-led & judged two 200-person hackathons at Y Combinator HQ",
-        "date": "2025 & 2026",
-        "description": "Co-led and judged two 200-person hackathons hosted at Y Combinator headquarters in San Francisco, evaluating startup demos and mentoring builders across both cohorts.",
-        "companyIcon": "ycombinator",
+        "title": "IEEE Xplore Publication",
+        "date": "Mar 2025",
+        "description": "\"Grid Search and LLM Assisted Hybrid Approach for Hyperparameter Optimization\" — published in IEEE Xplore.",
         "link": ""
       },
       {
-        "title": "Graduate Teaching Assistant, Indiana University",
-        "date": "Aug 2024",
-        "description": "Selected as a Graduate Teaching Assistant for Elements of AI (with Prof. David Leake) and Machine Learning in Signal Processing (with Prof. Jonathan Ponniah), supporting graduate students with lectures, assignments, and project mentorship.",
-        "companyIcon": "kelley",
+        "title": "MS in Statistics, UIUC",
+        "date": "2025 – 2027",
+        "description": "Pursuing a Master of Science in Statistics at the University of Illinois Urbana-Champaign.",
         "link": ""
       },
       {
-        "title": "SIH 2022 Grand Finale Winner",
-        "date": "Aug 2022",
-        "description": "Led the creation of a no-code chatbot-building platform at the SIH hackathon, competing among thousands of teams. Enhanced chatbot narrative understanding with AWS ECS, implemented Amazon S3 for conversational storage.",
-        "companyIcon": "dell",
-        "link": "https://sih.gov.in/sih-2022-senior-final-result"
-      },
-      {
-        "title": "4th Rank in India Academia Connect AI Hackathon",
-        "date": "Oct 2021",
-        "description": "Created AI solutions for COVID-19 distancing, using YOLO for crowd monitoring and heat maps for sanitation planning.",
-        "companyIcon": "nvidia",
+        "title": "BS in Computational Mathematics & Statistics",
+        "date": "2021 – 2024",
+        "description": "Graduated from MIT World Peace University, Pune with a GPA of 3.48/4.0.",
         "link": ""
-      },
-      {
-        "title": "87th Rank in Amazon ML Challenge",
-        "date": "Aug 2021",
-        "description": "Ranked 87th of 3,300 teams in Amazon's ML Challenge with a TF-IDF product-categorization model.",
-        "companyIcon": "amazon",
-        "link": "https://www.hackerearth.com/challenges/competitive/amazon-ml-challenge/leaderboard/page/2/"
       }
     ]
   },
@@ -292,48 +209,22 @@
     "title": "Projects",
     "items": [
       {
-        "title": "Image Inpainting",
-        "description": "Reconstructs masked facial regions with partial convolutions in PyTorch, trained on 50,000 CelebA images with random-walk-generated masks to prevent overfitting.",
-        "github": "https://github.com/yatharthk2/FaceInpainting",
-        "image": "/Projects/Inpainting_img.png"
+        "title": "Loan Status Prediction",
+        "description": "Processed 60K+ Kaggle loan records and compared Logistic Regression, Random Forest, and Gradient Boosting models, reaching an 82% F1-score on default classification; delivered Excel dashboards that cut reporting time 40%.",
+        "github": "#",
+        "image": "/project-placeholder.svg"
+      },
+      {
+        "title": "Algorithmic Stock Intelligence",
+        "description": "An LSTM model forecasting 7-day stock-price trends at 85% accuracy, combined with NLP sentiment analysis over 10K+ articles and automated real-time data feeds for continuous market-risk monitoring.",
+        "github": "#",
+        "image": "/project-placeholder.svg"
       },
       {
         "title": "Inpersona",
-        "description": "A RAG chatbot that answers as me. Built on FastAPI and LlamaIndex with knowledge-graph and HyDE retrieval modes, streaming live on this site over WebSockets.",
+        "description": "A RAG chatbot that answers as me — built on FastAPI and LlamaIndex with knowledge-graph and HyDE retrieval modes, streaming live on this site over WebSockets.",
         "url": "/loading",
-        "github": "https://github.com/yatharthk2/odyssey",
-        "image": "/Projects/inpersona_img.png"
-      },
-      {
-        "title": "Taskbundle",
-        "description": "An evaluation environment for coding agents: SWE-bench-style tasks solved blind and graded against hidden tests. Tamper-proof scoring that pinpoints every fix and every regression.",
-        "github": "https://github.com/yatharthk2/taskbundle",
-        "pypi": "https://pypi.org/project/taskbundle/",
-        "media": "taskbundlePoster"
-      },
-      {
-        "title": "Sprechen",
-        "description": "Transformer-based machine translation implemented from scratch in PyTorch: English to Hindi and German to English.",
-        "github": "https://github.com/yatharthk2/SPRECHEN",
-        "image": "/Projects/Sprechen.png"
-      },
-      {
-        "title": "Highway Agent",
-        "description": "A reinforcement learning agent for autonomous highway navigation, trained with an actor-critic policy-gradient setup.",
-        "github": "https://github.com/yatharthk2/autopilot",
-        "image": "/Projects/dqn_.gif"
-      },
-      {
-        "title": "PixTOPix",
-        "description": "A conditional GAN that translates satellite imagery into map tiles, trained on a 100K-image Google Maps dataset.",
-        "github": "https://github.com/yatharthk2/PixToPix",
-        "image": "/Projects/PixtoPix.png"
-      },
-      {
-        "title": "Open-Notif",
-        "description": "Event-driven notification CLI on AWS (Lambda, SNS, SQS) with PostgreSQL, Twilio, and Mailchimp. Sub-3-second delivery, with infrastructure managed as code via AWS Chalice.",
-        "github": "https://github.com/yatharthk2/notifications",
-        "media": "openNotifAnimation"
+        "image": "/project-placeholder.svg"
       }
     ]
   },
@@ -342,52 +233,19 @@
     "subtitle": "",
     "rotationIntervalMs": 7000,
     "truncationLength": 150,
-    "items": [
-      {
-        "name": "Harsha Nalluru",
-        "role": "Co-Founder",
-        "company": "Moss (YC F25)",
-        "content": "I hired Yatharth as the first engineer at Moss, and he quickly became the person I'd hand the hardest problem to and stop worrying about: relentlessly hardworking, completely dependable, with work that always came back done, and done well. He owns problems end to end and learns fast, but what really sets him apart is that he leaves everything he touches better than he found it and holds himself to a higher bar than anyone asks of him. He's sharp, low-ego, and a real pleasure to build with. He'll make any team better, and I recommend him without reservation.",
-        "imageUrl": "/Testimonial/harsha.jpeg",
-        "linkedinUrl": "https://www.linkedin.com/in/imharshanalluru/"
-      },
-      {
-        "name": "Yogesh Shinde",
-        "role": "Sr. Project Manager",
-        "company": "IDeaS Revenue Solutions",
-        "content": "I am pleased to recommend Yatharth Kapadia for his contributions during his time at IDeaS. He distinguished himself not only through his technical expertise but also through his collaborative approach to teamwork. Yatharth consistently demonstrated thoughtfulness, a willingness to assist others, and a commitment to delivering high-quality work. He is the type of individual who makes a meaningful impact, and I am confident he will bring the same dedication and professionalism to his future endeavors.",
-        "imageUrl": "/Testimonial/yogi.jpeg",
-        "linkedinUrl": "https://www.linkedin.com/in/yogesh-shinde-154057143/"
-      },
-      {
-        "name": "Janak Agrawal",
-        "role": "Co-founder",
-        "company": "Outspeed | IIT JEE Rank 2",
-        "content": "I had the privilege of working with Yatharth at Outspeed, where he quickly became an invaluable member of our team. Yatharth is knowledgeable and meticulous in understanding and modeling machine learning problems. His eagerness to contribute was evident when he swiftly took on a complex project and provided a solution that significantly increased productivity within just one month of joining my team.\n\nYatharth's hands-on experience with machine learning and generative AI allows him to solve problems effectively and efficiently. He is never shy about sharing innovative ideas and consistently delivers elegant solutions. I am also impressed by his business acumen at such an early stage in his career.\n\nAny AI and machine learning team would greatly benefit from Yatharth's proficiency, adaptability, and problem-solving mindset. I highly recommend him for any opportunity that requires technical expertise and a commitment to excellence.",
-        "imageUrl": "/Testimonial/janak.jpeg",
-        "linkedinUrl": "https://www.linkedin.com/in/janakagrawal/"
-      },
-      {
-        "name": "Vignesh Charan",
-        "role": "Software Developer 2",
-        "company": "Amazon",
-        "content": "I've had the chance to work with Yatharth in several different settings, and he's consistently impressed me. We first collaborated on a research project tackling 3D image reconstruction with multiple GANs architectures - not an easy problem, but he had this knack for breaking it down into manageable parts when the rest of us were getting stuck. We later teamed up for a hackathon where his quick thinking saved us countless hours. Most recently, we were colleagues at Quidich Innovation Labs, where I got to see his work ethic day-to-day. What stands out about Yatharth isn't just his technical skills but he takes an extra mile to make things better - whether it's streamlining a workflow or pushing a project to the next level. Great teammate, sharp mind, and someone I'd gladly work with again.",
-        "imageUrl": "/Testimonial/vignesh.jpeg",
-        "linkedinUrl": "https://www.linkedin.com/in/vignesh-charan/"
-      }
-    ]
+    "items": []
   },
   "contact": {
     "title": "Get in Touch",
-    "description": "Have a project in mind or want to discuss potential opportunities? I'd love to hear from you!",
+    "description": "Have a question about my research or want to discuss an opportunity? I'd love to hear from you!",
     "ctaLabel": "Get in Touch",
-    "formId": "xkgovpaz"
+    "formId": "REPLACE_WITH_NUPUR_FORMSPREE_ID"
   },
   "footer": {
-    "email": "yatharth.k2@outlook.com",
-    "linkedin": "https://www.linkedin.com/in/yatharthkapadia/",
-    "twitter": "https://x.com/yatharthk2",
-    "github": "https://github.com/yatharthk2"
+    "email": "nupur.k1@outlook.com",
+    "linkedin": "#",
+    "twitter": "#",
+    "github": "#"
   },
   "inpersona": {
     "homeLink": "Home",
@@ -395,8 +253,8 @@
     "emptyStatePrompt": "How can I help you today?",
     "inputPlaceholder": "Ask me anything...",
     "readyButton": "Ready when you are",
-    "footerCredit": "Inpersona · Designed by Yatharth Kapadia",
-    "avatar": "/Newyork_Dumbo_300x300.jpg",
+    "footerCredit": "Inpersona · Nupur Kalele",
+    "avatar": "/nupur-avatar.svg",
     "websocketPath": "/chat",
     "websocketPort": 8000,
     "features": [

@@ -1,6 +1,6 @@
 import Head from 'next/head';
 
-export const SITE_URL = 'https://www.yatharthk.com';
+export const SITE_URL = 'https://nupurkalele.com';
 
 const OG_IMAGE = `${SITE_URL}/og.png`;
 
@@ -28,7 +28,7 @@ export default function Seo({ title, description, path = '/', noindex = false }:
       {noindex && <meta name="robots" content="noindex, nofollow" />}
 
       <meta property="og:type" content="website" />
-      <meta property="og:site_name" content="Yatharth Kapadia" />
+      <meta property="og:site_name" content="Nupur Kalele" />
       <meta property="og:url" content={url} />
       <meta property="og:title" content={title} />
       <meta property="og:description" content={description} />
