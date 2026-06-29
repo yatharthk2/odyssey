@@ -19,7 +19,7 @@ const personJsonLd = {
   name: config.site.name,
   url: SITE_URL,
   jobTitle: 'Statistician & Data Scientist',
-  sameAs: [config.footer.github, config.footer.linkedin, config.footer.twitter],
+  sameAs: [config.footer.github, config.footer.linkedin, config.footer.researchgate],
 };
 
 export default function Home() {

@@ -1,5 +1,5 @@
 import { Mail } from 'lucide-react';
-import { SiLinkedin, SiX, SiGithub } from 'react-icons/si';
+import { SiLinkedin, SiResearchgate, SiGithub } from 'react-icons/si';
 import config from '../../types/config';
 import { asIcon, type Icon } from '../../types/icons';
 
@@ -10,7 +10,7 @@ const socialLinks: { href: string; label: string; Icon: Icon }[] = [
     Icon: asIcon(Mail),
   },
   { href: config.footer.linkedin, label: 'LinkedIn', Icon: asIcon(SiLinkedin) },
-  { href: config.footer.twitter, label: 'X (formerly Twitter)', Icon: asIcon(SiX) },
+  { href: config.footer.researchgate, label: 'ResearchGate', Icon: asIcon(SiResearchgate) },
   { href: config.footer.github, label: 'GitHub', Icon: asIcon(SiGithub) },
 ].filter((link) => Boolean(link.href));
 

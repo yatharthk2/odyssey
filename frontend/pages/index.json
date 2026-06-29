@@ -1,7 +1,7 @@
 {
   "site": {
     "name": "Nupur Kalele",
-    "developerUrl": "#"
+    "developerUrl": "https://github.com/nupurkalele1"
   },
   "navigation": [
     {
@@ -154,6 +154,7 @@
       {
         "title": "Statistical Consultant",
         "company": "Campus Community Compact",
+        "companyUrl": "https://publicengagement.illinois.edu/campus-community-compact-2/",
         "period": "Jan 2026 – May 2026",
         "location": "Champaign, IL",
         "image": "/companyLogo/ccc.svg",
@@ -189,7 +190,7 @@
         "title": "IEEE Xplore Publication",
         "date": "Mar 2025",
         "description": "\"Grid Search and LLM Assisted Hybrid Approach for Hyperparameter Optimization\" — published in IEEE Xplore.",
-        "link": ""
+        "link": "https://ieeexplore.ieee.org/document/10985615"
       },
       {
         "title": "MS in Statistics, UIUC",
@@ -211,13 +212,13 @@
       {
         "title": "Loan Status Prediction",
         "description": "Processed 60K+ Kaggle loan records and compared Logistic Regression, Random Forest, and Gradient Boosting models, reaching an 82% F1-score on default classification; delivered Excel dashboards that cut reporting time 40%.",
-        "github": "#",
+        "github": "https://github.com/nupurkalele1/loan-assessment",
         "image": "/Projects/nupur-loan.svg"
       },
       {
         "title": "Algorithmic Stock Intelligence",
         "description": "An LSTM model forecasting 7-day stock-price trends at 85% accuracy, combined with NLP sentiment analysis over 10K+ articles and automated real-time data feeds for continuous market-risk monitoring.",
-        "github": "#",
+        "github": "https://github.com/nupurkalele1/Stockprice-pred",
         "image": "/Projects/nupur-stock.svg"
       },
       {
@@ -243,9 +244,9 @@
   },
   "footer": {
     "email": "nupur.k1@outlook.com",
-    "linkedin": "#",
-    "twitter": "#",
-    "github": "#"
+    "linkedin": "https://www.linkedin.com/in/nupurkalele/",
+    "researchgate": "https://www.researchgate.net/profile/Nupur-Kalele",
+    "github": "https://github.com/nupurkalele1"
   },
   "inpersona": {
     "homeLink": "Home",

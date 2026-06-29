@@ -126,7 +126,7 @@ export interface Config {
   };
   footer: {
     linkedin: string;
-    twitter: string;
+    researchgate: string;
     github: string;
     email: string;
   };
