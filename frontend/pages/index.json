@@ -35,7 +35,7 @@
     "title": "About Me",
     "primary": "I'm a statistician and data scientist pursuing my MS in Statistics at the University of Illinois Urbana-Champaign. I work across applied statistics and machine learning: statistical modeling, causal inference, forecasting, and increasingly NLP and LLM-assisted methods.",
     "secondary": "Before UIUC I earned a BS in Computational Mathematics and Statistics from MIT-WPU, where my research on an LLM-assisted hybrid approach to hyperparameter optimization was published in IEEE Xplore. The chatbot on this site, Inpersona, is a RAG assistant that answers questions about my work.",
-    "image": "/nupur-avatar.svg"
+    "image": "/nupur-photo.jpg"
   },
   "skills": {
     "title": "Skills & Expertise",
